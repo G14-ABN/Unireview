@@ -44,3 +44,11 @@ Attraverso il RF 3 possiamo visualizzare una recensione come una classe che fung
 +testo: String = NULL
 +voto: Integer = NULL
 +frequenza: enum|
+
+# ricerca
+Osservando ora il diagramma dei componenti possiamo definire una classe **GestioneRicerca** per gestire le funzionalità relative alla gestione della ricerca delle recensioni come 
+descritto anche dal RF 4. 
+|Gestione ricerca|
+|-|
+|+search_code: int
++ricerca(): Recensioni[]
