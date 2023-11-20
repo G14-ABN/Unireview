@@ -47,8 +47,25 @@ Attraverso il RF 3 possiamo visualizzare una recensione come una classe che fung
 
 # ricerca
 Osservando ora il diagramma dei componenti possiamo definire una classe **GestioneRicerca** per gestire le funzionalità relative alla gestione della ricerca delle recensioni come 
-descritto anche dal RF 4. 
-|Gestione ricerca|
+descritto anche dal RF 4. La classe può essere utilizzata sia per effettuare una ricerca che per applicare poi le impostaziooni di filtro e ordinamento.
+|GestioneRicerca|
 |-|
-|+search_code: int
-+ricerca(): Recensioni[]
+|+ricerche: Recensioni[]
++ordina():
++ricerca(): Recensioni[]|
+
+# statistiche
+Le statistiche vengono fornite da una classe a parte come descritto anche dal RF5. La classe Statistiche si appoggia sulla classe GestioneRicerca per ottenere le recensioni si cui basare le statstiche. 
+|Statistiche|
+|-|
++recensioni: Recensioni[]
++getStats():|
+
+# gestione interfaccia
+Come si osserva dal diagramma dei componenti, possiamo introdurre una classe che si occupa della modificha della lingua e tema dell'interfaccia.
+|ModificaInterfaccia|
+|-|
+-lingua: boolean
+-tema: boolean
++setTheme():
++setLanguage():|
