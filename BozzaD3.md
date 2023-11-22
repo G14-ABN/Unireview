@@ -88,3 +88,21 @@ Per poter permettere agli utenti di contattare i moderatori, gli utenti si appog
 +mittente: String
 +messaggio: Sting
 +contatta(): |
+
+# mostra recensioni
+Come vediamo anche dal diagrama dei componenti, per mostrare le recensioni trovate in seguito alla ricerca si usa una classe apposita che si appoggia sulla classe Ricerca e Statistica per modstrare tutti gli elementi mostrati dai RF 4 e 5.
+|MostraRecensioni|
+|-|
++ricerche: GestioneRicerca
++statistica: Statstiche|
+
+# **DIAGRAMMA DELLE CLASSI**
+https://lucid.app/lucidchart/42c1deca-d56f-439f-8382-4aca6617a275/edit?viewport_loc=-457%2C171%2C1997%2C923%2CHWEp-vi-RSFO&invitationId=inv_385988dc-e047-474e-9a14-0d6d221b8f1d
+
+
+
+
+
+
+
+
