@@ -1,7 +1,7 @@
 # *UTENTI*
 Sulla base del diagramma di contesto di contesto del D2 vediamo che gli attori principali sono gli utenti (anonimi, standard e moderatori).
 Poichè condividono tra loro molte funzionalità, l'utente anonimo può essere visto come una generalizzazione dell'utente standard, generalizzazione dell'utente moderatore.
-Con le specificazioni delle classi si aggiungono funzionalità in linea con i requisiti funzionali.
+Con le specificazioni delle classi si aggiungono funzionalità in linea con i requisiti funzionali. L'utente standard possiede anche un metodo per poter conntattare i moderatori.
 |UtenteModeratore|
 |-|
 |-rinuncia():
@@ -18,6 +18,7 @@ IS-A ->
 -crea() : Recensione
 -modifica(Recensione):
 -elimina(Recensione):
+-contattaModeratore():
 -logout():|
 
 IS-A ->
@@ -69,3 +70,21 @@ Come si osserva dal diagramma dei componenti, possiamo introdurre una classe che
 -tema: boolean
 +setTheme():
 +setLanguage():|
+
+# autenticazione
+Per permettere l'accesso agli autenti anonimi, come da RF 1, si usa la classe autorizzazione. Questa si appoggia ad API di istituto per permettere l'autenticazione. Questa classe non memorizza nome utenti e password.
+|Autenticazione|
+|-|
+-username: String
+-password: String
++autenticato: bool
++autentica(): bool|
+
+# modulo contatta moderatore
+Per poter permettere agli utenti di contattare i moderatori, gli utenti si appoggiano su una classe apposita. La classe a sua volta utilizza API apposite per poter inviare la mail necessaria, come specificato da RF 2 el dal diagramma dei componenti. 
+|ContattaModeratore|
+|-|
++moderatori: String[]
++mittente: String
++messaggio: Sting
++contatta(): |
