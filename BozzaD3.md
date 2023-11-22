@@ -80,14 +80,21 @@ Per permettere l'accesso agli autenti anonimi, come da RF 1, si usa la classe au
 +autenticato: bool
 +autentica(): bool|
 
-# modulo contatta moderatore
-Per poter permettere agli utenti di contattare i moderatori, gli utenti si appoggiano su una classe apposita. La classe a sua volta utilizza API apposite per poter inviare la mail necessaria, come specificato da RF 2 el dal diagramma dei componenti. 
-|ContattaModeratore|
+# contatta
+Come vediamo dal diagramma dei componenti e dal diagramma di contesto, sono previsti in varie occasioni dei metodi volti al contattare gli altri utenti. Si utilizza quindi la classe Contatta. Questa classe si appoggia su API apposite per l'invio di email La classe poi si specializza poi per permettere notifiche specifiche alle varie occasioni. Si specializza quindi in Ban, per il ban di utenti da moderatori, ContattaModeratore, per permettere agli utenti di contattare moderatori, e Promuovi, rivolta ai moderatori per promuovere utenti standard.
+|Contatta {abstract}|
 |-|
-+moderatori: String[]
++moderatori
 +mittente: String
 +messaggio: Sting
-+contatta(): |
++contatta()|
+
+# IS-A
+|ContattaModeratore|Ban|Promuovi|
+|------------------|---|--------|
+|+moderatori: UtneteModeratore[]|-utenteBannato: String|+utente: String|
+|-|-setBan(): int|-promuovi()|
+
 
 # mostra recensioni
 Come vediamo anche dal diagrama dei componenti, per mostrare le recensioni trovate in seguito alla ricerca si usa una classe apposita che si appoggia sulla classe Ricerca e Statistica per modstrare tutti gli elementi mostrati dai RF 4 e 5.
@@ -96,13 +103,17 @@ Come vediamo anche dal diagrama dei componenti, per mostrare le recensioni trova
 +ricerche: GestioneRicerca
 +statistica: Statstiche|
 
+# ban utente
+Come si nota anche dal diagramma di contesto ai moderatori è data la possibilià di assegnare un tempo di ban agli uteni. Per permettere ciò si utilizza una classe apposita. La classe si appoggia anche su un sistema di API per l'invio di email per poter inviare una notifica all'utente in questione.
+|Ban|
+|-|
++utente: String
++messaggio: String
++assegnaBan(): int|
+
+
+
+
+
 # **DIAGRAMMA DELLE CLASSI**
 https://lucid.app/lucidchart/42c1deca-d56f-439f-8382-4aca6617a275/edit?viewport_loc=-457%2C171%2C1997%2C923%2CHWEp-vi-RSFO&invitationId=inv_385988dc-e047-474e-9a14-0d6d221b8f1d
-
-
-
-
-
-
-
-
