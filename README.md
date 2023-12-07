@@ -43,7 +43,7 @@ How to install:
 
 How to run:
 
-`node server.js`
+`node index.js`
 
 ### Frontend
 
