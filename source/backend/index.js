@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors";
-import "./loadEnvironment.js";
-import db from "./conn.js";
+import reviewsRouter from "./routes/reviews.js";
+import usersRouter from "./routes/users.js";
+import connectDB from "./conn.js";
+
+connectDB();
 
 const PORT = process.env.PORT;
 const app = express();
@@ -14,13 +17,18 @@ app.use((err, _req, res, next) => {
   res.status(500).send("Uh oh! An unexpected error occured.");
 });
 
+// Configura le route delle recensioni
+app.use("/api", reviewsRouter);
+
+// Configura le route degli utenti
+app.use("/api", usersRouter);
+
+// Gestione delle route non gestite
+app.use((req, res) => {
+  res.status(404).json({ error: "Route non trovata" });
+});
+
 // start the Express server
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
-
-// Test collection
-const collection = db.collection("users");
-const list = await collection.find({}).toArray();
-
-console.log(JSON.parse((JSON.stringify(list))));
