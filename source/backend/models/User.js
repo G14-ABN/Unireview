@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   moderatore: {
     type: Boolean,
+    required: true,
     default: false,
   },
   nomeUtente: {
@@ -16,13 +17,18 @@ const userSchema = new mongoose.Schema({
   },
   bannedUntil: {
     type: Date,
+    required: true,
     default: new Date(0), // Data di default (0/0/0)
   },
   linguaUi: {
-    type: String, // Puoi utilizzare String o Boolean in base alle tue esigenze
+    type: Boolean,
+    required: true,
+    default: false,
   },
   temaUi: {
-    type: String, // Puoi utilizzare String o Boolean in base alle tue esigenze
+    type: Boolean,
+    required: true,
+    default: false,
   },
 });
 

@@ -16,6 +16,7 @@ const reviewSchema = new mongoose.Schema({
   },
   data: {
     type: Date,
+    required: true,
     default: Date.now,
   },
   valutazioneProfessore: {
@@ -46,12 +47,14 @@ const reviewSchema = new mongoose.Schema({
   },
   frequenza: {
     type: String,
-    enum: ["Nessuna", "Rara", "Occasionale", "Frequente"],
+    enum: ["Nessuna", "Minore50", "Maggiore50"],
     default: "Nessuna",
+    required: true,
   },
   anonima: {
     type: Boolean,
     default: false,
+    required: true,
   },
 });
 
