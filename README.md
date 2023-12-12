@@ -16,36 +16,39 @@ source/
 │   ├── node_modules/
 │   └── package.json
 └── backend/
+    ├── models/
     ├── routes/
     ├── node_modules/
-    ├── index.mjs
+    ├── index.js
+    ├── conn.js
+    ├── .env (required, not included)
     └── package.json
 ```
 
-## Installazione e avvio
-### Backend
+# Installazione e avvio
+## Backend
 
-How to install:
+Dependencies:
 
 `npm npm init -y`
 
-`npm install express`
-
-`npm install mongoose`
-
-`npm install dotenv`
-
-`npm install cors`
-
-`npm install nodemon`
-
-`npm install express-async-errors`
+`npm i express mongoose dotenv cors nodemon express-async-errors`
 
 How to run:
 
 `node index.js`
 
-### Frontend
+### `.env` configuration:
+
+Please, create a `.env` file in the `backend` folder with the following content:
+
+```
+ATLAS_URI="mongodb+srv://<USER>:<PASSWORD>@unireview.wzmoezy.mongodb.net/?retryWrites=true&w=majority"
+PORT=choose_a_port
+DB_NAME="unireview"
+```
+
+## Frontend
 
 How to install:
 
