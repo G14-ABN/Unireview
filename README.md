@@ -32,11 +32,11 @@ Dependencies:
 
 `npm npm init -y`
 
-`npm i express mongoose dotenv cors nodemon express-async-errors`
+`npm i express mongoose dotenv cors nodemon express-async-errors swagger-ui-express yamljs`
 
 How to run:
 
-`node index.js`
+`npm start`
 
 ### `.env` configuration:
 
@@ -44,7 +44,7 @@ Please, create a `.env` file in the `backend` folder with the following content:
 
 ```
 ATLAS_URI="mongodb+srv://<USER>:<PASSWORD>@unireview.wzmoezy.mongodb.net/?retryWrites=true&w=majority"
-PORT=choose_a_port
+PORT=8080
 DB_NAME="unireview"
 ```
 
@@ -56,4 +56,4 @@ How to install:
 
 How to run:
 
-`npm run dev`
+`next start`
