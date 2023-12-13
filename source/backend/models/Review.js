@@ -10,7 +10,7 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  corso: {
+  esame: {
     type: String,
     required: true,
   },
