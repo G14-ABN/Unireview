@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import "./loadEnvironment.js";
 
-const connectDB = async () => {
+const connect = async () => {
   try {
     const connectionString = process.env.ATLAS_URI;
     const databaseName = process.env.DB_NAME;
@@ -15,4 +15,8 @@ const connectDB = async () => {
   }
 };
 
-export default connectDB;
+const disconnect = async () => {
+  await mongoose.disconnect();
+};
+
+export default connect;

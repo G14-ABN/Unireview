@@ -41,6 +41,10 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  tentativo: {
+    type: Number,
+    default: null,
+  },
   voto: {
     type: Number,
     default: null,
