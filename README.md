@@ -30,7 +30,7 @@ source/
 
 Dependencies:
 
-`npm npm init -y`
+`npm init -y`
 
 `npm i express mongoose dotenv cors nodemon express-async-errors swagger-ui-express yamljs`
 
