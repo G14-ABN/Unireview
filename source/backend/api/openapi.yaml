@@ -21,9 +21,9 @@ components:
         bannedUntil:
           type: string
           format: date
-        linguaUi:
+        linguaUI:
           type: boolean
-        temaUi:
+        temaUI:
           type: boolean
 
     Review:
@@ -65,14 +65,24 @@ components:
 paths:
   /user:
     get:
-      summary: Restituisce tutti gli utenti
+      summary: Restituisce tutti gli utenti (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       responses:
         "200":
           description: Successo
+        "500":
+          description: Errore del server
 
   /user/{userId}:
     get:
       summary: Restituisce un utente per ID
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - name: userId
           in: path
@@ -82,11 +92,19 @@ paths:
       responses:
         "200":
           description: Successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Utente non trovato
+        "500":
+          description: Errore del server
 
-    put:
-      summary: Aggiorna un utente per ID
+    patch:
+      summary: Aggiorna un utente per ID (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - name: userId
           in: path
@@ -101,11 +119,19 @@ paths:
       responses:
         "200":
           description: Utente aggiornato con successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Utente non trovato
+        "500":
+          description: Errore del server
 
     delete:
       summary: Elimina un utente per ID
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - name: userId
           in: path
@@ -113,20 +139,179 @@ paths:
           schema:
             type: string
       responses:
-        "204":
+        "200":
           description: Utente eliminato con successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Utente non trovato
+        "500":
+          description: Errore del server
 
+  /user/theme:
+    put:
+      summary: Modifica Tema UI utente attuale
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                themeUi:
+                  type: boolean
+                  description: Nuovo valore per il tema UI
+      responses:
+        "200":
+          description: Tema UI modificato con successo
+        "500":
+          description: Errore del server
+
+  /user/language:
+    put:
+      summary: Modifica Lingua UI utente attuale
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                languageUi:
+                  type: boolean
+                  description: Nuovo valore per la lingua UI
+      responses:
+        "200":
+          description: Lingua UI modificata con successo
+        "500":
+          description: Errore del server
+
+  /user/{userId}/revoke-moderator:
+    patch:
+      summary: Torna utente standard da moderatore (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID dell'utente da modificare
+      responses:
+        "200":
+          description: Utente modificato con successo
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Utente non trovato
+        "500":
+          description: Errore del server
+
+  /user/{userId}/promote-moderator:
+    patch:
+      summary: Promuovi utente standard a moderatore (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID dell'utente da modificare
+      responses:
+        "200":
+          description: Utente modificato con successo
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Utente non trovato
+        "500":
+          description: Errore del server
+
+  /user/{userId}/ban:
+    patch:
+      summary: Banna un utente per un numero specifico di giorni (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID dell'utente da bannare
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                days:
+                  type: integer
+                  minimum: 1
+                  description: Numero di giorni per il ban
+      responses:
+        "200":
+          description: Utente modificato con successo
+        "400":
+          description: Input non valido
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Utente non trovato
+        "500":
+          description: Errore del server
+
+  /user/{userId}/unban:
+    patch:
+      summary: Rimuove il ban di un utente (solo moderatore)
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID dell'utente da cui rimuovere il ban
+      responses:
+        "200":
+          description: Utente modificato con successo
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Utente non trovato
+        "500":
+          description: Errore del server
+
+ 
   /review:
     get:
       summary: Restituisce tutte le recensioni
       responses:
         "200":
           description: Successo
+        "500":
+          description: Errore del server
 
     post:
-      summary: Componi nuova recensione
+      summary: Componi nuova recensione (richiede autenticazione)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -135,6 +320,8 @@ paths:
       responses:
         "201":
           description: Recensione creata con successo
+        "500":
+          description: Errore del server
 
   /review/{reviewId}:
     get:
@@ -150,9 +337,15 @@ paths:
           description: Successo
         "404":
           description: Recensione non trovata
+        "500":
+          description: Errore del server
 
     patch:
-      summary: Modifica recensione esistente per ID
+      summary: Modifica recensione esistente per ID (richiede autenticazione)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - name: reviewId
           in: path
@@ -167,11 +360,19 @@ paths:
       responses:
         "200":
           description: Recensione modificata con successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Recensione non trovata
+        "500":
+          description: Errore del server
 
     delete:
-      summary: Rimuovi recensione per ID
+      summary: Rimuovi recensione per ID (richiede autenticazione)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - name: reviewId
           in: path
@@ -181,75 +382,20 @@ paths:
       responses:
         "204":
           description: Recensione rimossa con successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Recensione non trovata
-
-  /user/{userId}/revoke-moderator:
-    patch:
-      summary: Torna utente standard da moderatore
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente da modificare
-      responses:
-        "200":
-          description: Utente modificato con successo
-        "404":
-          description: Utente non trovato
-
-  /user/{userId}/promote-moderator:
-    patch:
-      summary: Promuovi utente standard a moderatore
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente da modificare
-      responses:
-        "200":
-          description: Utente modificato con successo
-        "404":
-          description: Utente non trovato
-  /user/{userId}/ban:
-    patch:
-      summary: Banna un utente per 30 giorni
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente da bannare
-      responses:
-        "200":
-          description: Utente bannato con successo
-        "500":
-          description: Errore del server
-
-  /user/{userId}/unban:
-    patch:
-      summary: Rimuove il ban di un utente
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente da cui rimuovere il ban
-      responses:
-        "200":
-          description: Ban rimosso con successo
         "500":
           description: Errore del server
 
   /user/{userId}/review:
     get:
-      summary: Ottieni recensioni di cui sono l’autore
+      summary: Ottieni recensioni di cui l’autore (richiede autenticazione)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - in: path
           name: userId
@@ -260,37 +406,8 @@ paths:
       responses:
         "200":
           description: Recensioni ottenute con successo
-        "404":
-          description: Utente non trovato
+        "403":
+          description: Accesso non autorizzato
+        "500":
+          description: Errore del server
 
-  /user/current/theme:
-    put:
-      summary: Modifica Tema UI utente attuale
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                themeUi:
-                  type: boolean
-                  description: Nuovo valore per il tema UI
-      responses:
-        "200":
-          description: Tema UI modificato con successo
-
-  /user/current/language:
-    put:
-      summary: Modifica Lingua UI utente attuale
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                languageUi:
-                  type: boolean
-                  description: Nuovo valore per la lingua UI
-      responses:
-        "200":
-          description: Lingua UI modificata con successo

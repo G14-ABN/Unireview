@@ -25,12 +25,12 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: new Date(0), // Data di default 1970-01-01T00:00:00.000Z
   },
-  linguaUi: {
+  linguaUI: {
     type: Boolean,
     required: false,
     default: false,
   },
-  temaUi: {
+  temaUI: {
     type: Boolean,
     required: false,
     default: false,

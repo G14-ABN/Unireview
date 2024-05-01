@@ -1,12 +1,12 @@
 import express from "express";
 import Review from "../models/Review.js";
+import accessProtectionMiddleware from "../services/accessProtectionMiddleware.js";
 
 const router = express.Router();
 
-// POST /api/ - Creazione di una nuova recensione
-router.post("/", async (req, res) => {
+// Componi una nuova recensione
+router.post("/", accessProtectionMiddleware, async (req, res) => {
   try {
-    // Ottieni i dettagli della recensione dalla richiesta del cliente
     const {
       professore,
       esame,
@@ -20,10 +20,8 @@ router.post("/", async (req, res) => {
       anonima,
     } = req.body;
 
-    // Crea una nuova recensione
     const nuovaRecensione = new Review({
-      // autore: req.utenteAutenticato._id, // _id dell'utente autenticato
-      autore: "65fe050c5aeb05d86b6f89e4", // SOLO PER TESTING
+      autore: { _id: req.user.id },
       data: Date.now(),
       professore,
       esame,
@@ -37,7 +35,6 @@ router.post("/", async (req, res) => {
       anonima,
     });
 
-    // Salva la recensione nel database
     const recensioneSalvata = await nuovaRecensione.save();
 
     res.status(201).json(recensioneSalvata);
@@ -58,12 +55,24 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Rimuovi recensione per ID
-router.delete("/:reviewId", async (req, res) => {
+// Elimina una recensione per ID
+router.delete("/:id", accessProtectionMiddleware, async (req, res) => {
   try {
-    const { reviewId } = req.params;
-    await Review.findByIdAndDelete(reviewId);
-    res.status(200).json({ message: "Recensione rimossa con successo" });
+    const reviewId = req.params.id;
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+      return res.status(404).json({ error: "Recensione non trovata" });
+    }
+
+    if (req.user.moderatore || req.user.id === review.autore.toString()) {
+      await Review.findByIdAndDelete(reviewId);
+      res.status(200).json({ message: "Recensione eliminata con successo" });
+    } else {
+      res.status(403).json({
+        error: "Non sei autorizzato a eliminare questa recensione",
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Errore del server" });
@@ -85,18 +94,53 @@ router.get("/:reviewId", async (req, res) => {
   }
 });
 
-// Modifica recensione esistente per ID
-router.patch("/:reviewId", async (req, res) => {
+// Modifica una recensione per ID
+router.patch("/:reviewId", accessProtectionMiddleware, async (req, res) => {
   try {
     const { reviewId } = req.params;
     const updateData = req.body;
-    const updatedReview = await Review.findByIdAndUpdate(reviewId, updateData, {
-      new: true,
-    });
-    if (!updatedReview) {
+
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
       return res.status(404).json({ error: "Recensione non trovata" });
     }
-    res.status(200).json(updatedReview);
+
+    if (req.user.moderatore || req.user.id === review.autore.toString()) {
+      const updatedReview = await Review.findByIdAndUpdate(
+        reviewId,
+        updateData,
+        { new: true }
+      );
+      if (!updatedReview) {
+        return res.status(404).json({ error: "Recensione non trovata" });
+      }
+      res.status(200).json(updatedReview);
+    } else {
+      res.status(403).json({
+        error: "Non sei autorizzato a modificare questa recensione",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Errore del server" });
+  }
+});
+
+// Restituisce le recensioni dell'utente autenticato
+router.get("/user/:userId", accessProtectionMiddleware, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const requestingUserId = req.user.id;
+
+    if (requestingUserId === userId) {
+      const reviews = await Review.find({ autore: userId });
+      res.status(200).json(reviews);
+    } else {
+      res.status(403).json({
+        error: "Non autorizzato a visualizzare queste recensioni",
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Errore del server" });

@@ -18,6 +18,7 @@ router.get(
     console.log("name:", req.user?.name?.givenName);
     console.log("familyName:", req.user?.name?.familyName);
     console.log("email:", req.user?.emails?.[0]?.value);
+
     try {
       // Check if the user exists in the database
       let user = await User.findOne({ googleId: req.user.id });
@@ -34,13 +35,32 @@ router.get(
         console.log("Utente esistente trovato:", user.nomeUtente);
       }
 
+      console.log(
+        "Utente autenticato:",
+        user.googleId,
+        user.id,
+        user.nomeUtente,
+        user.moderatore
+      );
       // Generate a JWT token
-      const token = jwt.sign({ userId: user.id }, secretKey, {
-        expiresIn: 86400,
-      });
+      const token = jwt.sign(
+        {
+          googleId: user.googleId,
+          id: user.id,
+          nomeUtente: user.nomeUtente,
+          moderatore: user.moderatore,
+        },
+        secretKey,
+        {
+          expiresIn: 86400,
+        }
+      );
 
       // Redirect the user to the homepage with the token as a query parameter
-      res.redirect(`/?token=${token}`);
+      // res.redirect(`/?token=${token}`);
+      res.json({
+        message: `Token: ${token}`,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Errore del server" });
