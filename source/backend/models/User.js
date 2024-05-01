@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+  googleId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   moderatore: {
     type: Boolean,
-    required: true,
+    required: false,
     default: false,
   },
   nomeUtente: {

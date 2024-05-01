@@ -10,6 +10,8 @@ components:
     User:
       type: object
       properties:
+        googleId:
+          type: string
         moderatore:
           type: boolean
         nomeUtente:
@@ -61,25 +63,14 @@ components:
           type: boolean
 
 paths:
-  /users:
+  /user:
     get:
       summary: Restituisce tutti gli utenti
       responses:
         "200":
           description: Successo
 
-    post:
-      summary: Crea un nuovo utente
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/User"
-      responses:
-        "201":
-          description: Utente creato con successo
-
-  /users/{userId}:
+  /user/{userId}:
     get:
       summary: Restituisce un utente per ID
       parameters:
@@ -127,7 +118,7 @@ paths:
         "404":
           description: Utente non trovato
 
-  /reviews:
+  /review:
     get:
       summary: Restituisce tutte le recensioni
       responses:
@@ -145,7 +136,7 @@ paths:
         "201":
           description: Recensione creata con successo
 
-  /reviews/{reviewId}:
+  /review/{reviewId}:
     get:
       summary: Restituisce una recensione per ID
       parameters:
@@ -193,7 +184,7 @@ paths:
         "404":
           description: Recensione non trovata
 
-  /users/{userId}/revoke-moderator:
+  /user/{userId}/revoke-moderator:
     patch:
       summary: Torna utente standard da moderatore
       parameters:
@@ -209,7 +200,7 @@ paths:
         "404":
           description: Utente non trovato
 
-  /users/{userId}/promote-moderator:
+  /user/{userId}/promote-moderator:
     patch:
       summary: Promuovi utente standard a moderatore
       parameters:
@@ -224,7 +215,7 @@ paths:
           description: Utente modificato con successo
         "404":
           description: Utente non trovato
-  /users/{userId}/ban:
+  /user/{userId}/ban:
     patch:
       summary: Banna un utente per 30 giorni
       parameters:
@@ -240,7 +231,7 @@ paths:
         "500":
           description: Errore del server
 
-  /users/{userId}/unban:
+  /user/{userId}/unban:
     patch:
       summary: Rimuove il ban di un utente
       parameters:
@@ -256,7 +247,7 @@ paths:
         "500":
           description: Errore del server
 
-  /users/{userId}/reviews:
+  /user/{userId}/review:
     get:
       summary: Ottieni recensioni di cui sono l’autore
       parameters:
@@ -272,7 +263,7 @@ paths:
         "404":
           description: Utente non trovato
 
-  /users/current/theme:
+  /user/current/theme:
     put:
       summary: Modifica Tema UI utente attuale
       requestBody:
@@ -288,7 +279,7 @@ paths:
         "200":
           description: Tema UI modificato con successo
 
-  /users/current/language:
+  /user/current/language:
     put:
       summary: Modifica Lingua UI utente attuale
       requestBody:

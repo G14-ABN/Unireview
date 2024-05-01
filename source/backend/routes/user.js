@@ -3,25 +3,25 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
-// GET /api/users - Ottenere tutti gli utenti
-router.get("/users", async (req, res) => {
+// GET /api/user - Ottenere tutti gli utenti
+router.get("/", async (req, res) => {
   try {
-    const users = await User.find();
-    res.json(users);
+    const user = await User.find();
+    res.json(user);
   } catch (error) {
     console.error(error);
     res.status(404).json({ error: "Nessun utente trovato" });
   }
 });
 
-// GET /api/users/:userId - Ottenere dettagli utente per un ID specifico
-router.get("/users/:userId", async (req, res) => {
+// GET /api/user/:userId - Ottenere dettagli utente per un ID specifico
+router.get("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const utente = await User.findById(userId);
 
     if (!utente) {
-      return res.status(404).json({ error: "Utente non trovato" }); // FIX Non viene eseguito
+      return res.status(404).json({ error: "Utente non trovato" });
     }
 
     res.json(utente);
@@ -31,48 +31,8 @@ router.get("/users/:userId", async (req, res) => {
   }
 });
 
-// POST /api/users - Creazione di un nuovo utente
-router.post("/users", async (req, res) => {
-  try {
-    const { moderatore, nomeUtente, email, bannedUntil, linguaUI, temaUI } =
-      req.body;
-
-    // Si assicura che l'indirizzo email sia univoco
-    const utenteEsistente = await User.findOne({ email });
-
-    if (utenteEsistente) {
-      return res.status(400).json({ error: "L'indirizzo email è già in uso" });
-    }
-
-    // Verify that the bannedUntil data is well-formed
-    if (bannedUntil && isNaN(Date.parse(bannedUntil))) {
-      return res.status(400).json({ error: "La data di ban non è valida" });
-    }
-
-    // Crea un nuovo utente
-    const nuovoUtente = new User({
-      moderatore,
-      nomeUtente,
-      email,
-      bannedUntil,
-      linguaUI,
-      temaUI,
-    });
-
-    // Salva il nuovo utente nel database
-    const utenteSalvato = await nuovoUtente.save();
-
-    // SI POTREBBE RITORNARE L'id
-
-    res.status(201).json(utenteSalvato);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Errore del server" });
-  }
-});
-
-// Modifica Lingua UI utente attuale // FIX
-router.put("/users/current-language", async (req, res) => {
+// Modifica Lingua UI utente attuale
+router.put("/current-language", async (req, res) => {
   try {
     const { linguaUI } = req.body;
     // Ottieni l'ID dell'utente autenticato dal token JWT o da un'altra fonte di autenticazione
@@ -88,8 +48,8 @@ router.put("/users/current-language", async (req, res) => {
   }
 });
 
-// Modifica Tema UI utente attuale // FIX
-router.put("/users/current-theme", async (req, res) => {
+// Modifica Tema UI utente attuale
+router.put("/current-theme", async (req, res) => {
   try {
     const { temaUI } = req.body;
     // Ottieni l'ID dell'utente autenticato dal token JWT o da un'altra fonte di autenticazione
@@ -106,7 +66,7 @@ router.put("/users/current-theme", async (req, res) => {
 });
 
 // Elimina un utente per ID
-router.delete("/users/:userId", async (req, res) => {
+router.delete("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
 
@@ -121,7 +81,7 @@ router.delete("/users/:userId", async (req, res) => {
 });
 
 // Aggiorna un utente per ID
-router.put("/users/:userId", async (req, res) => {
+router.put("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const userData = req.body;
@@ -137,7 +97,7 @@ router.put("/users/:userId", async (req, res) => {
 });
 
 // Ottieni recensioni di cui sono l’autore
-router.get("/users/:userId/reviews", async (req, res) => {
+router.get("/:userId/reviews", async (req, res) => {
   try {
     const userId = req.params.userId;
 
@@ -152,7 +112,7 @@ router.get("/users/:userId/reviews", async (req, res) => {
 });
 
 // Torna utente standard da moderatore
-router.patch("/users/:userId/revoke-moderator", async (req, res) => {
+router.patch("/:userId/revoke-moderator", async (req, res) => {
   try {
     const userId = req.params.userId;
 
@@ -167,7 +127,7 @@ router.patch("/users/:userId/revoke-moderator", async (req, res) => {
 });
 
 // Promuovi utente standard a moderatore
-router.patch("/users/:userId/promote-moderator", async (req, res) => {
+router.patch("/:userId/promote-moderator", async (req, res) => {
   try {
     const userId = req.params.userId;
 
@@ -182,7 +142,7 @@ router.patch("/users/:userId/promote-moderator", async (req, res) => {
 });
 
 // Banna un utente per 30 giorni
-router.patch("/users/:userId/ban", async (req, res) => {
+router.patch("/:userId/ban", async (req, res) => {
   try {
     const userId = req.params.userId;
 
@@ -201,7 +161,7 @@ router.patch("/users/:userId/ban", async (req, res) => {
 });
 
 // Rimuove il ban di un utente
-router.patch("/users/:userId/unban", async (req, res) => {
+router.patch("/:userId/unban", async (req, res) => {
   try {
     const userId = req.params.userId;
 
@@ -214,6 +174,5 @@ router.patch("/users/:userId/unban", async (req, res) => {
     res.status(500).json({ error: "Errore del server" });
   }
 });
-
 
 export default router;
