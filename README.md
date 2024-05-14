@@ -33,9 +33,7 @@ source/
 
 Dependencies:
 
-`npm init -y`
-
-`npm i express mongoose dotenv cors nodemon express-async-errors swagger-ui-express yamljs passport passport-google-oauth20 jsonwebtoken`
+`npm i express mongoose dotenv cors express-async-errors swagger-ui-express yamljs passport passport-google-oauth20 jsonwebtoken`
 
 How to run:
 

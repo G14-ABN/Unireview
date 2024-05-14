@@ -389,25 +389,16 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{userId}/review:
+  /review/current-user:
     get:
       summary: Ottieni recensioni di cui l’autore (richiede autenticazione)
       tags:
         - Protetto
       security:
         - JWT: []
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente
       responses:
         "200":
           description: Recensioni ottenute con successo
-        "403":
-          description: Accesso non autorizzato
         "500":
           description: Errore del server
 

@@ -56,9 +56,9 @@ router.get("/", async (req, res) => {
 });
 
 // Elimina una recensione per ID
-router.delete("/:id", accessProtectionMiddleware, async (req, res) => {
+router.delete("/:reviewId", accessProtectionMiddleware, async (req, res) => {
   try {
-    const reviewId = req.params.id;
+    const reviewId = req.params;
     const review = await Review.findById(reviewId);
 
     if (!review) {
@@ -73,6 +73,19 @@ router.delete("/:id", accessProtectionMiddleware, async (req, res) => {
         error: "Non sei autorizzato a eliminare questa recensione",
       });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Errore del server" });
+  }
+});
+
+// Restituisce le recensioni dell'utente corrente
+router.get("/current-user", accessProtectionMiddleware, async (req, res) => {
+  try {
+    const requestingUserId = req.user.id;
+
+    const reviews = await Review.find({ autore: requestingUserId });
+    res.status(200).json(reviews);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Errore del server" });
@@ -119,26 +132,6 @@ router.patch("/:reviewId", accessProtectionMiddleware, async (req, res) => {
     } else {
       res.status(403).json({
         error: "Non sei autorizzato a modificare questa recensione",
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Errore del server" });
-  }
-});
-
-// Restituisce le recensioni dell'utente autenticato
-router.get("/user/:userId", accessProtectionMiddleware, async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const requestingUserId = req.user.id;
-
-    if (requestingUserId === userId) {
-      const reviews = await Review.find({ autore: userId });
-      res.status(200).json(reviews);
-    } else {
-      res.status(403).json({
-        error: "Non autorizzato a visualizzare queste recensioni",
       });
     }
   } catch (error) {
