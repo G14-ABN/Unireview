@@ -130,3 +130,9 @@ dist
 .pnp.*
 
 .DS_Store
+
+.idea/
+
+todo.md
+
+generated*/
