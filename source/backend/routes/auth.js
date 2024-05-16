@@ -39,8 +39,7 @@ router.get(
         "Utente autenticato:",
         user.googleId,
         user.id,
-        user.nomeUtente,
-        user.moderatore
+        user.nomeUtente
       );
       // Generate a JWT token
       const token = jwt.sign(
@@ -48,7 +47,6 @@ router.get(
           googleId: user.googleId,
           id: user.id,
           nomeUtente: user.nomeUtente,
-          moderatore: user.moderatore,
         },
         secretKey,
         {

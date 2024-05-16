@@ -8,13 +8,13 @@ const router = express.Router();
 router.get("/", accessProtectionMiddleware, async (req, res) => {
   try {
     // Verifica se l'utente che effettua la richiesta è moderatore
-    if (req.user.moderatore) {
+    const user = await User.findById({ _id: req.user.id });
+    if (user.moderatore) {
       // Se è moderatore, restituisci tutti gli utenti
       const users = await User.find();
       res.status(200).json(users);
     } else {
       // Se non è moderatore, restituisci solo il profilo dell'utente autenticato
-      const user = await User.findById({ _id: req.user.id });
       res.status(200).json(user);
     }
   } catch (error) {
@@ -27,9 +27,10 @@ router.get("/", accessProtectionMiddleware, async (req, res) => {
 router.get("/:userId", accessProtectionMiddleware, async (req, res) => {
   try {
     const userId = req.params.userId;
+    const requester = await User.findById({ _id: req.user.id });
 
     // Verifica se l'utente richiedente è lo stesso di cui si vuole ricevere il profilo o è moderatore
-    if (req.user && (req.user.id === userId || req.user.moderatore)) {
+    if (req.user && (req.user.id === userId || requester.moderatore)) {
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ error: "Utente non trovato" });
@@ -49,7 +50,8 @@ router.get("/:userId", accessProtectionMiddleware, async (req, res) => {
 router.patch("/:userId", accessProtectionMiddleware, async (req, res) => {
   try {
     // Verifica se l'utente autenticato è un moderatore
-    if (!req.user.moderatore) {
+    const requester = await User.findById({ _id: req.user.id });
+    if (!requester.moderatore) {
       return res.status(403).json({
         error:
           "Accesso negato. Solo i moderatori possono eseguire questa azione.",
@@ -108,11 +110,11 @@ router.put("/theme", accessProtectionMiddleware, async (req, res) => {
 router.delete("/:userId", accessProtectionMiddleware, async (req, res) => {
   try {
     const userId = req.params.userId;
-    const requestingUserId = req.user.id;
 
     // Verifica se l'utente che fa la richiesta è amministratore o il proprietario del profilo
-    const user = await User.findById(requestingUserId);
-    if (user.moderatore || user.id === userId) {
+    const requester = await User.findById({ _id: req.user.id });
+    // const user = await User.findById(requestingUserId);
+    if (requester.moderatore || requester.id === userId) {
       // Rimuovi l'utente dal database
       await User.findByIdAndDelete(userId);
       res.sendStatus(200);
@@ -135,7 +137,8 @@ router.patch(
   async (req, res) => {
     try {
       // Verifica se l'utente autenticato è un moderatore
-      if (!req.user.moderatore) {
+      const requester = await User.findById({ _id: req.user.id });
+      if (!requester.moderatore) {
         return res.status(403).json({
           error:
             "Accesso negato. Solo i moderatori possono eseguire questa azione.",
@@ -167,7 +170,8 @@ router.patch(
   async (req, res) => {
     try {
       // Verifica se l'utente autenticato è un moderatore
-      if (!req.user.moderatore) {
+      const requester = await User.findById({ _id: req.user.id });
+      if (!requester.moderatore) {
         return res.status(403).json({
           error:
             "Accesso negato. Solo i moderatori possono eseguire questa azione.",
@@ -199,7 +203,8 @@ router.patch("/:userId/ban", accessProtectionMiddleware, async (req, res) => {
     const userId = req.params.userId;
 
     // Verifica se l'utente autenticato è un moderatore
-    if (!req.user.moderatore) {
+    const requester = await User.findById({ _id: req.user.id });
+    if (!requester.moderatore) {
       return res.status(403).json({
         error:
           "Accesso negato. Solo i moderatori possono eseguire questa azione.",
@@ -238,7 +243,8 @@ router.patch("/:userId/unban", accessProtectionMiddleware, async (req, res) => {
     const userId = req.params.userId;
 
     // Verifica se l'utente autenticato è un moderatore
-    if (!req.user.moderatore) {
+    const requester = await User.findById({ _id: req.user.id });
+    if (!requester.moderatore) {
       return res.status(403).json({
         error:
           "Accesso negato. Solo i moderatori possono eseguire questa azione.",
