@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
   autore: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Fa riferimento al modello User
+    type: String,
     required: true,
   },
   professore: {

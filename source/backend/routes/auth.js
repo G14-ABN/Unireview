@@ -13,20 +13,20 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/", session: false }),
   async (req, res) => {
-    console.log("id:", req.user?.id);
-    console.log("displayName", req.user?.displayName);
-    console.log("name:", req.user?.name?.givenName);
-    console.log("familyName:", req.user?.name?.familyName);
-    console.log("email:", req.user?.emails?.[0]?.value);
+    // console.log("id:", req.user?.id);
+    // console.log("displayName", req.user?.displayName);
+    // console.log("name:", req.user?.name?.givenName);
+    // console.log("familyName:", req.user?.name?.familyName);
+    // console.log("email:", req.user?.emails?.[0]?.value);
 
     try {
       // Check if the user exists in the database
-      let user = await User.findOne({ googleId: req.user.id });
+      let user = await User.findOne({ email: req.user?.emails?.[0]?.value });
 
       // If the user does not exist, create a new user record
       if (!user) {
         user = await User.create({
-          googleId: req.user.id,
+          // googleId: req.user.id,
           email: req.user.emails[0].value,
           nomeUtente: req.user.displayName,
         });
@@ -37,15 +37,17 @@ router.get(
 
       console.log(
         "Utente autenticato:",
-        user.googleId,
-        user.id,
+        // user.googleId,
+        // user.id,
+        user.email,
         user.nomeUtente
       );
       // Generate a JWT token
       const token = jwt.sign(
         {
-          googleId: user.googleId,
-          id: user.id,
+          // googleId: user.googleId,
+          // id: user.id,
+          email: user.email,
           nomeUtente: user.nomeUtente,
         },
         secretKey,

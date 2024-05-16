@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  googleId: {
+  email: {
     type: String,
     required: true,
     unique: true,
@@ -14,11 +14,6 @@ const userSchema = new mongoose.Schema({
   nomeUtente: {
     type: String,
     required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
   },
   bannedUntil: {
     type: Date,

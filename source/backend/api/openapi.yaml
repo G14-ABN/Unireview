@@ -10,13 +10,11 @@ components:
     User:
       type: object
       properties:
-        googleId:
+        email:
           type: string
         moderatore:
           type: boolean
         nomeUtente:
-          type: string
-        email:
           type: string
         bannedUntil:
           type: string
@@ -76,15 +74,15 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{userId}:
+  /user/{email}:
     get:
-      summary: Restituisce un utente per ID
+      summary: Restituisce un utente per email
       tags:
         - Protetto
       security:
         - JWT: []
       parameters:
-        - name: userId
+        - name: email
           in: path
           required: true
           schema:
@@ -100,13 +98,13 @@ paths:
           description: Errore del server
 
     patch:
-      summary: Aggiorna un utente per ID (solo moderatore)
+      summary: Aggiorna un utente per email (solo moderatore)
       tags:
         - Protetto
       security:
         - JWT: []
       parameters:
-        - name: userId
+        - name: email
           in: path
           required: true
           schema:
@@ -127,13 +125,13 @@ paths:
           description: Errore del server
 
     delete:
-      summary: Elimina un utente per ID
+      summary: Elimina un utente per email (solo moderatore o utente stesso)
       tags:
         - Protetto
       security:
         - JWT: []
       parameters:
-        - name: userId
+        - name: email
           in: path
           required: true
           schema:
@@ -192,7 +190,7 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{userId}/revoke-moderator:
+  /user/{email}/revoke-moderator:
     patch:
       summary: Torna utente standard da moderatore (solo moderatore)
       tags:
@@ -201,11 +199,11 @@ paths:
         - JWT: []
       parameters:
         - in: path
-          name: userId
+          name: email
           required: true
           schema:
             type: string
-          description: ID dell'utente da modificare
+          description: email dell'utente da modificare
       responses:
         "200":
           description: Utente modificato con successo
@@ -216,7 +214,7 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{userId}/promote-moderator:
+  /user/{email}/promote-moderator:
     patch:
       summary: Promuovi utente standard a moderatore (solo moderatore)
       tags:
@@ -225,11 +223,11 @@ paths:
         - JWT: []
       parameters:
         - in: path
-          name: userId
+          name: email
           required: true
           schema:
             type: string
-          description: ID dell'utente da modificare
+          description: email dell'utente da modificare
       responses:
         "200":
           description: Utente modificato con successo
@@ -240,7 +238,7 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{userId}/ban:
+  /user/{email}/ban:
     patch:
       summary: Banna un utente per un numero specifico di giorni (solo moderatore)
       tags:
@@ -249,11 +247,11 @@ paths:
         - JWT: []
       parameters:
         - in: path
-          name: userId
+          name: email
           required: true
           schema:
             type: string
-          description: ID dell'utente da bannare
+          description: email dell'utente da bannare
       requestBody:
         content:
           application/json:
@@ -276,16 +274,20 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{userId}/unban:
+  /user/{email}/unban:
     patch:
       summary: Rimuove il ban di un utente (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - in: path
-          name: userId
+          name: email
           required: true
           schema:
             type: string
-          description: ID dell'utente da cui rimuovere il ban
+          description: email dell'utente da cui rimuovere il ban
       responses:
         "200":
           description: Utente modificato con successo
@@ -305,7 +307,7 @@ paths:
           description: Successo
         "500":
           description: Errore del server
-
+  
     post:
       summary: Componi nuova recensione (richiede autenticazione)
       tags:
@@ -322,24 +324,8 @@ paths:
           description: Recensione creata con successo
         "500":
           description: Errore del server
-
+  
   /review/{reviewId}:
-    get:
-      summary: Restituisce una recensione per ID
-      parameters:
-        - name: reviewId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successo
-        "404":
-          description: Recensione non trovata
-        "500":
-          description: Errore del server
-
     patch:
       summary: Modifica recensione esistente per ID (richiede autenticazione)
       tags:
@@ -389,16 +375,37 @@ paths:
         "500":
           description: Errore del server
 
-  /review/current-user:
+
+  /review/{email}:
     get:
-      summary: Ottieni recensioni di cui l’autore (richiede autenticazione)
-      tags:
-        - Protetto
-      security:
-        - JWT: []
+      summary: Ottieni tutte le recensioni dell'utente specificato
       responses:
         "200":
           description: Recensioni ottenute con successo
+        "404":
+          description: Nessuna recensione trovata
+        "500":
+          description: Errore del server
+
+  /review/professore/{professore}:
+    get:
+      summary: Ottieni tutte le recensioni del professore specificato
+      responses:
+        "200":
+          description: Recensioni ottenute con successo
+        "404":
+          description: Nessuna recensione trovata
+        "500":
+          description: Errore del server
+
+  /review/esame/{esame}:
+    get:
+      summary: Ottieni tutte le recensioni dell'esaem specificato
+      responses:
+        "200":
+          description: Recensioni ottenute con successo
+        "404":
+          description: Nessuna recensione trovata
         "500":
           description: Errore del server
 

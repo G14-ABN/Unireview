@@ -21,7 +21,7 @@ router.post("/", accessProtectionMiddleware, async (req, res) => {
     } = req.body;
 
     const nuovaRecensione = new Review({
-      autore: { _id: req.user.id },
+      autore: { _id: req.user.email },
       data: Date.now(),
       professore,
       esame,
@@ -65,17 +65,65 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Restituisce tutte le recensioni dell'utente specificato
+router.get("/:email", async (req, res) => {
+  try {
+    const reviews = await Review.find({ autore: req.params.email });
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "Nessuna recensione trovata per questo utente" });
+    }
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Errore del server" });
+  }
+});
+
+// Restituisce tutte le recensioni relative a un professore specificato
+router.get("/professore/:professore", async (req, res) => {
+  try {
+    const reviews = await Review.find({ professore: req.params.professore });
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "Nessuna recensione trovata per questo professore" });
+    }
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Errore del server" });
+  }
+});
+
+// Restituisce tutte le recensioni relative a un esame specificato
+router.get("/esame/:esame", async (req, res) => {
+  try {
+    const reviews = await Review.find({ esame: req.params.esame });
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "Nessuna recensione trovata per questo esame" });
+    }
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Errore del server" });
+  }
+});
+
 // Elimina una recensione per ID
 router.delete("/:reviewId", accessProtectionMiddleware, async (req, res) => {
   try {
-    const reviewId = req.params;
+    const reviewId = req.params.reviewId;
     const review = await Review.findById(reviewId);
 
     if (!review) {
       return res.status(404).json({ error: "Recensione non trovata" });
     }
 
-    if (req.user.moderatore || req.user.id === review.autore.toString()) {
+    if (req.user.moderatore || req.user.email === review.autore.toString()) {
       await Review.findByIdAndDelete(reviewId);
       res.status(200).json({ message: "Recensione eliminata con successo" });
     } else {
@@ -89,38 +137,10 @@ router.delete("/:reviewId", accessProtectionMiddleware, async (req, res) => {
   }
 });
 
-// Restituisce le recensioni dell'utente corrente
-router.get("/current-user", accessProtectionMiddleware, async (req, res) => {
-  try {
-    const requestingUserId = req.user.id;
-
-    const reviews = await Review.find({ autore: requestingUserId });
-    res.status(200).json(reviews);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Errore del server" });
-  }
-});
-
-// Restituisce una recensione per ID
-router.get("/:reviewId", async (req, res) => {
-  try {
-    const { reviewId } = req.params;
-    const review = await Review.findById(reviewId);
-    if (!review) {
-      return res.status(404).json({ error: "Recensione non trovata" });
-    }
-    res.status(200).json(review);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Errore del server" });
-  }
-});
-
 // Modifica una recensione per ID
 router.patch("/:reviewId", accessProtectionMiddleware, async (req, res) => {
   try {
-    const { reviewId } = req.params;
+    const reviewId = req.params.reviewId;
     const updateData = req.body;
 
     const review = await Review.findById(reviewId);
@@ -129,7 +149,7 @@ router.patch("/:reviewId", accessProtectionMiddleware, async (req, res) => {
       return res.status(404).json({ error: "Recensione non trovata" });
     }
 
-    if (req.user.moderatore || req.user.id === review.autore.toString()) {
+    if (req.user.moderatore || req.user.email === review.autore.toString()) {
       const updatedReview = await Review.findByIdAndUpdate(
         reviewId,
         updateData,

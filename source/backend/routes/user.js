@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/", accessProtectionMiddleware, async (req, res) => {
   try {
     // Verifica se l'utente che effettua la richiesta è moderatore
-    const user = await User.findById({ _id: req.user.id });
+    const user = await User.findOne({ email: req.user.email });
     if (user.moderatore) {
       // Se è moderatore, restituisci tutti gli utenti
       const users = await User.find();
@@ -23,15 +23,15 @@ router.get("/", accessProtectionMiddleware, async (req, res) => {
   }
 });
 
-// Ottiene dettagli utente per un ID specifico (richiede autenticazione)
-router.get("/:userId", accessProtectionMiddleware, async (req, res) => {
+// Ottiene dettagli utente per un indirizzo email specifico (richiede autenticazione)
+router.get("/:email", accessProtectionMiddleware, async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const requester = await User.findById({ _id: req.user.id });
+    const email = req.params.email;
+    const requester = req.user.email;
 
     // Verifica se l'utente richiedente è lo stesso di cui si vuole ricevere il profilo o è moderatore
-    if (req.user && (req.user.id === userId || requester.moderatore)) {
-      const user = await User.findById(userId);
+    if (req.user && (requester === email || req.user.moderatore)) {
+      const user = await User.findOne({ email: email });
       if (!user) {
         return res.status(404).json({ error: "Utente non trovato" });
       }
@@ -46,11 +46,11 @@ router.get("/:userId", accessProtectionMiddleware, async (req, res) => {
   }
 });
 
-// Modifica i dettagli di un utente per un ID specifico (richiede moderatore)
-router.patch("/:userId", accessProtectionMiddleware, async (req, res) => {
+// Modifica i dettagli di un utente per un indirizzo email specifico (richiede moderatore)
+router.patch("/:email", accessProtectionMiddleware, async (req, res) => {
   try {
     // Verifica se l'utente autenticato è un moderatore
-    const requester = await User.findById({ _id: req.user.id });
+    const requester = await User.findOne({ email: req.user.email });
     if (!requester.moderatore) {
       return res.status(403).json({
         error:
@@ -58,11 +58,14 @@ router.patch("/:userId", accessProtectionMiddleware, async (req, res) => {
       });
     }
 
-    const userId = req.params.userId;
+    const email = req.params.email;
     const updateData = req.body;
 
     // Aggiorna il profilo dell'utente nel database
-    const updatedUser = await User.findByIdAndUpdate(userId, updateData);
+    const updatedUser = await User.findOneAndUpdate(
+      { email: email },
+      updateData
+    );
     if (!updatedUser) {
       return res.status(404).json({ error: "Utente non trovato" });
     }
@@ -78,10 +81,10 @@ router.patch("/:userId", accessProtectionMiddleware, async (req, res) => {
 router.put("/language", accessProtectionMiddleware, async (req, res) => {
   try {
     const { linguaUI } = req.body;
-    const userId = req.user.id;
+    const email = req.user.email;
 
     // Aggiorna linguaUI dell'utente nel database
-    await User.findByIdAndUpdate(userId, { linguaUI });
+    await User.findOneAndUpdate({ email: email }, { linguaUI });
 
     res.sendStatus(200);
   } catch (error) {
@@ -94,10 +97,10 @@ router.put("/language", accessProtectionMiddleware, async (req, res) => {
 router.put("/theme", accessProtectionMiddleware, async (req, res) => {
   try {
     const { temaUI } = req.body;
-    const userId = req.user.id;
+    const email = req.user.email;
 
     // Aggiorna temaUI dell'utente nel database
-    await User.findByIdAndUpdate(userId, { temaUI });
+    await User.findOneAndUpdate({ email: email }, { temaUI });
 
     res.sendStatus(200);
   } catch (error) {
@@ -106,17 +109,51 @@ router.put("/theme", accessProtectionMiddleware, async (req, res) => {
   }
 });
 
-// Elimina un utente per ID (richiede autenticazione e autorizzazione)
-router.delete("/:userId", accessProtectionMiddleware, async (req, res) => {
+// // Modifica Lingua UI utente attuale (richiede autenticazione)
+// router.put("/language", accessProtectionMiddleware, async (req, res) => {
+//   try {
+//     const { linguaUI } = req.body;
+//     const userId = req.user.id;
+
+//     // Aggiorna linguaUI dell'utente nel database
+//     await User.findByIdAndUpdate(userId, { linguaUI });
+
+//     res.sendStatus(200);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Errore del server" });
+//   }
+// });
+
+// // Modifica Tema UI utente attuale (richiede autenticazione)
+// router.put("/theme", accessProtectionMiddleware, async (req, res) => {
+//   try {
+//     const { temaUI } = req.body;
+//     const userId = req.user.id;
+
+//     // Aggiorna temaUI dell'utente nel database
+//     await User.findByIdAndUpdate(userId, { temaUI });
+
+//     res.sendStatus(200);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Errore del server" });
+//   }
+// });
+
+// Elimina un utente per email (richiede autenticazione e autorizzazione)
+router.delete("/:email", accessProtectionMiddleware, async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const email = req.params.email;
 
     // Verifica se l'utente che fa la richiesta è amministratore o il proprietario del profilo
-    const requester = await User.findById({ _id: req.user.id });
-    // const user = await User.findById(requestingUserId);
-    if (requester.moderatore || requester.id === userId) {
+    const requester = await User.findOne({ email: req.user.email });
+    if (requester.moderatore || requester.email === email) {
       // Rimuovi l'utente dal database
-      await User.findByIdAndDelete(userId);
+      const deletedUser = await User.findOneAndDelete({ email: email });
+      if (!deletedUser) {
+        return res.status(404).json({ error: "Utente non trovato" });
+      }
       res.sendStatus(200);
     } else {
       // Se l'utente non è autorizzato, restituisci un codice di stato 403 (Non autorizzato)
@@ -132,12 +169,12 @@ router.delete("/:userId", accessProtectionMiddleware, async (req, res) => {
 
 // Rimuove i privilegi di moderatore da un utente (richiede autenticazione e autorizzazione da parte di un moderatore)
 router.patch(
-  "/:userId/revoke-moderator",
+  "/revoke-moderator/:email",
   accessProtectionMiddleware,
   async (req, res) => {
     try {
       // Verifica se l'utente autenticato è un moderatore
-      const requester = await User.findById({ _id: req.user.id });
+      const requester = await User.findOne({ email: req.user.email });
       if (!requester.moderatore) {
         return res.status(403).json({
           error:
@@ -145,10 +182,10 @@ router.patch(
         });
       }
 
-      const userId = req.params.userId;
+      const email = req.params.email;
 
       // Rimuovi i privilegi di moderatore dall'utente nel database
-      const user = await User.findById(userId);
+      const user = await User.findOne({ email: email });
       if (!user) {
         return res.status(404).json({ error: "Utente non trovato" });
       }
@@ -165,12 +202,12 @@ router.patch(
 
 // Promuove un utente a moderatore (richiede autenticazione e autorizzazione da parte di un moderatore)
 router.patch(
-  "/:userId/promote-moderator",
+  "/promote-moderator/:email",
   accessProtectionMiddleware,
   async (req, res) => {
     try {
       // Verifica se l'utente autenticato è un moderatore
-      const requester = await User.findById({ _id: req.user.id });
+      const requester = await User.findOne({ email: req.user.email });
       if (!requester.moderatore) {
         return res.status(403).json({
           error:
@@ -178,10 +215,10 @@ router.patch(
         });
       }
 
-      const userId = req.params.userId;
+      const email = req.params.email;
 
       // Aggiorna il campo moderatore dell'utente nel database per promuoverlo a moderatore
-      const user = await User.findById(userId);
+      const user = await User.findOne({ email: email });
       if (!user) {
         return res.status(404).json({ error: "Utente non trovato" });
       }
@@ -197,13 +234,13 @@ router.patch(
 );
 
 // Banna un utente per un numero specifico di giorni (richiede autenticazione e autorizzazione)
-router.patch("/:userId/ban", accessProtectionMiddleware, async (req, res) => {
+router.patch("/ban/:email", accessProtectionMiddleware, async (req, res) => {
   try {
     const { days } = req.body;
-    const userId = req.params.userId;
+    const email = req.params.email;
 
     // Verifica se l'utente autenticato è un moderatore
-    const requester = await User.findById({ _id: req.user.id });
+    const requester = await User.findOne({ email: req.user.email });
     if (!requester.moderatore) {
       return res.status(403).json({
         error:
@@ -223,7 +260,7 @@ router.patch("/:userId/ban", accessProtectionMiddleware, async (req, res) => {
     bannedUntilDate.setDate(bannedUntilDate.getDate() + days);
 
     // Aggiorna il campo bannedUntil dell'utente nel database
-    const user = await User.findById(userId);
+    const user = await User.findOne({ email: email });
     if (!user) {
       return res.status(404).json({ error: "Utente non trovato" });
     }
@@ -238,12 +275,12 @@ router.patch("/:userId/ban", accessProtectionMiddleware, async (req, res) => {
 });
 
 // Rimuove il ban di un utente (richiede autenticazione e autorizzazione)
-router.patch("/:userId/unban", accessProtectionMiddleware, async (req, res) => {
+router.patch("/unban/:email", accessProtectionMiddleware, async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const email = req.params.email;
 
     // Verifica se l'utente autenticato è un moderatore
-    const requester = await User.findById({ _id: req.user.id });
+    const requester = await User.findOne({ email: req.user.email });
     if (!requester.moderatore) {
       return res.status(403).json({
         error:
@@ -252,7 +289,7 @@ router.patch("/:userId/unban", accessProtectionMiddleware, async (req, res) => {
     }
 
     // Imposta la data di bannedUntil a new Date(0) per rimuovere il ban
-    const user = await User.findById(userId);
+    const user = await User.findOne({ email: email });
     if (!user) {
       return res.status(404).json({ error: "Utente non trovato" });
     }
