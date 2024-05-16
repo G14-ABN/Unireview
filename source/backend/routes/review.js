@@ -40,7 +40,17 @@ router.post("/", accessProtectionMiddleware, async (req, res) => {
     res.status(201).json(recensioneSalvata);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Errore del server" });
+    if (error.name === "ValidationError") {
+      const errorParams = Object.keys(error.errors).map((key) => ({
+        param: key,
+        message: error.errors[key].message,
+      }));
+      res
+        .status(500)
+        .json({ error: "Errore nell'inserimento dei dati", errorParams });
+    } else {
+      res.status(500).json({ error: "Errore nell'inserimento dei dati" });
+    }
   }
 });
 
