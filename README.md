@@ -5,6 +5,7 @@ In questa repository è possibile trovare tutto il materiale relativo al progett
 Nella cartella docs è possibile trovare la documentazione del progetto, mentre nella cartella source è possibile trovare il codice sorgente.
 
 ## Struttura del progetto
+
 ```
 source/
 ├── frontend/
@@ -18,6 +19,7 @@ source/
 └── backend/
     ├── models/
     ├── routes/
+    ├── services/
     ├── node_modules/
     ├── index.js
     ├── conn.js
@@ -26,13 +28,12 @@ source/
 ```
 
 # Installazione e avvio
+
 ## Backend
 
 Dependencies:
 
-`npm init -y`
-
-`npm i express mongoose dotenv cors nodemon express-async-errors swagger-ui-express yamljs`
+`npm i express mongoose dotenv cors express-async-errors swagger-ui-express yamljs passport passport-google-oauth20 jsonwebtoken`
 
 How to run:
 
