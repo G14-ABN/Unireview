@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import reviewsRouter from "./routes/reviews.js";
+import examsRouter from "./routes/exams.js";
 import usersRouter from "./routes/users.js";
 import connect from "./conn.js";
 import swaggerUi from "swagger-ui-express";
@@ -32,6 +33,8 @@ app.use("/api", usersRouter);
 
 // // Configura le route delle recensioni
 app.use("/api", reviewsRouter);
+
+app.use("/api", examsRouter);
 
 // Gestione delle route non gestite
 app.use((req, res) => {
