@@ -316,9 +316,59 @@ paths:
       responses:
         "200":
           description: Lingua UI modificata con successo
+
   /exams:
     get:
       summary: Restituisce tutti gli esami
       responses:
         "200":
           description: Successo
+        "500":
+          description: Errore del server"
+    
+    post:
+      summary: Crea un nuovo esame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Exam"
+      responses:
+        "201":
+          description: Esame creato con successo
+        "500":
+          description: Errore del server"
+      
+  /exams/esame/{esame}:
+      get:
+        summary: Restituisce una tutti gli esami per nome
+        parameters:
+          - name: esame
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          "200":
+            description: Successo
+          "404":
+            description: Nessun esame trovato
+          "500":  
+            description: Errore del server"
+
+  /exams/professore/{professore}:
+      get:
+        summary: Restituisce una tutti gli esami per professore
+        parameters:
+          - name: professore
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          "200":
+            description: Successo
+          "404":
+            description: Nessun esame trovato
+          "500":  
+            description: Errore del server"
