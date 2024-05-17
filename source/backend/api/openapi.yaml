@@ -59,6 +59,19 @@ components:
           enum: ["Nessuna", "Minore50", "Maggiore50"]
         anonima:
           type: boolean
+          
+    Exam:
+      type: object
+      properties:
+        # autore:
+        #   type: string
+        professore:
+          type: string
+        esame:
+          type: string
+        # data:
+        #   type: string
+        #   format: date-time
 
 paths:
   /users:
@@ -303,3 +316,9 @@ paths:
       responses:
         "200":
           description: Lingua UI modificata con successo
+  /exams:
+    get:
+      summary: Restituisce tutti gli esami
+      responses:
+        "200":
+          description: Successo
