@@ -51,6 +51,11 @@ DB_NAME="unireview"
 
 ## Frontend
 
+Dependencies:
+
+`npm i antd xhr2`
+
+
 How to install:
 
 `npx create-next-app frontend`
