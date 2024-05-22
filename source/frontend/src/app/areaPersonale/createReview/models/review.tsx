@@ -7,8 +7,7 @@ class Review{
     rID : string
     professore : string
     corso : string
-    data_esame : Date
-    data = new Date()
+    data : Date | string
     valutazione_prof : Number
     valutazione_fattibile :Number
     valutazione_materiale : Number
@@ -19,24 +18,25 @@ class Review{
     tentativo : Number | undefined
 
     
-    constructor(field :{_id:string,
-        autore: string,
-        professore: string,
-        esame: string,
-        data: Date,
-        valutazioneProfessore: Number,
-        valutazioneFattibilita: Number,
-        valutazioneMateriale: Number,
-        testo: string|undefined,
-        tentativo: Number|undefined,
-        voto: Number|undefined,
-        frequenza: string,
-        anonima: boolean}){
+    constructor(field :{anonima: boolean
+        autore: string
+        data: Date | string
+        esame: string
+        frequenza: string
+        professore: string
+        tentativo: Number | undefined
+        testo: string | undefined
+        valutazioneFattibilita: Number
+        valutazioneMateriale: Number
+        valutazioneProfessore: Number
+        voto: Number | undefined
+        __v: Number
+        _id: string}){
             this.autore= field.autore
             this.rID=field._id;
             this.professore= field.professore;
             this.corso=field.esame
-            this.data_esame = field.data
+            this.data = field.data
             this.testo = field.testo
             this.voto = field.voto
             this.valutazione_prof=field.valutazioneProfessore
@@ -56,7 +56,7 @@ class Review{
         if (this.voto != undefined){
         return(
             <div>
-            <text>{"Data esame: "+ this.data_esame.toDateString()}</text>
+            <text>{"Data esame: "+ (typeof this.data == "string"? this.data : this.data.getDate())}</text>
             <br/>
             <text>{'Voto finale: '+this.voto}</text>
             <br/>

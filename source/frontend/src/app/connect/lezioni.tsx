@@ -66,7 +66,7 @@ function initField(){
             return new Promise((resolve, rejects)=>{
                 const XMLHttpRequest = require('xhr2');
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', 'http://localhost:8080/api/exams', true);
+                xhr.open('GET', 'http://localhost:8080/api/exam', true);
                 xhr.onreadystatechange = ()=>{  
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {        
@@ -77,6 +77,7 @@ function initField(){
                         if (exams != undefined){
                             resolve(exams)
                         } else {
+                            console.log(xhr.status+xhr.statusText)
                             rejects('Error fetching exams:'+ xhr.status + xhr.statusText);
                         }
                         }

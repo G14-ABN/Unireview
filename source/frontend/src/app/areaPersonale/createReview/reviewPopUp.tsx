@@ -19,7 +19,7 @@ function PopUp(){
   };
 
     const [reviews, setFormData] = useState({
-      data : dayjs(),
+      data : new Date(),
       professore: '',
       esame: '',
       valutazioneProfessore: 0,
@@ -59,6 +59,7 @@ function PopUp(){
       setIsModalOpen(true);
     };
     const handleOk = () => {
+      reviews.data= new Date()
       setFormData(reviews)
       handleSubmit()
       location.reload()
@@ -182,17 +183,6 @@ function PopUp(){
           disabled={componentDisabled}
           max={31}
           min= {18}/>
-        </Form.Item>
-        <Form.Item  rules= {[{required: !componentDisabled}]}
-         name="data" label="Data ">
-          <DatePicker 
-          disabled={componentDisabled}
-          onChange={(e)=>{
-            if (e != null)
-            {reviews.data = e
-            setFormData(reviews)}
-          }}
-          value={(reviews.data /*instanceof dayjs.Dayjs? reviews.data : null*/)}/>
         </Form.Item>
         <Form.Item name="tentativo" label="N. tentativo " rules= {[{required: !componentDisabled}]}>
           <InputNumber
