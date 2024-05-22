@@ -10,18 +10,18 @@ components:
     User:
       type: object
       properties:
+        email:
+          type: string
         moderatore:
           type: boolean
         nomeUtente:
           type: string
-        email:
-          type: string
         bannedUntil:
           type: string
           format: date
-        linguaUi:
+        linguaUI:
           type: boolean
-        temaUi:
+        temaUI:
           type: boolean
 
     Review:
@@ -59,44 +59,30 @@ components:
           enum: ["Nessuna", "Minore50", "Maggiore50"]
         anonima:
           type: boolean
-          
-    Exam:
-      type: object
-      properties:
-        # autore:
-        #   type: string
-        professore:
-          type: string
-        esame:
-          type: string
-        # data:
-        #   type: string
-        #   format: date-time
 
 paths:
-  /users:
+  /user:
     get:
-      summary: Restituisce tutti gli utenti
+      summary: Restituisce tutti gli utenti (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       responses:
         "200":
           description: Successo
+        "500":
+          description: Errore del server
 
-    post:
-      summary: Crea un nuovo utente
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/User"
-      responses:
-        "201":
-          description: Utente creato con successo
-
-  /users/{userId}:
+  /user/{email}:
     get:
-      summary: Restituisce un utente per ID
+      summary: Restituisce un utente per email
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
-        - name: userId
+        - name: email
           in: path
           required: true
           schema:
@@ -104,13 +90,21 @@ paths:
       responses:
         "200":
           description: Successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Utente non trovato
+        "500":
+          description: Errore del server
 
-    put:
-      summary: Aggiorna un utente per ID
+    patch:
+      summary: Aggiorna un utente per email (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
-        - name: userId
+        - name: email
           in: path
           required: true
           schema:
@@ -123,32 +117,203 @@ paths:
       responses:
         "200":
           description: Utente aggiornato con successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Utente non trovato
+        "500":
+          description: Errore del server
 
     delete:
-      summary: Elimina un utente per ID
+      summary: Elimina un utente per email (solo moderatore o utente stesso)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
-        - name: userId
+        - name: email
           in: path
           required: true
           schema:
             type: string
       responses:
-        "204":
+        "200":
           description: Utente eliminato con successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Utente non trovato
+        "500":
+          description: Errore del server
 
-  /reviews:
+  /user/theme:
+    put:
+      summary: Modifica Tema UI utente attuale
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                themeUi:
+                  type: boolean
+                  description: Nuovo valore per il tema UI
+      responses:
+        "200":
+          description: Tema UI modificato con successo
+        "500":
+          description: Errore del server
+
+  /user/language:
+    put:
+      summary: Modifica Lingua UI utente attuale
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                languageUi:
+                  type: boolean
+                  description: Nuovo valore per la lingua UI
+      responses:
+        "200":
+          description: Lingua UI modificata con successo
+        "500":
+          description: Errore del server
+
+  /user/{email}/revoke-moderator:
+    patch:
+      summary: Torna utente standard da moderatore (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          description: email dell'utente da modificare
+      responses:
+        "200":
+          description: Utente modificato con successo
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Utente non trovato
+        "500":
+          description: Errore del server
+
+  /user/{email}/promote-moderator:
+    patch:
+      summary: Promuovi utente standard a moderatore (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          description: email dell'utente da modificare
+      responses:
+        "200":
+          description: Utente modificato con successo
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Utente non trovato
+        "500":
+          description: Errore del server
+
+  /user/{email}/ban:
+    patch:
+      summary: Banna un utente per un numero specifico di giorni (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          description: email dell'utente da bannare
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                days:
+                  type: integer
+                  minimum: 1
+                  description: Numero di giorni per il ban
+      responses:
+        "200":
+          description: Utente modificato con successo
+        "400":
+          description: Input non valido
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Utente non trovato
+        "500":
+          description: Errore del server
+
+  /user/{email}/unban:
+    patch:
+      summary: Rimuove il ban di un utente (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          description: email dell'utente da cui rimuovere il ban
+      responses:
+        "200":
+          description: Utente modificato con successo
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Utente non trovato
+        "500":
+          description: Errore del server
+
+ 
+  /review:
     get:
       summary: Restituisce tutte le recensioni
       responses:
         "200":
           description: Successo
-
+        "500":
+          description: Errore del server
+  
     post:
-      summary: Componi nuova recensione
+      summary: Componi nuova recensione (richiede autenticazione)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       requestBody:
         content:
           application/json:
@@ -157,24 +322,16 @@ paths:
       responses:
         "201":
           description: Recensione creata con successo
-
-  /reviews/{reviewId}:
-    get:
-      summary: Restituisce una recensione per ID
-      parameters:
-        - name: reviewId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successo
-        "404":
-          description: Recensione non trovata
-
+        "500":
+          description: Errore del server
+  
+  /review/{reviewId}:
     patch:
-      summary: Modifica recensione esistente per ID
+      summary: Modifica recensione esistente per ID (richiede autenticazione)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - name: reviewId
           in: path
@@ -189,11 +346,19 @@ paths:
       responses:
         "200":
           description: Recensione modificata con successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Recensione non trovata
+        "500":
+          description: Errore del server
 
     delete:
-      summary: Rimuovi recensione per ID
+      summary: Rimuovi recensione per ID (richiede autenticazione)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
       parameters:
         - name: reviewId
           in: path
@@ -203,172 +368,44 @@ paths:
       responses:
         "204":
           description: Recensione rimossa con successo
+        "403":
+          description: Accesso non autorizzato
         "404":
           description: Recensione non trovata
-
-  /users/{userId}/revoke-moderator:
-    patch:
-      summary: Torna utente standard da moderatore
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente da modificare
-      responses:
-        "200":
-          description: Utente modificato con successo
-        "404":
-          description: Utente non trovato
-
-  /users/{userId}/promote-moderator:
-    patch:
-      summary: Promuovi utente standard a moderatore
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente da modificare
-      responses:
-        "200":
-          description: Utente modificato con successo
-        "404":
-          description: Utente non trovato
-  /users/{userId}/ban:
-    patch:
-      summary: Banna un utente per 30 giorni
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente da bannare
-      responses:
-        "200":
-          description: Utente bannato con successo
         "500":
           description: Errore del server
 
-  /users/{userId}/unban:
-    patch:
-      summary: Rimuove il ban di un utente
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente da cui rimuovere il ban
-      responses:
-        "200":
-          description: Ban rimosso con successo
-        "500":
-          description: Errore del server
 
-  /users/{userId}/reviews:
+  /review/{email}:
     get:
-      summary: Ottieni recensioni di cui sono l’autore
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID dell'utente
+      summary: Ottieni tutte le recensioni dell'utente specificato
       responses:
         "200":
           description: Recensioni ottenute con successo
         "404":
-          description: Utente non trovato
+          description: Nessuna recensione trovata
+        "500":
+          description: Errore del server
 
-  /users/current/theme:
-    put:
-      summary: Modifica Tema UI utente attuale
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                themeUi:
-                  type: boolean
-                  description: Nuovo valore per il tema UI
-      responses:
-        "200":
-          description: Tema UI modificato con successo
-
-  /users/current/language:
-    put:
-      summary: Modifica Lingua UI utente attuale
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                languageUi:
-                  type: boolean
-                  description: Nuovo valore per la lingua UI
-      responses:
-        "200":
-          description: Lingua UI modificata con successo
-
-  /exams:
+  /review/professore/{professore}:
     get:
-      summary: Restituisce tutti gli esami
+      summary: Ottieni tutte le recensioni del professore specificato
       responses:
         "200":
-          description: Successo
+          description: Recensioni ottenute con successo
+        "404":
+          description: Nessuna recensione trovata
         "500":
-          description: Errore del server"
-    
-    post:
-      summary: Crea un nuovo esame
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Exam"
-      responses:
-        "201":
-          description: Esame creato con successo
-        "500":
-          description: Errore del server"
-      
-  /exams/esame/{esame}:
-      get:
-        summary: Restituisce una tutti gli esami per nome
-        parameters:
-          - name: esame
-            in: path
-            required: true
-            schema:
-              type: string
-        responses:
-          "200":
-            description: Successo
-          "404":
-            description: Nessun esame trovato
-          "500":  
-            description: Errore del server"
+          description: Errore del server
 
-  /exams/professore/{professore}:
-      get:
-        summary: Restituisce una tutti gli esami per professore
-        parameters:
-          - name: professore
-            in: path
-            required: true
-            schema:
-              type: string
-        responses:
-          "200":
-            description: Successo
-          "404":
-            description: Nessun esame trovato
-          "500":  
-            description: Errore del server"
+  /review/esame/{esame}:
+    get:
+      summary: Ottieni tutte le recensioni dell'esaem specificato
+      responses:
+        "200":
+          description: Recensioni ottenute con successo
+        "404":
+          description: Nessuna recensione trovata
+        "500":
+          description: Errore del server
+
