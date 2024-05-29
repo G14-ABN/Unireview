@@ -27,15 +27,10 @@ components:
     Review:
       type: object
       properties:
-        # autore:
-        #   type: string
         professore:
           type: string
         esame:
           type: string
-        # data:
-        #   type: string
-        #   format: date-time
         valutazioneProfessore:
           type: number
           minimum: 1
@@ -59,6 +54,14 @@ components:
           enum: ["Nessuna", "Minore50", "Maggiore50"]
         anonima:
           type: boolean
+
+    Exam:
+      type: object
+      properties:
+        professore:
+          type: string
+        esame:
+          type: string
 
 paths:
   /user:
@@ -398,14 +401,86 @@ paths:
         "500":
           description: Errore del server
 
-  /review/esame/{esame}:
+  /exam:
     get:
-      summary: Ottieni tutte le recensioni dell'esaem specificato
+      summary: Restituisce tutti gli esami
       responses:
         "200":
-          description: Recensioni ottenute con successo
-        "404":
-          description: Nessuna recensione trovata
+          description: Successo
+        "500":
+          description: Errore del server"
+    
+    post:
+      summary: Crea un nuovo esame (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Exam"
+      responses:
+        "201":
+          description: Utente modificato con successo
+        "403":
+          description: Accesso non autorizzato
         "500":
           description: Errore del server
 
+    delete:
+      summary: Cancella un esame (solo moderatore)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      parameters:
+        - name: esame
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Esame cancellato con successo
+        "403":
+          description: Accesso non autorizzato
+        "404":
+          description: Esame non trovato
+        "500":
+          description: Errore del server
+      
+  /exam/esame/{esame}:
+      get:
+        summary: Restituisce una lista di esami per nome
+        parameters:
+          - name: esame
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          "200":
+            description: Successo
+          "404":
+            description: Nessun esame trovato
+          "500":  
+            description: Errore del server"
+
+  /exam/professore/{professore}:
+      get:
+        summary: Restituisce tutti gli esami per professore
+        parameters:
+          - name: professore
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          "200":
+            description: Successo
+          "404":
+            description: Nessun esame trovato
+          "500":  
+            description: Errore del server"
