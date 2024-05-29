@@ -1,5 +1,6 @@
 import express from "express";
 import Review from "../models/Review.js";
+import User from "../models/User.js";
 import accessProtectionMiddleware from "../services/accessProtectionMiddleware.js";
 
 const router = express.Router();
@@ -118,12 +119,13 @@ router.delete("/:reviewId", accessProtectionMiddleware, async (req, res) => {
   try {
     const reviewId = req.params.reviewId;
     const review = await Review.findById(reviewId);
+    const requester = await User.findOne({ email: req.user.email });
 
     if (!review) {
       return res.status(404).json({ error: "Recensione non trovata" });
     }
 
-    if (req.user.moderatore || req.user.email === review.autore.toString()) {
+    if (requester.moderatore || requester.email === review.autore.toString()) {
       await Review.findByIdAndDelete(reviewId);
       res.status(200).json({ message: "Recensione eliminata con successo" });
     } else {
@@ -142,6 +144,7 @@ router.patch("/:reviewId", accessProtectionMiddleware, async (req, res) => {
   try {
     const reviewId = req.params.reviewId;
     const updateData = req.body;
+    const requester = await User.findOne({ email: req.user.email });
 
     const review = await Review.findById(reviewId);
 
@@ -149,7 +152,7 @@ router.patch("/:reviewId", accessProtectionMiddleware, async (req, res) => {
       return res.status(404).json({ error: "Recensione non trovata" });
     }
 
-    if (req.user.moderatore || req.user.email === review.autore.toString()) {
+    if (requester.moderatore || requester.email === review.autore.toString()) {
       const updatedReview = await Review.findByIdAndUpdate(
         reviewId,
         updateData,

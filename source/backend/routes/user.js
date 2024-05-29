@@ -27,10 +27,10 @@ router.get("/", accessProtectionMiddleware, async (req, res) => {
 router.get("/:email", accessProtectionMiddleware, async (req, res) => {
   try {
     const email = req.params.email;
-    const requester = req.user.email;
+    const requester = await User.findOne({ email: req.user.email });
 
     // Verifica se l'utente richiedente è lo stesso di cui si vuole ricevere il profilo o è moderatore
-    if (req.user && (requester === email || req.user.moderatore)) {
+    if (req.user && (requester.email === email || requester.moderatore)) {
       const user = await User.findOne({ email: email });
       if (!user) {
         return res.status(404).json({ error: "Utente non trovato" });

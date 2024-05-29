@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import reviewsRouter from "./routes/review.js";
+import reviewRouter from "./routes/review.js";
+import examRouter from "./routes/exam.js";
 import userRouter from "./routes/user.js";
 import authRouter from "./routes/auth.js";
 import connect from "./conn.js";
@@ -31,7 +32,10 @@ app.use("/auth", authRouter);
 app.use("/api/user", userRouter);
 
 // // Configura le route delle recensioni
-app.use("/api/review", reviewsRouter);
+app.use("/api/review", reviewRouter);
+
+// // Configura le route degli esami
+app.use("/api/exam", examRouter);
 
 // Gestione delle route non gestite
 app.use((req, res) => {
