@@ -1,32 +1,34 @@
 import { Review } from "../areaPersonale/createReview/models/review"
 export {getReviews}
 
-function noDup(from : {_id:string,
-    autore: string,
-    professore: string,
-    esame: string,
-    data: Date,
-    valutazioneProfessore: Number,
-    valutazioneFattibilita: Number,
-    valutazioneMateriale: Number,
-    testo: string|undefined,
-    tentativo: Number|undefined,
-    voto: Number|undefined,
-    frequenza: string,
-    anonima: boolean}[]){
-    const dest : { _id:string,
-        autore: string,
-        professore: string,
-        esame: string,
-        data: Date,
-        valutazioneProfessore: Number,
-        valutazioneFattibilita: Number,
-        valutazioneMateriale: Number,
-        testo: string|undefined,
-        tentativo: Number|undefined,
-        voto: Number|undefined,
-        frequenza: string,
-        anonima: boolean}[] = []
+function noDup(from : {anonima: boolean
+    autore: string
+    data: string
+    esame: string
+    frequenza: string
+    professore: string
+    tentativo: Number
+    testo: string
+    valutazioneFattibilita: Number
+    valutazioneMateriale: Number
+    valutazioneProfessore: Number
+    voto: Number
+    __v: Number
+    _id: string}[]){
+    const dest : { anonima: boolean
+        autore: string
+        data:  string
+        esame: string
+        frequenza: string
+        professore: string
+        tentativo: Number
+        testo: string
+        valutazioneFattibilita: Number
+        valutazioneMateriale: Number
+        valutazioneProfessore: Number
+        voto: Number
+        __v: Number
+        _id: string}[] = []
     from.forEach(l=>{
         var found = false
         dest.forEach(p=>{
@@ -39,49 +41,58 @@ function noDup(from : {_id:string,
             dest.push(l)
         }
     })
-    const revs : React.JSX.Element [] = []
+    const revs : JSX.Element [] = []
     dest.forEach(e=>{
-        revs.push(new Review(e).returnCollapse())
+        try{
+        const r = new Review(e)
+        revs.push(r.returnCollapse())
+    }catch(error){
+        //console.log(e)
+        //console.log(error)
+    }
     })
+    //console.log(revs)
     return revs
 }
 
 
 async function getReviews(professore : string, corso : string, _id :string = ""){
-    async function fetch() : Promise <{ _id:string,
-        autore: string,
-        professore: string,
-        esame: string,
-        data: Date,
-        valutazioneProfessore: Number,
-        valutazioneFattibilita: Number,
-        valutazioneMateriale: Number,
-        testo: string|undefined,
-        tentativo: Number|undefined,
-        voto: Number|undefined,
-        frequenza: string,
-        anonima: boolean}[]>{        
+    async function fetch() : Promise <{ anonima: boolean
+        autore: string
+        data: string
+        esame: string
+        frequenza: string
+        professore: string
+        tentativo: Number
+        testo: string
+        valutazioneFattibilita: Number
+        valutazioneMateriale: Number
+        valutazioneProfessore: Number
+        voto: Number
+        __v: Number
+        _id: string}[]>{        
         return new Promise((resolve, rejects)=>{
                 const XMLHttpRequest = require('xhr2');
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', 'http://localhost:8080/api/reviews', true);
+                xhr.open('GET', 'http://localhost:8080/api/review', true);
                 xhr.onreadystatechange = ()=>{  
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {        
                             const reviews : { 
-                                _id:string,
-                                autore: string,
-                                professore: string,
-                                esame: string,
-                                data: Date,
-                                valutazioneProfessore: Number,
-                                valutazioneFattibilita: Number,
-                                valutazioneMateriale: Number,
-                                testo: string|undefined,
-                                tentativo: Number|undefined,
-                                voto: Number|undefined,
-                                frequenza: string,
-                                anonima: boolean}[] = JSON.parse(xhr.responseText);
+                                anonima: boolean
+                                autore: string
+                                data: string
+                                esame: string
+                                frequenza: string
+                                professore: string
+                                tentativo: Number
+                                testo: string
+                                valutazioneFattibilita: Number
+                                valutazioneMateriale: Number
+                                valutazioneProfessore: Number
+                                voto: Number
+                                __v: Number
+                                _id: string}[] = JSON.parse(xhr.responseText);
                         if (reviews != undefined){
                             resolve(reviews)
                         } else {
@@ -95,7 +106,7 @@ async function getReviews(professore : string, corso : string, _id :string = "")
             
         }
         const temp = await fetch()
-        console.log(temp)
+        //console.log(temp)
         //console.log(1)
         //console.log(lezioni)
         return noDup(temp)

@@ -1,11 +1,12 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {HomeOutlined
 } from '@ant-design/icons';
 import type { MenuProps, MenuTheme } from 'antd';
 import { Menu } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
 import { PopUp } from '@/app/areaPersonale/createReview/reviewPopUp';
+import {login} from '@/app/areaPersonale/login/login';
 export {MenuPages};
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -27,28 +28,29 @@ function getItem(
 }
 
 class MenuPages{
-
-    items: MenuItem[]
+    name 
+    ref
 
     constructor (name : string, ref : string){
-        this.items = [
-
-            getItem('Area personale', 'sub1', <HomeOutlined />, [
-            getItem('Login', 'sub2'),
-            getItem('Compila recensione', 'sub3', PopUp()),
-            getItem(name, 'sub4', <a href= {ref}/>),
-            getItem('Contatta moderatori', 'sub5'),
-            ]),
-        ];
+        this.name = name
+        this.ref = ref
     }
 
-    Pages() {
-
-    //const [collapsed, setCollapsed] = useState(false);
-
-    /*const toggleCollapsed = () => {
-        setCollapsed(!collapsed);
-    };*/
+    Pages(auth : boolean) {
+        var items: MenuItem[]
+        if (auth){
+            items = [getItem('Area personale', 'sub1', <HomeOutlined />, [
+                getItem('Compila recensione', 'sub3', PopUp()),
+                getItem(this.name, 'sub4', <a href= {this.ref}/>),
+                getItem('Log Out', 'sub5', <a href='./'/>),
+                ]),
+            ]
+        }else{
+        items = [getItem('Area personale', 'sub1', <HomeOutlined />, [
+                getItem('Log In', 'sub3', <a href='http://localhost:8080/auth/google/callback'/>),
+                ]),
+            ]
+        }
 
         return (
             <div style={{ width: 256 }}>
@@ -60,7 +62,7 @@ class MenuPages{
                 defaultOpenKeys={['sub1']}
                 mode="inline"
                 //inlineCollapsed={collapsed}
-                items={this.items}
+                items={items}
             />
             </div>
         );

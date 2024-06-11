@@ -57,10 +57,10 @@ router.get(
       );
 
       // Redirect the user to the homepage with the token as a query parameter
-      // res.redirect(`/?token=${token}`);
-      res.json({
-        message: `Token: ${token}`,
-      });
+      res.redirect(`http://localhost:3000/?token=${token}`);
+      /*res.json({
+        message: `Token: ${token}`, 
+      });*/
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Errore del server" });

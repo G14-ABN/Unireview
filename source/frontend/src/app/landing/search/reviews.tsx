@@ -1,6 +1,6 @@
 import UseState from 'react';
 import React from 'react';
-import { Lezioni } from '../../../../DB/lezioni';
+//import { Lezioni } from '../../../../DB/lezioni';
 export {Reviews};
 import { Review } from '@/app/areaPersonale/createReview/models/review';
 
@@ -27,13 +27,13 @@ function Reviews(){
     anonima : boolean
     tentativo : number | undefined*/
 
-  let n = random(10, 30)
+  /*let n = random(10, 30)
   for(var i=0; i <n; i++){
     var anonima = random(0, 2)==1
     var voto = random(0,2)==1
     var r = random(0, Lezioni.lezioni.length)
     var l = Lezioni.lezioni[r]
-    if (l!=undefined) recensioni.push(new Review(
+    if (l!=undefined) recensioni.push(new Review({
       "Lorem Ipsum",
       i,
       l.professore.toString(),
@@ -47,8 +47,8 @@ function Reviews(){
       (voto? random(18, 32) : undefined),
       (voto? random(0,6) : undefined),
       "Lorem Ipsum"  
-    ).returnCollapse())
-  }
+    }).returnCollapse())
+  }*/
   return (
     <div>
       {recensioni}
