@@ -56,7 +56,12 @@ class Review{
         if (this.voto.valueOf()>=18){
         return(
             <div>
-            <text>{"Data esame: "+ (typeof this.data == "string"? this.data : this.data.getDate())}</text>
+            <text>
+            {"Data esame: " + (typeof this.data === "string" 
+                ? new Date(this.data).toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' })
+                : this.data.toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }))
+            }
+            </text>
             <br/>
             <text>{'Voto finale: '+this.voto}</text>
             <br/>
