@@ -33,7 +33,7 @@ source/
 
 Dependencies:
 
-`npm i express mongoose dotenv cors express-async-errors swagger-ui-express yamljs passport passport-google-oauth20 jsonwebtoken`
+`npm i express mongoose dotenv cors express-async-errors swagger-ui-express yamljs passport passport-google-oauth20 jsonwebtoken nodemailer`
 
 How to run:
 
@@ -54,7 +54,6 @@ DB_NAME="unireview"
 Dependencies:
 
 `npm i antd xhr2`
-
 
 How to install:
 
