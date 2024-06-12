@@ -13,6 +13,7 @@ passport.use(
     },
     (req, accessToken, refreshToken, profile, done) => {
       console.log("Authenticated user:", profile);
+      // console.log("refreshToken:", refreshToken);
       return done(null, profile);
     }
   )

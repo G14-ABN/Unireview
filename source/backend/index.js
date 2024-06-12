@@ -4,6 +4,7 @@ import reviewRouter from "./routes/review.js";
 import examRouter from "./routes/exam.js";
 import userRouter from "./routes/user.js";
 import authRouter from "./routes/auth.js";
+import emailRoutes from "./routes/email.js";
 import connect from "./conn.js";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
@@ -27,6 +28,8 @@ app.get("/", (req, res) => {
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/auth", authRouter);
+
+app.use("/api/send-email", emailRoutes);
 
 // // Configura le route degli utenti
 app.use("/api/user", userRouter);

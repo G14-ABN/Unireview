@@ -484,3 +484,41 @@ paths:
             description: Nessun esame trovato
           "500":  
             description: Errore del server"
+
+  /send-email:
+    post:
+      summary: Invia una segnalazione per email (richiede autenticazione)
+      tags:
+        - Protetto
+      security:
+        - JWT: []
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    type: string
+                    example: "Ho bisogno di aiuto con la mia recensione."
+                    description: Il testo dell'email da inviare.
+                required:
+                  - text
+      responses:
+        '200':
+          description: Email inviata con successo
+        '400':
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Il testo dell'email è obbligatorio"
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore del server
