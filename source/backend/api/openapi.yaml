@@ -401,6 +401,17 @@ paths:
         "500":
           description: Errore del server
 
+  /review/esame/{esame}:
+    get:
+      summary: Ottieni tutte le recensioni dell'esame specificato
+      responses:
+        "200":
+          description: Recensioni ottenute con successo
+        "404":
+          description: Nessuna recensione trovata
+        "500":
+          description: Errore del server
+
   /exam:
     get:
       summary: Restituisce tutti gli esami
