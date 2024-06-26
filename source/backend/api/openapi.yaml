@@ -435,6 +435,8 @@ paths:
       responses:
         "201":
           description: Utente modificato con successo
+        "400":
+          description: Errore nell'inserimento dei dati
         "403":
           description: Accesso non autorizzato
         "500":

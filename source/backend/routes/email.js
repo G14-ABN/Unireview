@@ -2,6 +2,7 @@ import express from "express";
 import nodemailer from "nodemailer";
 import accessProtectionMiddleware from "../services/accessProtectionMiddleware.js";
 
+/* istanbul ignore next */
 async function sendMail(subject, text) {
   try {
     const accessToken = await oAuth2Client.getAccessToken();

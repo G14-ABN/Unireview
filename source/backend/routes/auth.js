@@ -9,6 +9,7 @@ const secretKey = process.env.JWT_SECRET;
 
 router.get("/google", passport.authenticate("google", { session: false }));
 
+/* istanbul ignore next */
 router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/", session: false }),

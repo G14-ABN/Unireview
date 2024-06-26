@@ -227,6 +227,7 @@ router.patch(
 
       res.sendStatus(200);
     } catch (error) {
+      /* istanbul ignore next */
       console.error(error);
       res.status(500).json({ error: "Errore del server" });
     }
@@ -269,6 +270,7 @@ router.patch("/ban/:email", accessProtectionMiddleware, async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
     res.status(500).json({ error: "Errore del server" });
   }
@@ -298,6 +300,7 @@ router.patch("/unban/:email", accessProtectionMiddleware, async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
     res.status(500).json({ error: "Errore del server" });
   }

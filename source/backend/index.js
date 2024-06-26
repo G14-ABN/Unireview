@@ -1,51 +1,29 @@
-import express from "express";
-import cors from "cors";
-import reviewRouter from "./routes/review.js";
-import examRouter from "./routes/exam.js";
-import userRouter from "./routes/user.js";
-import authRouter from "./routes/auth.js";
-import emailRoutes from "./routes/email.js";
-import connect from "./conn.js";
-import swaggerUi from "swagger-ui-express";
-import YAML from "yamljs";
-
-// Documentazione Swagger
-const swaggerDocument = YAML.load("./api/openapi.yaml");
-
-connect();
+import mongoose from "mongoose";
+import "./loadEnvironment.js";
+import app from "./server.js";
 
 const PORT = 8080;
-const app = express();
 
-app.use(cors());
-app.use(express.json());
+const connectionString = process.env.ATLAS_URI;
+const databaseName = process.env.DB_NAME;
 
-// Gestione delle rotte
-app.get("/", (req, res) => {
-  res.send("Homepage");
-});
+let server;
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+try {
+  await mongoose.connect(connectionString, {
+    dbName: databaseName,
+  });
+  console.log("Connessione al database per i test riuscita!");
 
-app.use("/auth", authRouter);
+  server = app.listen(PORT, () => {
+    console.log("Test server is running on port 8080");
+  });
+} catch (error) {
+  console.error(
+    "Errore nella connessione al database per i test:",
+    error.message
+  );
+  process.exit(1);
+}
 
-app.use("/api/send-email", emailRoutes);
-
-// // Configura le route degli utenti
-app.use("/api/user", userRouter);
-
-// // Configura le route delle recensioni
-app.use("/api/review", reviewRouter);
-
-// // Configura le route degli esami
-app.use("/api/exam", examRouter);
-
-// Gestione delle route non gestite
-app.use((req, res) => {
-  res.status(404).json({ error: "404 - Risorsa non trovata" });
-});
-
-// start the Express server
-app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
-});
+export default server;
