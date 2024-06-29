@@ -1,0 +1,4 @@
+class UtenteAnonimo{ 
+}
+
+export {UtenteAnonimo};
