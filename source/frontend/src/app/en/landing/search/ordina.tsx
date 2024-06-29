@@ -1,6 +1,6 @@
 'use client'
 export {Order}
-import { Review } from '@/app/en/areaPersonale/createReview/models/review';
+import { Review } from '../models/review';
 import { useState } from 'react';
 import React from 'react';
 import {

@@ -4,7 +4,7 @@ export {Interfaccia}
 import { Tema } from './tema';
 import { Lingua } from './lingua';
 import React from 'react';
-import { UtenteAutenticato } from '@/app/en/areaPersonale/users/utenteAutenticato';
+import { UtenteAutenticato } from '../../areaPersonale/users/utenteAutenticato';
 
 function loadDoc() {
   var xhttp = new XMLHttpRequest();
@@ -31,18 +31,6 @@ function Interfaccia(dark:boolean,
             style={{width : '65px'}}
         />
       </div>
-      <br/>
-      <div>
-        <Switch
-          //checked={!Tema.getTema()}
-          onChange={Lingua.change}
-          onClick = {loadDoc}
-          checkedChildren="IT"
-          unCheckedChildren="EN"
-          style={{width : '65px'}}
-        />
-      </div>
-      <br/>
       </>
   );
 }

@@ -1,10 +1,10 @@
 export {Search}
 import React, { useState, useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { getReviews } from '@/app/en/connect/recensione';
+import { getReviews } from '../../connect/recensione';
 import { Button, Space, Form, AutoComplete } from 'antd';
 import { Filters } from './filters';
-import { Review } from '@/app/en/areaPersonale/createReview/models/review';
+import { Review } from '../models/review'
 import { Order } from './ordina';
 import { init, getcorsi, getprofessori, isExam, isProfessor} from '../../connect/lezioni';
 import { stats } from './stats';

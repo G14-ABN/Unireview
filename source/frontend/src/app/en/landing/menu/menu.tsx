@@ -5,8 +5,8 @@ import {HomeOutlined
 import type { MenuProps, MenuTheme } from 'antd';
 import { Menu } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
-import { PopUp } from '@/app/en/areaPersonale/createReview/reviewPopUp';
-import { mod } from '@/app/en/areaPersonale/moderatori';
+import { PopUp } from '../../areaPersonale/review/reviewPopUp';
+import { mod } from '../../areaPersonale/moderatori';
 export {MenuPages};
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -39,12 +39,11 @@ class MenuPages{
     Pages(auth : string|null) {
         var items: MenuItem[]
         const popup= PopUp()
-        console.log(this.ref)
         if (auth){
             items = [getItem('Personal space', 'sub1', <HomeOutlined />, [
                 getItem('Passa a italiano', 'sub6', <a href ={'../?token='+auth} />),
                 getItem('New review', 'sub3', popup),
-                getItem(this.name, 'sub4', <a href={+this.ref+'/?token='+auth}/>),
+                getItem(this.name, 'sub4', <a href={this.ref+'/?token='+auth}/>),
                 getItem('Contact moderator','sub2', mod() ),
                 getItem('Log Out', 'sub5', <a href='./'/>),
                 ]),

@@ -1,5 +1,5 @@
 export {stats}
-import { Review } from "@/app/en/areaPersonale/createReview/models/review";
+import { Review } from "../models/review";
 import Statistic from "antd/es/statistic/Statistic";
 import { Progress, Flex } from "antd";
 

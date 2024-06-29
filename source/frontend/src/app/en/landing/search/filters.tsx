@@ -11,7 +11,7 @@ import {
     Slider,
     SliderSingleProps,
 Modal, Button } from 'antd';
-import { Review } from '@/app/en/areaPersonale/createReview/models/review';
+import { Review } from '../models/review';
 
 
 class Filters{

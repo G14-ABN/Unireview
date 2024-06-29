@@ -5,8 +5,8 @@ import {HomeOutlined
 import type { MenuProps, MenuTheme } from 'antd';
 import { Menu } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
-import { PopUp } from '@/app/areaPersonale/createReview/reviewPopUp';
-import { mod } from '@/app/areaPersonale/moderatori';
+import { PopUp } from '../../areaPersonale/review/reviewPopUp';
+import { mod } from '../../areaPersonale/moderatori';
 export {MenuPages};
 
 type MenuItem = Required<MenuProps>['items'][number];

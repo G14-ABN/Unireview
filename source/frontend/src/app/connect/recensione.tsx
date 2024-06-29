@@ -1,4 +1,4 @@
-import { Review } from "../areaPersonale/createReview/models/review"
+import { Review } from "../landing/models/review"
 import { Order } from "../landing/search/ordina"
 export {getReviews}
 

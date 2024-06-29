@@ -1,6 +1,6 @@
 'use client'
-import { List } from "../areaPersonale/createReview/myReviews"
-import { PageModel } from "../areaPersonale/createReview/models/pageModel"
+import { List } from "../areaPersonale/review/myReviews"
+import { PageModel } from "../landing/models/pageModel"
 
 export default function reviews() {
   var pageModel = new PageModel("Le mie recensioni", List(), 'Cerca', '../')
