@@ -65,9 +65,9 @@ class Review{
         if (this.voto.valueOf()>=18){
         return(
             <div>
-            <p>{"Data esame: "+ (typeof this.data == "string"? this.data : this.data.getDate())}</p>
-            <p>{'Voto finale: '+this.voto}</p>
-            <p>{"Tentativo all'accettazione: "+this.tentativo}</p>
+            <p>{"Created in: "+ (typeof this.data == "string"? this.data : this.data.getDate())}</p>
+            <p>{'Final score: '+this.voto}</p>
+            <p>{"Final attempt: "+this.tentativo}</p>
             </div>
         )}
     }
@@ -85,19 +85,19 @@ class Review{
         return (
             <div>
             <Collapse 
-            items={[{label: this.corso+" ("+this.professore+") "+'         ' + this.average() + '   Stelle' , children: 
+            items={[{label: this.corso+" ("+this.professore+") "+'         ' + this.average() + '   Stars' , children: 
             <>
                 <p>{autore}</p>
-                <p>Fattibilità</p> 
+                <p>Easiness</p> 
                 <Rate disabled defaultValue={this.valutazione_fattibile.valueOf()} />
-                <p>Professore</p> 
+                <p>Professor</p> 
                 <Rate disabled defaultValue={this.valutazione_prof.valueOf()} />
-                <p>Materiale</p> 
+                <p>Material</p> 
                 <Rate disabled defaultValue={this.valutazione_materiale.valueOf()} />
                 {this.getVoto()}
-                <p>{"Frequenza: "+ this.frequenza}</p>
+                <p>{"Attendency: "+ this.frequenza}</p>
                 <p>{this.testo}</p>
-                <Button onClick={()=>Elimina.handle(this.rID)}>Elimina</Button>
+                <Button onClick={()=>Elimina.handle(this.rID)}>Delete</Button>
                 <Button onClick={()=>Patch.patch(this.rID, 
                     { data: this.data.toString(),
                     professore:this.professore,
@@ -110,7 +110,7 @@ class Review{
                     voto: this.voto.valueOf(),
                     frequenza: this.frequenza,
                     anonima: this.anonima }
-                )}>Modifica</Button>
+                )}>Edit</Button>
             </>}]
             }
           />
@@ -119,21 +119,21 @@ class Review{
             return (
                 <div>
                 <Collapse 
-                items={[{label: this.corso+" ("+this.professore+") "+'         ' + this.average() + '   Stelle' , children: 
+                items={[{label: this.corso+" ("+this.professore+") "+'         ' + this.average() + '   Stars' , children: 
                 <>
                     <p>{autore}</p>
                     <br/>
-                    <p>Fattibilità</p> 
+                    <p>Easiness</p> 
                     <Rate disabled defaultValue={this.valutazione_fattibile.valueOf()} />
                     <br/>
-                    <p>Professore</p> 
+                    <p>Professor</p> 
                     <Rate disabled defaultValue={this.valutazione_prof.valueOf()} />
                     <br/>
-                    <p>Materiale</p> 
+                    <p>Material</p> 
                     <Rate disabled defaultValue={this.valutazione_materiale.valueOf()} />
                     <br/>
                     {this.getVoto()}
-                    <p>{"Frequenza: "+ this.frequenza}</p>
+                    <p>{"Attendency: "+ this.frequenza}</p>
                     <br/>
                     <p>{this.testo}</p>
                 </>}]

@@ -11,7 +11,7 @@ import {
     Slider,
     SliderSingleProps,
 Modal, Button } from 'antd';
-import { Review } from '@/app/areaPersonale/createReview/models/review';
+import { Review } from '@/app/en/areaPersonale/createReview/models/review';
 
 
 class Filters{
@@ -61,7 +61,7 @@ class Filters{
   static handleCancel=()=>{}
   
   static filters(){
-    const formatter: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value) => (value==17?"Senza voto":value);
+    const formatter: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value) => (value==17?"No score":value);
     const [form]=Form.useForm()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -79,16 +79,16 @@ class Filters{
   return (
     <>
       <Button onClick={showModal}>
-        Filtra per
+        Filter by
       </Button>
-      <Modal title="Filtra per" 
+      <Modal title="Filter by" 
       open={isModalOpen} 
       onOk={handleOk} 
       onCancel={Filters.handleCancel}
-      okText="Applica"
-      cancelText="Cancella">
+      okText="Confirm"
+      cancelText="Cancel">
     <Form form={form}>
-            <Form.Item name = "Frequenza" label="Frequenza minima">
+            <Form.Item name = "Attendency" label="Lowest attendency">
             <Radio.Group onChange={(e)=>{
               Filters.frequenza=Filters.GetFrequenza(e.target.value)
             }}>
@@ -97,7 +97,7 @@ class Filters{
               <Radio value=">50"> {">50%"} </Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name = "Tentativo" label="Tentativi massimi">
+          <Form.Item name = "Attempt" label="Most attempts">
             <Radio.Group 
             onChange={(e)=>{
               Filters.tentativi=Number.parseInt(e.target.value)
@@ -109,15 +109,15 @@ class Filters{
               <Radio value="5"> 5+ </Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name = "Data" label="Data">
+          <Form.Item name = "Date" label="Date">
             <DatePicker onChange={(e):void=>{
               Filters.data= new Date(e.date())
             }}/>
           </Form.Item>
-          <Form.Item name = "Voto"label="Voto minimo recensione">
+          <Form.Item name = "Rate"label="Lowest review rate">
             <Rate onChange={(e)=>Filters.minVoto=e}/>
           </Form.Item>
-          <Form.Item name = "Range"label="Range voti esami">
+          <Form.Item name = "Score"label="Score range ">
             <Slider tooltip={{formatter}} min={17} max = {31} range defaultValue={[17, 31]}
             onChange={(e)=>{
               Filters.min=e[0]

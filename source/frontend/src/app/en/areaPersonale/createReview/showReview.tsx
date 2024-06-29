@@ -1,7 +1,7 @@
 export {Reviews};
 import React, { useState, useEffect } from 'react';
-import { getReviews } from '@/app/connect/recensione';
-import { Review } from '@/app/areaPersonale/createReview/models/review';
+import { getReviews } from '@/app/en/connect/recensione';
+import { Review } from '@/app/en/areaPersonale/createReview/models/review';
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 import { jwtDecode } from 'jwt-decode';
 
@@ -31,7 +31,7 @@ function Reviews(){
           setRev(res)
           setReviews(getCol(res))
         }else{
-          window.alert("Sessione scaduta, effettuare login")
+          window.alert("Session expired, login again")
         }
       } catch (err) {
         console.log('Error occured when fetching');

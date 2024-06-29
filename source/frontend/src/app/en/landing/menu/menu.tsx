@@ -5,8 +5,8 @@ import {HomeOutlined
 import type { MenuProps, MenuTheme } from 'antd';
 import { Menu } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
-import { PopUp } from '@/app/areaPersonale/createReview/reviewPopUp';
-import { mod } from '@/app/areaPersonale/moderatori';
+import { PopUp } from '@/app/en/areaPersonale/createReview/reviewPopUp';
+import { mod } from '@/app/en/areaPersonale/moderatori';
 export {MenuPages};
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -39,20 +39,19 @@ class MenuPages{
     Pages(auth : string|null) {
         var items: MenuItem[]
         const popup= PopUp()
+        console.log(this.ref)
         if (auth){
-            items = [getItem('Area personale', 'sub1', <HomeOutlined />, [
-                getItem('Switch to english', 'sub6',
-                    <a href={'./en'+'/?token='+auth}/>),
-                getItem('Compila recensione', 'sub3', popup),
-                getItem(this.name, 'sub4', <a href= {this.ref+'/?token='+auth}/>),
-                getItem('Contatta moderatori','sub2', mod() ),
+            items = [getItem('Personal space', 'sub1', <HomeOutlined />, [
+                getItem('Passa a italiano', 'sub6', <a href ={'../?token='+auth} />),
+                getItem('New review', 'sub3', popup),
+                getItem(this.name, 'sub4', <a href={+this.ref+'/?token='+auth}/>),
+                getItem('Contact moderator','sub2', mod() ),
                 getItem('Log Out', 'sub5', <a href='./'/>),
                 ]),
             ]
         }else{
-        items = [getItem('Area personale', 'sub1', <HomeOutlined />, [
-            getItem('Switch to english', 'sub6',
-                <a href='./en'/>),
+        items = [getItem('Personal space', 'sub1', <HomeOutlined />, [
+            getItem('Passa a italiano', 'sub6', <a href ='../' />),
                 getItem('Log In', 'sub3', <a href='http://localhost:8080/auth/google/callback'/>),
                 ]),
             ]

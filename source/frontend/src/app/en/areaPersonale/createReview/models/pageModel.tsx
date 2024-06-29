@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Layout, Flex, ConfigProvider } from 'antd';
 import logo from './logo.png'
-import { Interfaccia } from '@/app/landing/interfaccia/interfaccia';
-import { MenuPages } from '@/app/landing/menu/menu';
+import { Interfaccia } from '@/app/en/landing/interfaccia/interfaccia';
+import { MenuPages } from '@/app/en/landing/menu/menu';
 import { UtenteAutenticato } from '../../users/utenteAutenticato';
 import { Elimina } from '../elimina';
 import { Patch } from '../modifica';
@@ -100,7 +100,7 @@ class PageModel{
                         {this.body}
                     </Content>
                     <Footer style={styles[4]}>
-                        Per problemi e segnalazioni contattare:
+                        For any issue contact:
                         <br/>
                         unireview.unitn@gmail.com
                     </Footer>    

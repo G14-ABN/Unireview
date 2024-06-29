@@ -4,7 +4,7 @@ import {
     Form,Input,InputNumber,Radio, AutoComplete, Space
 } from 'antd';
 export {PopUp};
-import { getcorsi, getprofessori, isExam, isProfessor } from '@/app/connect/lezioni';
+import { getcorsi, getprofessori, isExam, isProfessor } from '@/app/en/connect/lezioni';
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
@@ -78,7 +78,7 @@ function PopUp(){
       onResetCourse()
       setIsModalOpen(true);
       } else {
-        window.alert('Impossibile compilare recensione')
+        window.alert('Cannot write a new review')
       }
     };
     const handleOk = () => {
@@ -104,13 +104,13 @@ function PopUp(){
     return (
       <>
         <a onClick={showModal}/>
-        <Modal title="Compila recensione" 
-        okText="Invia"
-        cancelText="Annulla"
+        <Modal title="New review" 
+        okText="Send"
+        cancelText="Cancel"
         open={isModalOpen} 
         onOk={()=>{
           if (!isExam(reviews.esame)||!isProfessor(reviews.professore)){
-            window.alert("Professore o esame non esistenti")
+            window.alert("Professor or course do not exist")
           }else if (reviews.esame!=''&&
             reviews.esame!=''&&
             reviews.frequenza!=''&&
@@ -121,7 +121,7 @@ function PopUp(){
           ){
           handleOk()
         }else {
-          window.alert("Compila tutti i campi obbligatori")
+          window.alert("Fill every field")
         }
           }
         } onCancel={handleCancel}>
@@ -135,8 +135,8 @@ function PopUp(){
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item name="Professore" 
-      label="Professore " 
+      <Form.Item name="Professor" 
+      label="Professor " 
       rules={[{ required: true }]}>
         <AutoComplete
           onClear={onResetCourse}
@@ -156,7 +156,7 @@ function PopUp(){
       >
       </AutoComplete>
     </Form.Item>
-    <Form.Item name="Corso" label="Corso " rules={[{ required: true }]}>
+    <Form.Item name="Course" label="Course " rules={[{ required: true }]}>
       <AutoComplete
       onClear={onResetCourse}
         onChange={(e)=>{
@@ -174,7 +174,7 @@ function PopUp(){
         }>
       </AutoComplete>
     </Form.Item>
-      <Form.Item rules={[{required:true}]} name="Valutazione professore" label="Professore ">
+      <Form.Item rules={[{required:true}]} name="Professor rate" label="Professor ">
         <Rate 
           value = {reviews.valutazioneProfessore}
           onChange={(e)=>{
@@ -182,7 +182,7 @@ function PopUp(){
             setFormData(reviews)
           }}/>
       </Form.Item>
-      <Form.Item rules={[{required:true}]} name="Valutazione fattibilità" label="Fattibilità ">
+      <Form.Item rules={[{required:true}]} name="Easiness rate" label="Easiness ">
         <Rate 
         value = {reviews.valutazioneFattibilita}
         onChange={(e)=>{
@@ -190,14 +190,14 @@ function PopUp(){
           setFormData(reviews)
         }}/>
       </Form.Item>
-      <Form.Item rules={[{required:true}]} name="Valutazione materiale" label="Materiale ">
+      <Form.Item rules={[{required:true}]} name="Material rate" label="Material ">
         <Rate value = {reviews.valutazioneMateriale}
         onChange={(e)=>{
           reviews.valutazioneMateriale = e
           setFormData(reviews)
         }}/>
       </Form.Item>
-      <Form.Item name="Recensione" label="Recensione ">
+      <Form.Item name="Review" label="Review ">
         <TextArea rows={4} 
         value={reviews.testo}
         onChange ={(e)=>{
@@ -207,13 +207,13 @@ function PopUp(){
         }}/>
       </Form.Item>
       <Checkbox
-      name="Mostra voto"
+      name="Show score"
       checked={!componentDisabled}
       onChange={(e) => setComponentDisabled(!e.target.checked)}
-    >Mostra voto
+    >Show score
     </Checkbox>
-      <Form.Item  name="Voto"label="Voto " rules={[{ required: !componentDisabled, 
-        message: "Inserire il voto del'esame" }]}>
+      <Form.Item  name="Score"label="Score " rules={[{ required: !componentDisabled, 
+        message: "Insert final score" }]}>
         <InputNumber
         onChange={(e)=>{
           if (e != null)
@@ -225,7 +225,7 @@ function PopUp(){
         max={31}
         min= {18}/>
       </Form.Item>
-      <Form.Item name="Tentativo" label="N. tentativo " rules= {[{required: !componentDisabled}]}>
+      <Form.Item name="Attempt" label="N. attempt " rules= {[{required: !componentDisabled}]}>
         <InputNumber
         onChange={(e)=>{
           if (e != null)
@@ -235,7 +235,7 @@ function PopUp(){
         value={reviews.tentativo}
         disabled={componentDisabled} min = {0}/>
       </Form.Item>
-      <Form.Item rules={[{required:true}]} name="Frequenza" label="Frequenza">
+      <Form.Item rules={[{required:true}]} name="Attendency" label="Attendency">
         <Radio.Group value={reviews.frequenza}
           onChange={(e)=>{
             if (e.target.value != null)
@@ -247,12 +247,12 @@ function PopUp(){
           <Radio value=">50%"> {">50%"} </Radio>
         </Radio.Group>
       </Form.Item>
-      <Checkbox name="anonima"
+      <Checkbox name="anonymous"
       onChange={(e)=>{
         reviews.anonima=e.target.checked
       }} 
       value={reviews.anonima}
-      >Anonima
+      >Anonymous
       </Checkbox>
       </Form>
         </Modal>

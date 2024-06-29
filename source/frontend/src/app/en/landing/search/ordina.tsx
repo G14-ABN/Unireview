@@ -1,6 +1,6 @@
 'use client'
 export {Order}
-import { Review } from '@/app/areaPersonale/createReview/models/review';
+import { Review } from '@/app/en/areaPersonale/createReview/models/review';
 import { useState } from 'react';
 import React from 'react';
 import {
@@ -21,11 +21,11 @@ class Order{
   }
   static sort(a:Review, b: Review){
     let res = 1
-    if (Order.field=="Data"){
+    if (Order.field=="Date"){
       a.data=(typeof a.data=="string"? new Date(a.data) : a.data)
       b.data=(typeof b.data=="string"? new Date(b.data) : b.data)
       res = (a.data.setHours(0,0,0,0)<b.data.setHours(0,0,0,0)? 1:-1)
-    }else if (Order.field=="Voto esame"){
+    }else if (Order.field=="Exam score"){
       res = a.voto.valueOf()-b.voto.valueOf()
     } else {
       res= a.average()-b.average()
@@ -36,6 +36,7 @@ class Order{
       return -res
     }
   }
+static handleCancel = ()=>{}
 static ordina(){
 
 
@@ -55,7 +56,7 @@ static ordina(){
     const handleOk = () => {
       setIsModalOpen(false);
     };
-    const handleCancel = () => {
+    Order.handleCancel = () => {
       form.resetFields()
       Order.set()
       setIsModalOpen(false);
@@ -65,14 +66,14 @@ static ordina(){
   return (
     <>
       <Button onClick={showModal} >
-        Ordina per
+        Order by
       </Button>
-      <Modal title="Ordina per"
+      <Modal title="Order by"
        open={isModalOpen} 
        onOk={handleOk} 
-       onCancel={handleCancel}
-       okText="Applica"
-       cancelText="Cancella">
+       onCancel={Order.handleCancel}
+       okText="Confirm"
+       cancelText="Cancel">
     <Form
     form = {form}
       labelCol={{ span: 4 }}
@@ -83,20 +84,21 @@ static ordina(){
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item label="">
+      <Form.Item name = "min"label="">
         <Radio.Group onChange={(e)=>{
           Order.min=e.target.value=="Min-max"
         }}>
           <Radio value="Min-max"> {'Min -> Max'} </Radio>
           <Radio value="Max-min"> {'Max -> Min'} </Radio>
         </Radio.Group>
-        <Space/>
+        </Form.Item>
+        <Form.Item name = "by">
           <Radio.Group onChange={(e)=>{
             Order.field=e.target.value
           }}>
-            <Radio value="Data"> Data </Radio>
-            <Radio value="Voto esame"> Voto esame </Radio>
-            <Radio value="Voto recensione"> Voto recensione </Radio>
+            <Radio value="Date"> Date </Radio>
+            <Radio value="Exam score"> Exam score </Radio>
+            <Radio value="Review rate"> Review rate </Radio>
           </Radio.Group>
         </Form.Item>
     </Form>
