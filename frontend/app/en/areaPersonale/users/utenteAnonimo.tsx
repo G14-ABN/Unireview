@@ -1,4 +1,0 @@
-class UtenteAnonimo{ 
-}
-
-export {UtenteAnonimo};
