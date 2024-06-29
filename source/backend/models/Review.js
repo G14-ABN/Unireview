@@ -42,19 +42,19 @@ const reviewSchema = new mongoose.Schema({
   },
   tentativo: {
     type: Number,
-    min: 1,
-    default: 1,
+    min: 0,
+    default: 0,
   },
   voto: {
     type: Number,
-    min: 18,
+    min: 17,
     max: 31,
-    default: 18,
+    default: 17,
   },
   frequenza: {
     type: String,
-    enum: ["Nessuna", "Minore50", "Maggiore50"],
-    default: "Nessuna",
+    enum: ["0%", "<50%", ">50%"],
+    default: "0%",
     required: true,
   },
   anonima: {
