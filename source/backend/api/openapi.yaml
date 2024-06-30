@@ -51,7 +51,7 @@ components:
           type: number
         frequenza:
           type: string
-          enum: ["Nessuna", "Minore50", "Maggiore50"]
+          enum: ["0%", "<50%", ">50%"]
         anonima:
           type: boolean
 
@@ -325,6 +325,8 @@ paths:
       responses:
         "201":
           description: Recensione creata con successo
+        "400":
+          description: Errore nell'inserimento dei dati"
         "500":
           description: Errore del server
   

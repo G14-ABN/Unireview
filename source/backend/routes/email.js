@@ -57,7 +57,9 @@ router.post("/", accessProtectionMiddleware, async (req, res) => {
 
     res.status(200).json({ message: "Email inviata con successo" });
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });

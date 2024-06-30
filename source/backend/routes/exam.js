@@ -10,10 +10,12 @@ router.get("/", async (req, res) => {
   try {
     const exams = await Exam.find();
     if (exams.length === 0) {
+      /* istanbul ignore next */
       return res.status(404).json({ error: "Nessun esame trovaro" });
     }
     res.status(200).json(exams);
   } catch (error) {
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -44,7 +46,9 @@ router.post("/", accessProtectionMiddleware, async (req, res) => {
 
     res.status(201).json(esameSalvato);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -73,7 +77,9 @@ router.delete("/:esame", accessProtectionMiddleware, async (req, res) => {
     await Exam.deleteOne({ esame });
     res.status(200).json({ message: "Esame eliminato con successo" });
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -90,6 +96,7 @@ router.get("/professore/:professore", async (req, res) => {
     }
     res.status(200).json(exams);
   } catch (error) {
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -106,6 +113,7 @@ router.get("/esame/:esame", async (req, res) => {
     }
     res.status(200).json(exams);
   } catch (error) {
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });

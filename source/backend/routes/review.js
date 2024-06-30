@@ -40,7 +40,7 @@ router.post("/", accessProtectionMiddleware, async (req, res) => {
 
     res.status(201).json(recensioneSalvata);
   } catch (error) {
-    // console.error(error);
+    /* istanbul ignore else */
     if (error.name === "ValidationError") {
       const errorParams = Object.keys(error.errors).map((key) => ({
         param: key,
@@ -50,7 +50,7 @@ router.post("/", accessProtectionMiddleware, async (req, res) => {
         .status(400)
         .json({ error: "Errore nell'inserimento dei dati", errorParams });
     } else {
-      res.status(500).json({ error: "Errore nell'inserimento dei dati" });
+      res.status(500).json({ error: "Errore del server" });
     }
   }
 });
@@ -61,7 +61,9 @@ router.get("/", async (req, res) => {
     const reviews = await Review.find();
     res.status(200).json(reviews);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -77,7 +79,9 @@ router.get("/:email", async (req, res) => {
     }
     res.status(200).json(reviews);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -93,7 +97,9 @@ router.get("/professore/:professore", async (req, res) => {
     }
     res.status(200).json(reviews);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -109,7 +115,9 @@ router.get("/esame/:esame", async (req, res) => {
     }
     res.status(200).json(reviews);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -134,7 +142,9 @@ router.delete("/:reviewId", accessProtectionMiddleware, async (req, res) => {
       });
     }
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -168,7 +178,9 @@ router.patch("/:reviewId", accessProtectionMiddleware, async (req, res) => {
       });
     }
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });

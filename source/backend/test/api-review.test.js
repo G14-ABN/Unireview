@@ -106,7 +106,7 @@ describe("Review API", () => {
         testo: "Test review.",
         tentativo: 1,
         voto: 30,
-        frequenza: "Nessuna",
+        frequenza: "<50%",
         anonima: false,
       };
 

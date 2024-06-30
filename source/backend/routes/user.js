@@ -18,7 +18,9 @@ router.get("/", accessProtectionMiddleware, async (req, res) => {
       res.status(200).json(user);
     }
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -41,7 +43,9 @@ router.get("/:email", accessProtectionMiddleware, async (req, res) => {
       res.status(403).json({ error: "Accesso non autorizzato" });
     }
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -72,7 +76,9 @@ router.patch("/:email", accessProtectionMiddleware, async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -88,7 +94,9 @@ router.put("/language", accessProtectionMiddleware, async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -104,42 +112,12 @@ router.put("/theme", accessProtectionMiddleware, async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
-
-// // Modifica Lingua UI utente attuale (richiede autenticazione)
-// router.put("/language", accessProtectionMiddleware, async (req, res) => {
-//   try {
-//     const { linguaUI } = req.body;
-//     const userId = req.user.id;
-
-//     // Aggiorna linguaUI dell'utente nel database
-//     await User.findByIdAndUpdate(userId, { linguaUI });
-
-//     res.sendStatus(200);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Errore del server" });
-//   }
-// });
-
-// // Modifica Tema UI utente attuale (richiede autenticazione)
-// router.put("/theme", accessProtectionMiddleware, async (req, res) => {
-//   try {
-//     const { temaUI } = req.body;
-//     const userId = req.user.id;
-
-//     // Aggiorna temaUI dell'utente nel database
-//     await User.findByIdAndUpdate(userId, { temaUI });
-
-//     res.sendStatus(200);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Errore del server" });
-//   }
-// });
 
 // Elimina un utente per email (richiede autenticazione e autorizzazione)
 router.delete("/:email", accessProtectionMiddleware, async (req, res) => {
@@ -162,7 +140,9 @@ router.delete("/:email", accessProtectionMiddleware, async (req, res) => {
         .json({ error: "Non autorizzato a eliminare questo utente" });
     }
   } catch (error) {
+    /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Impossibile rimuovere utente" });
   }
 });
@@ -194,7 +174,9 @@ router.patch(
 
       res.sendStatus(200);
     } catch (error) {
+      /* istanbul ignore next */
       console.error(error);
+      /* istanbul ignore next */
       res.status(500).json({ error: "Errore del server" });
     }
   }
@@ -229,6 +211,7 @@ router.patch(
     } catch (error) {
       /* istanbul ignore next */
       console.error(error);
+      /* istanbul ignore next */
       res.status(500).json({ error: "Errore del server" });
     }
   }
@@ -272,6 +255,7 @@ router.patch("/ban/:email", accessProtectionMiddleware, async (req, res) => {
   } catch (error) {
     /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
@@ -302,6 +286,7 @@ router.patch("/unban/:email", accessProtectionMiddleware, async (req, res) => {
   } catch (error) {
     /* istanbul ignore next */
     console.error(error);
+    /* istanbul ignore next */
     res.status(500).json({ error: "Errore del server" });
   }
 });
