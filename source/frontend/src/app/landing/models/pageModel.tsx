@@ -35,15 +35,15 @@ function PageModel(name : String, body : React.JSX.Element, refName : string, re
       console.error('Token not found in URL');
     }
   }, []);
-    const lightBase = "#f8c7c2"
-    const lightFill = "#faeeec"
-    const lightText ="#2a1617"
+    const lightBase = "#f8c7c2" //*Base sono i colori dello sfondo
+    const lightFill = "#faeeec" //*Fill sono i colori dei campi di input
+    const lightText ="#2a1617" //*Text sono i colori dei testi
     const darkBase = "#2a1617"
     const darkFill = "#431c1d"
     const darkText ="#faeeec"
-    const lightSider="#e8706b"
+    const lightSider="#e8706b" //*Sider è il colore della barra laterale
     const darkSider="#792b2b"
-    const lightFooter="#d24040"
+    const lightFooter="#d24040" //*Footer è il colore del blocco in basso
     const darkFooter="#431c1d"
         UtenteAutenticato.token=token
         Start()
@@ -83,7 +83,7 @@ function PageModel(name : String, body : React.JSX.Element, refName : string, re
             colorText: dark?darkText:lightText,
             colorBgContainer:dark?darkFill:lightFill,
             colorTextDescription: dark?darkText:lightText,
-            colorPrimary:"#a63636",
+            colorPrimary:"#a63636",//colore del pulsante di cerca
             colorBgElevated:dark?darkBase:lightBase,
           },
         }}>
