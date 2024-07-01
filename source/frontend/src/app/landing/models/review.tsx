@@ -1,10 +1,8 @@
 import { UtenteAutenticato } from "../../areaPersonale/users/utenteAutenticato"
 import { Elimina } from "../../areaPersonale/review/elimina"
-import { Star } from "./star"
 import { Collapse, Rate, Button, Modal} from "antd"
-import { useState } from "react"
-import { Patch } from "../../areaPersonale/review/modifica"
-export {Review}
+import { Modifica } from "../../areaPersonale/review/modifica"
+export {Review, returnCollapse}
 
 class Review{
     autore : string
@@ -57,92 +55,7 @@ class Review{
                 this.valutazione_prof.valueOf()) / 3).toPrecision(2)); 
     }
 
-    getModal(){
-        
-    }
-
-    getVoto(){
-        if (this.voto.valueOf()>=18){
-        return(
-            <div>
-            <p>{"Data esame: "+ (typeof this.data == "string"? this.data : this.data.getDate())}</p>
-            <p>{'Voto finale: '+this.voto}</p>
-            <p>{"Tentativo all'accettazione: "+this.tentativo}</p>
-            </div>
-        )}
-    }
-
-    returnCollapse(){
-        //const [element, setElement]=useState<JSX.Element>(<div></div>)
-        var autore : String
-        if (this.anonima){
-            autore = "Anonimo"
-        } else {
-            autore= this.getName()
-        }
-        const del = (UtenteAutenticato.email!=undefined&&UtenteAutenticato.email==this.autore)
-        if (del){
-        return (
-            <div>
-            <Collapse 
-            items={[{label: this.corso+" ("+this.professore+") "+'         ' + this.average() + '   Stelle' , children: 
-            <>
-                <p>{autore}</p>
-                <p>Fattibilità</p> 
-                <Rate disabled defaultValue={this.valutazione_fattibile.valueOf()} />
-                <p>Professore</p> 
-                <Rate disabled defaultValue={this.valutazione_prof.valueOf()} />
-                <p>Materiale</p> 
-                <Rate disabled defaultValue={this.valutazione_materiale.valueOf()} />
-                {this.getVoto()}
-                <p>{"Frequenza: "+ this.frequenza}</p>
-                <p>{this.testo}</p>
-                <Button onClick={()=>Elimina.handle(this.rID)}>Elimina</Button>
-                <Button onClick={()=>Patch.patch(this.rID, 
-                    { data: this.data.toString(),
-                    professore:this.professore,
-                    esame: this.corso,
-                    valutazioneProfessore : this.valutazione_prof.valueOf(),
-                    valutazioneFattibilita: this.valutazione_fattibile.valueOf(),
-                    valutazioneMateriale: this.valutazione_materiale.valueOf(),
-                    testo: (this.testo==undefined? '':this.testo),
-                    tentativo: (this.tentativo==undefined? 0:this.tentativo.valueOf()),
-                    voto: this.voto.valueOf(),
-                    frequenza: this.frequenza,
-                    anonima: this.anonima }
-                )}>Modifica</Button>
-            </>}]
-            }
-          />
-          </div>)
-        }else {
-            return (
-                <div>
-                <Collapse 
-                items={[{label: this.corso+" ("+this.professore+") "+'         ' + this.average() + '   Stelle' , children: 
-                <>
-                    <p>{autore}</p>
-                    <br/>
-                    <p>Fattibilità</p> 
-                    <Rate disabled defaultValue={this.valutazione_fattibile.valueOf()} />
-                    <br/>
-                    <p>Professore</p> 
-                    <Rate disabled defaultValue={this.valutazione_prof.valueOf()} />
-                    <br/>
-                    <p>Materiale</p> 
-                    <Rate disabled defaultValue={this.valutazione_materiale.valueOf()} />
-                    <br/>
-                    {this.getVoto()}
-                    <p>{"Frequenza: "+ this.frequenza}</p>
-                    <br/>
-                    <p>{this.testo}</p>
-                </>}]
-                }
-              />
-              </div>)
-        }
-    }
-    private getName(){
+    getName(){
         let res = ""
         for(var i =0; i<this.autore.length; i++){
             if (this.autore.charAt(i)=="."){
@@ -154,6 +67,100 @@ class Review{
             }
         }
         return res;
+    }
+
+    getVoto(){
+        if (this.voto.valueOf()>=18){
+        return(
+            <div>
+            <p>{"Data: "+ (typeof this.data == "string"? this.data : this.data.getDate())}</p>
+            <p>{'Voto finale: '+this.voto}</p>
+            <p>{"Tentativo all'accettazione: "+this.tentativo}</p>
+            </div>
+        )}
+    }
+}
+function returnCollapse(review: Review, setReview :React.Dispatch<React.SetStateAction<{
+    data: string;
+    professore: string;
+    esame: string;
+    valutazioneProfessore: number;
+    valutazioneFattibilita: number;
+    valutazioneMateriale: number;
+    testo: string;
+    tentativo: number;
+    voto: number;
+    frequenza: string;
+    anonima: boolean;
+  }>>, setOpen :React.Dispatch<React.SetStateAction<boolean>>,
+  setVoto :React.Dispatch<React.SetStateAction<boolean>>){
+    //const [element, setElement]=useState<JSX.Element>(<div></div>)
+    var autore : String
+    if (review.anonima){
+        autore = "Anonimo"
+    } else {
+        autore= review.getName()
+    }
+    const del = (UtenteAutenticato.email!=undefined&&UtenteAutenticato.email==review.autore)
+    if (del){
+    return (
+        <div key = {review.rID}>
+        <Collapse 
+        items={[{label: review.corso+" ("+review.professore+") "+'         ' + review.average() + '   Stelle' , children: 
+        <>
+            <p>{autore}</p>
+            <p>Fattibilità</p> 
+            <Rate disabled defaultValue={review.valutazione_fattibile.valueOf()} />
+            <p>Professore</p> 
+            <Rate disabled defaultValue={review.valutazione_prof.valueOf()} />
+            <p>Materiale</p> 
+            <Rate disabled defaultValue={review.valutazione_materiale.valueOf()} />
+            {review.getVoto()}
+            <p>{"Frequenza: "+ review.frequenza}</p>
+            <p>{review.testo}</p>
+            <Button onClick={()=>Elimina.handle(review.rID)}>Elimina</Button>
+            <Button onClick={()=>{
+                Modifica(review.rID, {data: review.data.toString(),
+                    professore: review.professore,
+                    esame: review.corso,
+                    valutazioneProfessore: review.valutazione_prof.valueOf(),
+                    valutazioneFattibilita: review.valutazione_fattibile.valueOf(),
+                    valutazioneMateriale: review.valutazione_materiale.valueOf(),
+                    testo: review.testo==undefined?"":review.testo,
+                    tentativo: review.tentativo==undefined?0:review.tentativo.valueOf(),
+                    voto: review.voto==undefined?17:review.voto.valueOf(),
+                    frequenza: review.frequenza,
+                    anonima: review.anonima}, setReview, setOpen, setVoto)
+            }}>Modifica</Button>
+        </>}]
+        }
+      />
+      </div>)
+    }else {
+        return (
+            <div key = {review.rID}>
+            <Collapse 
+            items={[{label: review.corso+" ("+review.professore+") "+'         ' + review.average() + '   Stelle' , children: 
+            <>
+                <p>{autore}</p>
+                <br/>
+                <p>Fattibilità</p> 
+                <Rate disabled defaultValue={review.valutazione_fattibile.valueOf()} />
+                <br/>
+                <p>Professore</p> 
+                <Rate disabled defaultValue={review.valutazione_prof.valueOf()} />
+                <br/>
+                <p>Materiale</p> 
+                <Rate disabled defaultValue={review.valutazione_materiale.valueOf()} />
+                <br/>
+                {review.getVoto()}
+                <p>{"Frequenza: "+ review.frequenza}</p>
+                <br/>
+                <p>{review.testo}</p>
+            </>}]
+            }
+          />
+          </div>)
     }
 }
 

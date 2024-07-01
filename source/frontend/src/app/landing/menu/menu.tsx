@@ -6,7 +6,7 @@ import type { MenuProps, MenuTheme } from 'antd';
 import { Menu } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
 import { PopUp } from '../../areaPersonale/review/reviewPopUp';
-import { mod } from '../../areaPersonale/moderatori';
+import { Mod } from '../../areaPersonale/moderatori';
 export {MenuPages};
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -27,16 +27,7 @@ function getItem(
   } as MenuItem;
 }
 
-class MenuPages{
-    name 
-    ref
-
-    constructor (name : string, ref : string){
-        this.name = name
-        this.ref = ref
-    }
-
-    Pages(auth : string|null) {
+function MenuPages(name : string, ref : string, auth : string|null){
         var items: MenuItem[]
         const popup= PopUp()
         if (auth){
@@ -44,8 +35,8 @@ class MenuPages{
                 getItem('Switch to english', 'sub6',
                     <a href={'./en'+'/?token='+auth}/>),
                 getItem('Compila recensione', 'sub3', popup),
-                getItem(this.name, 'sub4', <a href= {this.ref+'/?token='+auth}/>),
-                getItem('Contatta moderatori','sub2', mod() ),
+                getItem(name, 'sub4', <a href= {ref+'/?token='+auth}/>),
+                getItem('Contatta moderatori','sub2', Mod() ),
                 getItem('Log Out', 'sub5', <a href='./'/>),
                 ]),
             ]
@@ -73,4 +64,3 @@ class MenuPages{
             </div>
         );
     };
-}

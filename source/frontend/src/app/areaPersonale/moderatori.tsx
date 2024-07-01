@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import {Modal,Form,Input} from 'antd';
 import { UtenteAutenticato } from './users/utenteAutenticato';
 import { jwtDecode } from 'jwt-decode';
-export {mod};
+export {Mod};
 const { TextArea } = Input;
 
-function mod(){
+function Mod(){
 
   function onFinish (values: any) {
     console.log('Success:', values);
@@ -15,7 +15,7 @@ function mod(){
     console.log('Failed:', errorInfo);
   };
 
-    const [message, setFormData] = useState<string>();
+    const [message, setFormData] = useState<string>("");
  
   
   const handleSubmit =()=>{

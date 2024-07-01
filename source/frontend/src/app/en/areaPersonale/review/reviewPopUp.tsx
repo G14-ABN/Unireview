@@ -5,7 +5,7 @@ import {
 } from 'antd';
 export {PopUp};
 import { init } from '../../connect/lezioni';
-import { getcorsi, getprofessori, isExam, isProfessor } from '@/app/en/connect/lezioni';
+import { getcorsi, getprofessori, isExam, isProfessor } from '../../connect/lezioni';
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
@@ -26,6 +26,7 @@ function PopUp(){
       }
     })();
   }, []);
+
   const [form] = Form.useForm();
 
   const rev= {
@@ -91,7 +92,7 @@ function PopUp(){
       onResetCourse()
       setIsModalOpen(true);
       } else {
-        window.alert('Cannot write a new review')
+        window.alert('Impossibile to create a new review')
       }
     };
     const handleOk = () => {
@@ -123,7 +124,7 @@ function PopUp(){
         open={isModalOpen} 
         onOk={()=>{
           if (!isExam(reviews.esame)||!isProfessor(reviews.professore)){
-            window.alert("Professor or course do not exist")
+            window.alert("Professor or exam don't exist")
           }else if (reviews.esame!=''&&
             reviews.esame!=''&&
             reviews.frequenza!=''&&
@@ -134,7 +135,7 @@ function PopUp(){
           ){
           handleOk()
         }else {
-          window.alert("Fill every field")
+          window.alert("Fill every required field")
         }
           }
         } onCancel={handleCancel}>
@@ -169,7 +170,7 @@ function PopUp(){
       >
       </AutoComplete>
     </Form.Item>
-    <Form.Item name="Course" label="Course " rules={[{ required: true }]}>
+    <Form.Item name="Corso" label="Course " rules={[{ required: true }]}>
       <AutoComplete
       onClear={onResetCourse}
         onChange={(e)=>{
@@ -187,7 +188,7 @@ function PopUp(){
         }>
       </AutoComplete>
     </Form.Item>
-      <Form.Item rules={[{required:true}]} name="Professor rate" label="Professor ">
+      <Form.Item rules={[{required:true}]} name="Valutazione professore" label="Professor ">
         <Rate 
           value = {reviews.valutazioneProfessore}
           onChange={(e)=>{
@@ -195,7 +196,7 @@ function PopUp(){
             setFormData(reviews)
           }}/>
       </Form.Item>
-      <Form.Item rules={[{required:true}]} name="Easiness rate" label="Easiness ">
+      <Form.Item rules={[{required:true}]} name="Valutazione fattibilità" label="Easiness ">
         <Rate 
         value = {reviews.valutazioneFattibilita}
         onChange={(e)=>{
@@ -203,14 +204,14 @@ function PopUp(){
           setFormData(reviews)
         }}/>
       </Form.Item>
-      <Form.Item rules={[{required:true}]} name="Material rate" label="Material ">
+      <Form.Item rules={[{required:true}]} name="Valutazione materiale" label="Material ">
         <Rate value = {reviews.valutazioneMateriale}
         onChange={(e)=>{
           reviews.valutazioneMateriale = e
           setFormData(reviews)
         }}/>
       </Form.Item>
-      <Form.Item name="Review" label="Review ">
+      <Form.Item name="Recensione" label="Review ">
         <TextArea rows={4} 
         value={reviews.testo}
         onChange ={(e)=>{
@@ -220,13 +221,13 @@ function PopUp(){
         }}/>
       </Form.Item>
       <Checkbox
-      name="Show score"
+      name="Mostra voto"
       checked={!componentDisabled}
       onChange={(e) => setComponentDisabled(!e.target.checked)}
     >Show score
     </Checkbox>
-      <Form.Item  name="Score"label="Score " rules={[{ required: !componentDisabled, 
-        message: "Insert final score" }]}>
+      <Form.Item  name="Voto"label="Score " rules={[{ required: !componentDisabled, 
+        message: "Final score is required" }]}>
         <InputNumber
         onChange={(e)=>{
           if (e != null)
@@ -238,7 +239,7 @@ function PopUp(){
         max={31}
         min= {18}/>
       </Form.Item>
-      <Form.Item name="Attempt" label="N. attempt " rules= {[{required: !componentDisabled}]}>
+      <Form.Item name="Tentativo" label="N. attempt " rules= {[{required: !componentDisabled}]}>
         <InputNumber
         onChange={(e)=>{
           if (e != null)
@@ -248,7 +249,7 @@ function PopUp(){
         value={reviews.tentativo}
         disabled={componentDisabled} min = {0}/>
       </Form.Item>
-      <Form.Item rules={[{required:true}]} name="Attendency" label="Attendency">
+      <Form.Item rules={[{required:true}]} name="Frequenza" label="Attendency">
         <Radio.Group value={reviews.frequenza}
           onChange={(e)=>{
             if (e.target.value != null)
@@ -260,7 +261,7 @@ function PopUp(){
           <Radio value=">50%"> {">50%"} </Radio>
         </Radio.Group>
       </Form.Item>
-      <Checkbox name="anonymous"
+      <Checkbox name="anonima"
       onChange={(e)=>{
         reviews.anonima=e.target.checked
       }} 

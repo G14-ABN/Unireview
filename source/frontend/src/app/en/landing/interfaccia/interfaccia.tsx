@@ -1,5 +1,5 @@
 'use state'
-import {Switch} from 'antd';
+import {Button, Switch} from 'antd';
 export {Interfaccia}
 import { Tema } from './tema';
 import { Lingua } from './lingua';
@@ -15,14 +15,12 @@ function loadDoc() {
 function Interfaccia(dark:boolean, 
                      stylesChange:React.Dispatch<React.SetStateAction<boolean>>
 ){
-  const tema = new Tema()
   return (
     <>
       <div>
         <Switch
-          checked={!tema.getTema()}
+          checked={dark}
           onClick={()=>{
-            tema.change()
             UtenteAutenticato.changeTema()
             stylesChange(!dark)
           }}

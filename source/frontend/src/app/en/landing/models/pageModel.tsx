@@ -3,30 +3,16 @@ import { Layout, Flex, ConfigProvider } from 'antd';
 import logo from './logo.png'
 import { Interfaccia } from '../interfaccia/interfaccia';
 import { MenuPages } from '../menu/menu';
-import { UtenteAutenticato } from '../../areaPersonale/users/utenteAutenticato';
+import { UtenteAutenticato, Start } from '../../areaPersonale/users/utenteAutenticato';
 import { Elimina } from '../../areaPersonale/review/elimina';
-import { Patch } from '../../areaPersonale/review/modifica';
+import { GetModal, Patch } from '../../areaPersonale/review/modifica';
 export {PageModel}
 
 
 const { Header, Footer, Sider, Content } = Layout;
 
-class PageModel{
-
-    name : String
-    ref : string
-    refName : string
-    body : React.JSX.Element
-
-    constructor(name : String, body : React.JSX.Element, refName : string, ref : string){
-        this.body = body
-        this.name = name
-        this.ref = ref
-        this.refName = refName
-    }
-
-    pageModel(){
-
+function PageModel(name : String, body : React.JSX.Element, refName : string, ref : string){
+ 
     const token = new URLSearchParams(window.location.search).get('token')
     const lightBase = "#f8c7c2"
     const lightFill = "#faeeec"
@@ -39,7 +25,7 @@ class PageModel{
     const lightFooter="#d24040"
     const darkFooter="#431c1d"
         UtenteAutenticato.token=token
-        new UtenteAutenticato()
+        Start()
         new Elimina()
         new Patch()
         const [dark, stylesChange] = useState(UtenteAutenticato.temaUI)
@@ -84,8 +70,7 @@ class PageModel{
             <Layout style={styles[0]}>
                 <Sider width="18%" style={styles[3]}>
                     {Interfaccia(dark, stylesChange)}
-                    {new MenuPages(this.refName, this.ref).Pages(token)}
-                    {token!=null? Patch.getModal():<div/>}
+                    {MenuPages(refName, ref,token)}
                 </Sider>
                 <Layout>
                     <Header style={styles[1]}>
@@ -93,11 +78,11 @@ class PageModel{
                     </Header>
                     <Header style={styles[1]}>
                         <h1>
-                            {this.name}
+                            {name}
                         </h1>
                     </Header>
                     <Content style={styles[2]}>
-                        {this.body}
+                        {body}
                     </Content>
                     <Footer style={styles[4]}>
                         For any issue contact:
@@ -110,5 +95,3 @@ class PageModel{
         </ConfigProvider>
         );
     }
-
-}

@@ -15,14 +15,12 @@ function loadDoc() {
 function Interfaccia(dark:boolean, 
                      stylesChange:React.Dispatch<React.SetStateAction<boolean>>
 ){
-  const tema = new Tema()
   return (
     <>
       <div>
         <Switch
-          checked={!tema.getTema()}
+          checked={dark}
           onClick={()=>{
-            tema.change()
             UtenteAutenticato.changeTema()
             stylesChange(!dark)
           }}

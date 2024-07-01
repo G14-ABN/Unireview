@@ -1,6 +1,32 @@
+export {Start}
 import { UtenteAnonimo } from "./utenteAnonimo"
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+
+function Start(){
+    const dec : {email:string, nomeUtente : string}|null = UtenteAutenticato.token?jwtDecode(UtenteAutenticato.token):null
+        UtenteAutenticato.email=dec?dec.email:""
+    useEffect(() => {
+        (async () => {
+          try {
+            console.log("fetch")
+            const res =await UtenteAutenticato.init(UtenteAutenticato.token, dec)
+            console.log(res)
+            if(res){
+            UtenteAutenticato.email=res.email
+            UtenteAutenticato.moderatore=res.moderatore
+            UtenteAutenticato.nomeUtente=res.nomeUtente
+            UtenteAutenticato.bannedUntil=new Date(res.bannedUntil)
+            console.log(UtenteAutenticato.bannedUntil)
+            UtenteAutenticato.linguaUI=res.linguaUI
+            UtenteAutenticato.temaUI=res.temaUI}
+            console.log(res)
+          } catch (err) {
+            console.log('Error occured when fetching');
+          }
+        })();
+      }, []);
+}
 class UtenteAutenticato extends UtenteAnonimo{
     static token: string|null
     static email : string
@@ -19,32 +45,6 @@ class UtenteAutenticato extends UtenteAnonimo{
             xhr.setRequestHeader("Content-Type", 'application/json')
             xhr.send(JSON.stringify({temaUi:this.temaUI}))
         }
-    }
-    constructor(){
-        super()
-        const dec : {email:string, nomeUtente : string}|null = UtenteAutenticato.token?jwtDecode(UtenteAutenticato.token):null
-        UtenteAutenticato.email=dec?dec.email:""
-        console.log(dec)
-        useEffect(() => {
-            (async () => {
-              try {
-                console.log("fetch")
-                const res =await UtenteAutenticato.init(UtenteAutenticato.token, dec)
-                console.log(res)
-                if(res){
-                UtenteAutenticato.email=res.email
-                UtenteAutenticato.moderatore=res.moderatore
-                UtenteAutenticato.nomeUtente=res.nomeUtente
-                UtenteAutenticato.bannedUntil=new Date(res.bannedUntil)
-                console.log(UtenteAutenticato.bannedUntil)
-                UtenteAutenticato.linguaUI=res.linguaUI
-                UtenteAutenticato.temaUI=res.temaUI}
-                console.log(res)
-              } catch (err) {
-                console.log('Error occured when fetching');
-              }
-            })();
-          }, []);
     }
     static async init(token:string|null, dec : {email:string, nomeUtente:string}|null){
         if(!token){

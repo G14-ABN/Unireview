@@ -1,5 +1,6 @@
 'use client'
 export {Filters}
+export {FiltersModal}
 import React from 'react';
 import { useState } from 'react';
 //import './index.css';
@@ -11,7 +12,7 @@ import {
     Slider,
     SliderSingleProps,
 Modal, Button } from 'antd';
-import { Review } from '@/app/areaPersonale/createReview/models/review';
+import { Review } from '../models/review';;
 
 
 class Filters{
@@ -59,8 +60,9 @@ class Filters{
   }
 
   static handleCancel=()=>{}
+}
   
-  static filters(){
+  function FiltersModal(){
     const formatter: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value) => (value==17?"Senza voto":value);
     const [form]=Form.useForm()
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -128,5 +130,4 @@ class Filters{
       </Modal>
     </>
   );
-}
 }

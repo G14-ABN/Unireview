@@ -5,7 +5,7 @@ import {
 } from 'antd';
 export {PopUp};
 import { init } from '../../connect/lezioni';
-import { getcorsi, getprofessori, isExam, isProfessor } from '@/app/connect/lezioni';
+import { getcorsi, getprofessori, isExam, isProfessor } from '../../connect/lezioni';
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 

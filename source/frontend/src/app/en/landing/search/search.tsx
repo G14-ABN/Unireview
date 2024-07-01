@@ -1,13 +1,14 @@
 export {Search}
 import React, { useState, useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { getReviews } from '../../connect/recensione';
+import { getReviews } from '@/app/connect/recensione';
 import { Button, Space, Form, AutoComplete } from 'antd';
-import { Filters } from './filters';
-import { Review } from '../models/review'
-import { Order } from './ordina';
+import { Filters, FiltersModal } from './filters';
+import { Review, returnCollapse } from '../models/review';
+import { Order, Ordina } from './ordina';
 import { init, getcorsi, getprofessori, isExam, isProfessor} from '../../connect/lezioni';
 import { stats } from './stats';
+import { GetModal } from '../../areaPersonale/review/modifica';
 
 
 const layout = {
@@ -19,13 +20,7 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-function getCol(l:Review[]){
-  const res : React.JSX.Element[]=[]
-  l.forEach((e)=>{
-    res.push(e.returnCollapse())
-  })
-  return res
-}
+
 
 function Search () {
 
@@ -38,6 +33,11 @@ function Search () {
   const [teachersState, ProfessorChange] = useState<{value:string}[]>()
 
   const [coursesState, CourseChange] = useState<{value:string}[]>();
+
+  const modal = GetModal()
+  
+  const [course, setCourse] = useState("")
+  const [professor, setProfessor] = useState("")
 
   useEffect(() => {
     (async () => {
@@ -64,8 +64,13 @@ function Search () {
       }
     })();
   }, []); 
-  const [course, setCourse] = useState("")
-  const [professor, setProfessor] = useState("")
+  function getCol(l:Review[]){
+    const res : React.JSX.Element[]=[]
+    l.forEach((e)=>{
+      res.push(returnCollapse(e, modal.setRev, modal.setOp, modal.setVal))
+    })
+    return res
+  }
   
   const [form] = Form.useForm();
 
@@ -81,9 +86,11 @@ function Search () {
     console.log(values);
   };
 
+  const ordina = Ordina()
+
   const onReset = () => {
     Filters.handleCancel()
-    Order.handleCancel()
+    ordina.cancel()
     CourseChange(getcorsi())
     ProfessorChange(getprofessori())
     setCourse("")
@@ -94,6 +101,7 @@ function Search () {
 
   return(
     <div>
+      {modal.mod}
     <Form
       {...layout}
       form={form}
@@ -115,12 +123,12 @@ function Search () {
         else {
           setRev([])
           setStats(undefined)
-          setReviews([<div/>])
+          setReviews([<div key="null"/>])
         }
         }}
       style={{ maxWidth: 600 }}
     >
-      <Form.Item id = "professori" name="professors" label="Professors" rules={[{ required: false }]}>
+      <Form.Item id = "professori" name="professors" label="Professor" rules={[{ required: false }]}>
       <AutoComplete
           onSelect={(e) => {
               setProfessor(e)
@@ -150,7 +158,7 @@ function Search () {
       <Form.Item {...tailLayout}>
         <Space>
           <Button type="primary" htmlType="submit">
-            Cerca
+            Search
           </Button>
           <Button htmlType="submit"
                   onClick={async ()=>{
@@ -163,8 +171,8 @@ function Search () {
                     }>
             Reset
           </Button>
-          {Filters.filters()}
-          {Order.ordina()}
+          {FiltersModal()}
+          {ordina.mod}
         </Space>
       </Form.Item>
     </Form>

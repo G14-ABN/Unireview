@@ -6,7 +6,7 @@ import type { MenuProps, MenuTheme } from 'antd';
 import { Menu } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
 import { PopUp } from '../../areaPersonale/review/reviewPopUp';
-import { mod } from '../../areaPersonale/moderatori';
+import { Mod } from '../../areaPersonale/moderatori';
 export {MenuPages};
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -27,30 +27,23 @@ function getItem(
   } as MenuItem;
 }
 
-class MenuPages{
-    name 
-    ref
-
-    constructor (name : string, ref : string){
-        this.name = name
-        this.ref = ref
-    }
-
-    Pages(auth : string|null) {
+function MenuPages(name : string, ref : string, auth : string|null){
         var items: MenuItem[]
         const popup= PopUp()
         if (auth){
             items = [getItem('Personal space', 'sub1', <HomeOutlined />, [
-                getItem('Passa a italiano', 'sub6', <a href ={'../?token='+auth} />),
+                getItem('Passa a italiano', 'sub6',
+                    <a href={'../'+'/?token='+auth}/>),
                 getItem('New review', 'sub3', popup),
-                getItem(this.name, 'sub4', <a href={this.ref+'/?token='+auth}/>),
-                getItem('Contact moderator','sub2', mod() ),
+                getItem(name, 'sub4', <a href= {ref+'/?token='+auth}/>),
+                getItem('Contact moderator','sub2', Mod() ),
                 getItem('Log Out', 'sub5', <a href='./'/>),
                 ]),
             ]
         }else{
         items = [getItem('Personal space', 'sub1', <HomeOutlined />, [
-            getItem('Passa a italiano', 'sub6', <a href ='../' />),
+            getItem('Switch to italian', 'sub6',
+                <a href='../'/>),
                 getItem('Log In', 'sub3', <a href='http://localhost:8080/auth/google/callback'/>),
                 ]),
             ]
@@ -71,4 +64,3 @@ class MenuPages{
             </div>
         );
     };
-}

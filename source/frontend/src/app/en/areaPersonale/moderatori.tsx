@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import {Modal,Form,Input} from 'antd';
 import { UtenteAutenticato } from './users/utenteAutenticato';
 import { jwtDecode } from 'jwt-decode';
-export {mod};
+export {Mod};
 const { TextArea } = Input;
 
-function mod(){
+function Mod(){
 
   function onFinish (values: any) {
     console.log('Success:', values);
@@ -15,7 +15,7 @@ function mod(){
     console.log('Failed:', errorInfo);
   };
 
-    const [message, setFormData] = useState<string>();
+    const [message, setFormData] = useState<string>("");
  
   
   const handleSubmit =()=>{
@@ -25,7 +25,7 @@ function mod(){
     xhr.setRequestHeader('Authorization', new URLSearchParams(window.location.search).get('token'));
     xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      window.alert('Text sent successfully')
+      window.alert('Messaggio inviato correttamente')
       console.log("Messaggio inviato correttamente")// Request finished. Do processing here.
       }
     };
@@ -72,7 +72,7 @@ function mod(){
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item name="Text" label="Text ">
+      <Form.Item name="Messaggio" label="Text ">
         <TextArea rows={4} 
         value={message}
         onChange ={(e)=>{

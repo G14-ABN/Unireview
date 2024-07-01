@@ -5,7 +5,7 @@ import { Progress, Flex } from "antd";
 
 function stats(reviews: Review[]){
     if (reviews==undefined){
-        return <Statistic title="No review found"value={0}/>
+        return <Statistic title="Nessuna recensione trovata"value={0}/>
     }
     const getPercent =(n:number)=>{
         return (n/reviews.length)*100
@@ -53,16 +53,16 @@ function stats(reviews: Review[]){
     <Statistic title="Reviews found"value={reviews.length}/>
     <Flex vertical={false}>
     <Flex vertical gap="small" style={{ width: "33%" }}>
-    <Statistic title="Average review rate"value={reviews.length==0?"Not avilable":(revmedia/reviews.length).toPrecision(2)}/>
-    <Progress percent={getPercent(stars[0])} style={{ width: "50%" }} size="small" format={(e)=>"1 star: "+stars[0]}/>
-    <Progress percent={getPercent(stars[1])} style={{ width: "50%" }}size="small" format={(e)=>"2 star: "+stars[1]}/>
-    <Progress percent={getPercent(stars[2])} style={{ width: "50%" }}size="small" format={(e)=>"3 star: "+stars[2]}/>
-    <Progress percent={getPercent(stars[3])} style={{ width: "50%" }}size="small" format={(e)=>"4 star: "+stars[3]}/>
-    <Progress percent={getPercent(stars[4])} style={{ width: "50%" }}size="small" format={(e)=>"5 star: "+stars[4]}/>
+    <Statistic title="Average rate"value={reviews.length==0?"Not available":(revmedia/reviews.length).toPrecision(2)}/>
+    <Progress percent={getPercent(stars[0])} style={{ width: "50%" }} size="small" format={(e)=>"1 stars: "+stars[0]}/>
+    <Progress percent={getPercent(stars[1])} style={{ width: "50%" }}size="small" format={(e)=>"2 stars: "+stars[1]}/>
+    <Progress percent={getPercent(stars[2])} style={{ width: "50%" }}size="small" format={(e)=>"3 stars: "+stars[2]}/>
+    <Progress percent={getPercent(stars[3])} style={{ width: "50%" }}size="small" format={(e)=>"4 stars: "+stars[3]}/>
+    <Progress percent={getPercent(stars[4])} style={{ width: "50%" }}size="small" format={(e)=>"5 stars: "+stars[4]}/>
   </Flex>
   <Flex vertical gap="small" style={{ width: "33%" }}>
   <Statistic title="Average score"value={voti==0?"Not available":(votomedio/voti).toPrecision(2)}/>
-    <Progress percent={getPercent(marks[0])} style={{ width: "50%" }}size="small" format={(e)=>"No mark: "+marks[0]}/>
+    <Progress percent={getPercent(marks[0])} style={{ width: "50%" }}size="small" format={(e)=>"No score: "+marks[0]}/>
     <Progress percent={getPercent(marks[1])} style={{ width: "50%" }}size="small" format={(e)=>"18-20: "+marks[1]}/>
     <Progress percent={getPercent(marks[2])} style={{ width: "50%" }}size="small" format={(e)=>"21-23: "+marks[2]}/>
     <Progress percent={getPercent(marks[3])} style={{ width: "50%" }}size="small" format={(e)=>"24-26: "+marks[3]}/>
@@ -71,7 +71,7 @@ function stats(reviews: Review[]){
   </Flex>
   <Flex vertical gap="small" style={{ width: "33%" }}>
   <Statistic title="Average attempt"value={voti==0?"Not available":(tentativomedio/voti).toPrecision(2)}/>
-    <Progress percent={getPercent(tentativo[0])} style={{ width: "50%" }}size="small" format={(e)=>"No mark: "+tentativo[0]}/>
+    <Progress percent={getPercent(tentativo[0])} style={{ width: "50%" }}size="small" format={(e)=>"No score: "+tentativo[0]}/>
     <Progress percent={getPercent(tentativo[1])} style={{ width: "50%" }}size="small" format={(e)=>"1: "+tentativo[1]}/>
     <Progress percent={getPercent(tentativo[2])} style={{ width: "50%" }}size="small" format={(e)=>"2: "+tentativo[2]}/>
     <Progress percent={getPercent(tentativo[3])} style={{ width: "50%" }}size="small" format={(e)=>"3: "+tentativo[3]}/>

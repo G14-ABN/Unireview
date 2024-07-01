@@ -1,5 +1,6 @@
 'use client'
 export {Order}
+export {Ordina}
 import { Review } from '../models/review';
 import { useState } from 'react';
 import React from 'react';
@@ -21,11 +22,11 @@ class Order{
   }
   static sort(a:Review, b: Review){
     let res = 1
-    if (Order.field=="Date"){
+    if (Order.field=="Data"){
       a.data=(typeof a.data=="string"? new Date(a.data) : a.data)
       b.data=(typeof b.data=="string"? new Date(b.data) : b.data)
       res = (a.data.setHours(0,0,0,0)<b.data.setHours(0,0,0,0)? 1:-1)
-    }else if (Order.field=="Exam score"){
+    }else if (Order.field=="Voto esame"){
       res = a.voto.valueOf()-b.voto.valueOf()
     } else {
       res= a.average()-b.average()
@@ -36,8 +37,8 @@ class Order{
       return -res
     }
   }
-static handleCancel = ()=>{}
-static ordina(){
+}
+function Ordina(){
 
 
   function onFinish (values: any) {
@@ -56,22 +57,20 @@ static ordina(){
     const handleOk = () => {
       setIsModalOpen(false);
     };
-    Order.handleCancel = () => {
+    const handleCancel = () => {
       form.resetFields()
       Order.set()
       setIsModalOpen(false);
     };
-
-
-  return (
+    var modal = 
     <>
       <Button onClick={showModal} >
-        Order by
+        Ordina per
       </Button>
       <Modal title="Order by"
        open={isModalOpen} 
        onOk={handleOk} 
-       onCancel={Order.handleCancel}
+       onCancel={handleCancel}
        okText="Confirm"
        cancelText="Cancel">
     <Form
@@ -84,26 +83,24 @@ static ordina(){
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item name = "min"label="">
-        <Radio.Group onChange={(e)=>{
+      <Form.Item name = {"crit"}label="">
+        <Radio.Group name = "min"onChange={(e)=>{
           Order.min=e.target.value=="Min-max"
         }}>
           <Radio value="Min-max"> {'Min -> Max'} </Radio>
           <Radio value="Max-min"> {'Max -> Min'} </Radio>
         </Radio.Group>
-        </Form.Item>
-        <Form.Item name = "by">
-          <Radio.Group onChange={(e)=>{
+        <Space/>
+          <Radio.Group name = "criteria" onChange={(e)=>{
             Order.field=e.target.value
           }}>
-            <Radio value="Date"> Date </Radio>
-            <Radio value="Exam score"> Exam score </Radio>
-            <Radio value="Review rate"> Review rate </Radio>
+            <Radio value="Data"> Date </Radio>
+            <Radio value="Voto esame"> Score </Radio>
+            <Radio value="Voto recensione"> Rate </Radio>
           </Radio.Group>
         </Form.Item>
     </Form>
       </Modal>
-    </>
-  );
-}
+    </>;
+    return {mod: modal, cancel:handleCancel}
 }

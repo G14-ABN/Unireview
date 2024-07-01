@@ -3,8 +3,8 @@ import { List } from "../areaPersonale/review/myReviews"
 import { PageModel } from "../landing/models/pageModel"
 
 export default function reviews() {
-  var pageModel = new PageModel("My reviews", List(), 'Search', 'http://localhost:3000/en')
+  //var pageModel = new PageModel("Le mie recensioni", List(), 'Cerca', '../')
   return (
-      pageModel.pageModel()
+      PageModel("Le mie recensioni", List(), 'Search', '../')
   )
 }

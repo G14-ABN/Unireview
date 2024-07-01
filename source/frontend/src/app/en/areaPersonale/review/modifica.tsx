@@ -1,33 +1,16 @@
-export {Patch}
+export {Patch, GetModal, Modifica}
 import React, { useState } from 'react';
 import {
     Modal,Rate,Checkbox,
     Form,Input,InputNumber,Radio, AutoComplete
 } from 'antd';
-import { getcorsi, getprofessori } from '../../connect/lezioni';
+import { getcorsi, getprofessori } from '../../connect/lezioni'
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
 class Patch{
-
-  static modal = <Modal/>
-  private static setOpen : React.Dispatch<React.SetStateAction<boolean>>=()=>{}
-  private static setVoto : React.Dispatch<React.SetStateAction<boolean>>=()=>{}
-  private static setReview : React.Dispatch<React.SetStateAction<{
-    data: string;
-    professore: string;
-    esame: string;
-    valutazioneProfessore: number;
-    valutazioneFattibilita: number;
-    valutazioneMateriale: number;
-    testo: string;
-    tentativo: number;
-    voto: number;
-    frequenza: string;
-    anonima: boolean;
-}>>=()=>{}
-  private static id = ""
-  private static review = {
+  static id = ""
+  static review = {
     data : '',
     professore: '',
     esame: '',
@@ -63,7 +46,8 @@ class Patch{
     location.reload()
     //xhr.send(JSON.stringify({reviewId:Elimina.id, user:UtenteAutenticato.email}))
 }
-  static patch(id:string, rev : {
+}
+  function Modifica(id:string, rev : {
     data: string;
     professore: string;
     esame: string;
@@ -75,18 +59,30 @@ class Patch{
     voto: number;
     frequenza: string;
     anonima: boolean;
-}){
+}, setReview :React.Dispatch<React.SetStateAction<{
+  data: string;
+  professore: string;
+  esame: string;
+  valutazioneProfessore: number;
+  valutazioneFattibilita: number;
+  valutazioneMateriale: number;
+  testo: string;
+  tentativo: number;
+  voto: number;
+  frequenza: string;
+  anonima: boolean;
+}>>, setOpen :React.Dispatch<React.SetStateAction<boolean>>,
+setVoto :React.Dispatch<React.SetStateAction<boolean>>){
     console.log('Patch')
-    this.id=id
-    this.review= rev
-    this.setReview(rev)
-    this.setOpen(true)
-    this.setVoto(rev.voto<=17)
+    Patch.id=id
+    Patch.review= rev
+    setReview(rev)
+    setOpen(true)
+    setVoto(rev.voto<=17)
   }
 
-  static getModal(){
+  function GetModal(){
     const [open, setOpen] = useState(false)
-    Patch.setOpen=setOpen 
   function onFinish (values: any) {
     console.log('Success:', values);
   };
@@ -105,17 +101,15 @@ class Patch{
     ProfessorChange(getprofessori())
   };
     const [componentDisabled, setComponentDisabled] = useState<boolean>(true); 
-    Patch.setVoto=setComponentDisabled     
     const handleOk = () => {
         Patch.review=reviews
       Patch.handle()
     };
     const handleCancel = () => {
       onReset();
-      Patch.setOpen(false)
+      setOpen(false)
     };
     const [reviews, setFormData] = useState(Patch.review);
-    Patch.setReview=setFormData
     const [teachersState, ProfessorChange] = useState<{value:string}[]>()
 
     const [coursesState, CourseChange] = useState<{value:string}[]>();
@@ -128,7 +122,7 @@ class Patch{
     const onProfessorChange = (value: string) => {
       CourseChange(getcorsi(value))
     };
-    return <Modal title="Edit review" 
+    const modal= <Modal title="Edit review" 
         okText="Edit"
         cancelText="Cancel"
         open={open} 
@@ -167,7 +161,7 @@ class Patch{
       >
       </AutoComplete>
     </Form.Item>
-    <Form.Item name="Course" label="Course ">
+    <Form.Item name="Curse" label="Course ">
       <AutoComplete
       defaultValue={reviews.esame}
       onClear={onResetCourse}
@@ -186,7 +180,7 @@ class Patch{
         }>
       </AutoComplete>
     </Form.Item>
-      <Form.Item name="professor rate" label="Professor ">
+      <Form.Item name="professor rating" label="Professor ">
         <Rate 
         defaultValue={reviews.valutazioneProfessore}
           value = {reviews.valutazioneProfessore}
@@ -195,7 +189,7 @@ class Patch{
             setFormData(reviews)
           }}/>
       </Form.Item>
-      <Form.Item name="Easiness rate" label="Easiness ">
+      <Form.Item name="Valutazione fattibilità" label="Easiness ">
         <Rate 
         defaultValue={reviews.valutazioneFattibilita}
         value = {reviews.valutazioneFattibilita}
@@ -204,7 +198,7 @@ class Patch{
           setFormData(reviews)
         }}/>
       </Form.Item>
-      <Form.Item  name="Material rate" label="Material ">
+      <Form.Item  name="Valutazione materiale" label="Material ">
         <Rate value = {reviews.valutazioneMateriale}
         defaultValue={reviews.valutazioneMateriale}
         onChange={(e)=>{
@@ -212,7 +206,7 @@ class Patch{
           setFormData(reviews)
         }}/>
       </Form.Item>
-      <Form.Item name="Review" label="Review ">
+      <Form.Item name="Recensione" label="Review ">
         <TextArea rows={4} 
         defaultValue={reviews.testo}
         value={reviews.testo}
@@ -223,7 +217,7 @@ class Patch{
         }}/>
       </Form.Item>
       <Checkbox
-      name="Show score"
+      name="Mostra voto"
       checked={!componentDisabled}
       onChange={(e) => {
         setComponentDisabled(!e.target.checked)
@@ -233,8 +227,8 @@ class Patch{
     }
     >Show score
     </Checkbox>
-      <Form.Item  name="Score"label="Score " rules={[{ required: !componentDisabled, 
-        message: "Inserirt final score" }]}>
+      <Form.Item  name="Voto"label="Score " rules={[{ required: !componentDisabled, 
+        message: "Final score is required" }]}>
         <InputNumber
         defaultValue={(componentDisabled? undefined:reviews.voto)}
         onChange={(e)=>{
@@ -247,9 +241,9 @@ class Patch{
         max={31}
         min= {18}/>
       </Form.Item>
-      <Form.Item name="Attempt" label="N. attempt " rules= {[{required: !componentDisabled}]}>
+      <Form.Item name="Tentativo" label="N. attempt " rules= {[{required: !componentDisabled}]}>
         <InputNumber
-        defaultValue={(componentDisabled? undefined:reviews.voto)}
+        defaultValue={(componentDisabled? undefined:reviews.tentativo)}
         onChange={(e)=>{
           if (e != null)
           {reviews.tentativo = e
@@ -258,7 +252,7 @@ class Patch{
         value={reviews.tentativo}
         disabled={componentDisabled} min = {0}/>
       </Form.Item>
-      <Form.Item initialValue={reviews.frequenza} rules={[{required:true}]} name="Attendency" label="Frequenza">
+      <Form.Item initialValue={reviews.frequenza} rules={[{required:true}]} name="Frequenza" label="Attendency ">
         <Radio.Group defaultValue={true} value={reviews.frequenza}
           onChange={(e)=>{
             if (e.target.value != null)
@@ -270,7 +264,7 @@ class Patch{
           <Radio checked={reviews.frequenza==">50%"}value=">50%"> {">50%"} </Radio>
         </Radio.Group>
       </Form.Item>
-      <Checkbox name="anonymous"
+      <Checkbox name="anonima"
       checked={reviews.anonima}
       onChange={(e)=>{
         reviews.anonima=e.target.checked
@@ -280,5 +274,5 @@ class Patch{
       </Checkbox>
       </Form>
         </Modal>
+    return {mod: modal,setRev : setFormData ,setOp : setOpen, setVal:setComponentDisabled}
   }
-}

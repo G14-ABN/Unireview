@@ -1,6 +1,7 @@
 'use client'
 export {Order}
-import { Review } from '@/app/areaPersonale/createReview/models/review';
+export {Ordina}
+import { Review } from '../models/review';
 import { useState } from 'react';
 import React from 'react';
 import {
@@ -36,7 +37,8 @@ class Order{
       return -res
     }
   }
-static ordina(){
+}
+function Ordina(){
 
 
   function onFinish (values: any) {
@@ -60,9 +62,7 @@ static ordina(){
       Order.set()
       setIsModalOpen(false);
     };
-
-
-  return (
+    var modal = 
     <>
       <Button onClick={showModal} >
         Ordina per
@@ -83,15 +83,15 @@ static ordina(){
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item label="">
-        <Radio.Group onChange={(e)=>{
+      <Form.Item name = {"crit"}label="">
+        <Radio.Group name = "min"onChange={(e)=>{
           Order.min=e.target.value=="Min-max"
         }}>
           <Radio value="Min-max"> {'Min -> Max'} </Radio>
           <Radio value="Max-min"> {'Max -> Min'} </Radio>
         </Radio.Group>
         <Space/>
-          <Radio.Group onChange={(e)=>{
+          <Radio.Group name = "criteria" onChange={(e)=>{
             Order.field=e.target.value
           }}>
             <Radio value="Data"> Data </Radio>
@@ -101,7 +101,6 @@ static ordina(){
         </Form.Item>
     </Form>
       </Modal>
-    </>
-  );
-}
+    </>;
+    return {mod: modal, cancel:handleCancel}
 }
