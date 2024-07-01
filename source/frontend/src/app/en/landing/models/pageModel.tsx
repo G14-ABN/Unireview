@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Flex, ConfigProvider } from 'antd';
 import logo from './logo.png'
 import { Interfaccia } from '../interfaccia/interfaccia';
@@ -13,7 +13,27 @@ const { Header, Footer, Sider, Content } = Layout;
 
 function PageModel(name : String, body : React.JSX.Element, refName : string, ref : string){
  
-    const token = new URLSearchParams(window.location.search).get('token')
+    const [token, setToken] = useState("")
+
+  useEffect(() => {
+    // Extract the token from URL
+    if (typeof window != "undefined"){
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (token){
+        setToken(token)
+    }
+}
+    if (token) {
+      // Save token to localStorage
+      window.localStorage.setItem('jwtToken', token);
+      setToken(token)
+
+      // Redirect to the home page or dashboard
+    } else {
+      console.error('Token not found in URL');
+    }
+  }, []);
     const lightBase = "#f8c7c2"
     const lightFill = "#faeeec"
     const lightText ="#2a1617"

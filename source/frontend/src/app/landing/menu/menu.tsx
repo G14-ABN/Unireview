@@ -30,13 +30,14 @@ function getItem(
 function MenuPages(name : string, ref : string, auth : string|null){
         var items: MenuItem[]
         const popup= PopUp()
+        const mod = Mod()
         if (auth){
             items = [getItem('Area personale', 'sub1', <HomeOutlined />, [
                 getItem('Switch to english', 'sub6',
                     <a href={'./en'+'/?token='+auth}/>),
                 getItem('Compila recensione', 'sub3', popup),
                 getItem(name, 'sub4', <a href= {ref+'/?token='+auth}/>),
-                getItem('Contatta moderatori','sub2', Mod() ),
+                getItem('Contatta moderatori','sub2', mod ),
                 getItem('Log Out', 'sub5', <a href='./'/>),
                 ]),
             ]
