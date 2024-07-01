@@ -73,7 +73,10 @@ class Review{
         if (this.voto.valueOf()>=18){
         return(
             <div>
-            <p>{"Data: "+ (typeof this.data == "string"? this.data : this.data.getDate())}</p>
+            <p>{"Data esame: " + (typeof this.data === "string" 
+                ? new Date(this.data).toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' })
+                : this.data.toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }))}
+            </p>
             <p>{'Voto finale: '+this.voto}</p>
             <p>{"Tentativo all'accettazione: "+this.tentativo}</p>
             </div>
@@ -116,7 +119,7 @@ function returnCollapse(review: Review, setReview :React.Dispatch<React.SetState
             <p>Materiale</p> 
             <Rate disabled defaultValue={review.valutazione_materiale.valueOf()} />
             {review.getVoto()}
-            <p>{"Frequenza: "+ review.frequenza}</p>
+            <p>{"Frequenza: " + (review.frequenza === "0%" ? "Nessuna" : review.frequenza)}</p>
             <p>{review.testo}</p>
             <Button onClick={()=>Elimina.handle(review.rID)}>Elimina</Button>
             <Button onClick={()=>{
@@ -154,7 +157,7 @@ function returnCollapse(review: Review, setReview :React.Dispatch<React.SetState
                 <Rate disabled defaultValue={review.valutazione_materiale.valueOf()} />
                 <br/>
                 {review.getVoto()}
-                <p>{"Frequenza: "+ review.frequenza}</p>
+                <p>{"Frequenza: " + (review.frequenza === "0%" ? "Nessuna" : review.frequenza)}</p>
                 <br/>
                 <p>{review.testo}</p>
             </>}]

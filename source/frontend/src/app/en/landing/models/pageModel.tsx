@@ -34,16 +34,16 @@ function PageModel(name : String, body : React.JSX.Element, refName : string, re
       console.error('Token not found in URL');
     }
   }, []);
-    const lightBase = "#f8c7c2"
-    const lightFill = "#faeeec"
-    const lightText ="#2a1617"
-    const darkBase = "#2a1617"
-    const darkFill = "#431c1d"
-    const darkText ="#faeeec"
-    const lightSider="#e8706b"
-    const darkSider="#792b2b"
-    const lightFooter="#d24040"
-    const darkFooter="#431c1d"
+  const lightBase = "#F7F8FA"
+  const lightFill = "#F7F8FA"
+  const lightText ="#333333"
+  const lightSider="#F7F8FA"
+  const lightFooter="#E1E5EA"
+  const darkBase = "#2C2F33"
+  const darkFill = "#23272A"
+  const darkText ="#F7F8FA"
+  const darkSider="#23272A"
+  const darkFooter="#23272A"
         UtenteAutenticato.token=token
         Start()
         new Elimina()
@@ -82,7 +82,7 @@ function PageModel(name : String, body : React.JSX.Element, refName : string, re
             colorText: dark?darkText:lightText,
             colorBgContainer:dark?darkFill:lightFill,
             colorTextDescription: dark?darkText:lightText,
-            colorPrimary:"#a63636",
+            colorPrimary:"#E74C3C",
             colorBgElevated:dark?darkBase:lightBase,
           },
         }}>

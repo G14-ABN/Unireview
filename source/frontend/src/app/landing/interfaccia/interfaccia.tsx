@@ -4,7 +4,7 @@ export {Interfaccia}
 import { Tema } from './tema';
 import { Lingua } from './lingua';
 import React from 'react';
-import { UtenteAutenticato } from '@/app/areaPersonale/users/utenteAutenticato';
+import { UtenteAutenticato } from '../../areaPersonale/users/utenteAutenticato';
 
 function loadDoc() {
   var xhttp = new XMLHttpRequest();

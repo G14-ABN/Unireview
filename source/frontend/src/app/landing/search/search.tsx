@@ -1,7 +1,7 @@
 export {Search}
 import React, { useState, useEffect } from 'react';
-import { SubmitHandler } from 'react-hook-form';
-import { getReviews } from '@/app/connect/recensione';
+// import { SubmitHandler } from 'react-hook-form';
+import { getReviews } from '../../connect/recensione';
 import { Button, Space, Form, AutoComplete } from 'antd';
 import { Filters, FiltersModal } from './filters';
 import { Review, returnCollapse } from '../models/review';

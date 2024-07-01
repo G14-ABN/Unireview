@@ -2,7 +2,7 @@ import UseState from 'react';
 import React from 'react';
 //import { Lezioni } from '../../../../DB/lezioni';
 export {Reviews};
-import { Review } from '@/app/areaPersonale/createReview/models/review';
+// import { Review } from '../../areaPersonale/createReview/models/review';
 
 function random(min : number, max : number){
   return Math.floor(Math.random() * (max - min + 1) + min)

@@ -32,7 +32,7 @@ function MenuPages(name : string, ref : string, auth : string|null){
         const popup= PopUp()
         const mod = Mod()
         if (auth){
-            items = [getItem('Personal space', 'sub1', <HomeOutlined />, [
+            items = [getItem('Personal Area', 'sub1', <HomeOutlined />, [
                 getItem('Passa a italiano', 'sub6',
                     <a href={'../'+'/?token='+auth}/>),
                 getItem('New review', 'sub3', popup),
@@ -42,7 +42,7 @@ function MenuPages(name : string, ref : string, auth : string|null){
                 ]),
             ]
         }else{
-        items = [getItem('Personal space', 'sub1', <HomeOutlined />, [
+        items = [getItem('Personal Area', 'sub1', <HomeOutlined />, [
             getItem('Switch to italian', 'sub6',
                 <a href='../'/>),
                 getItem('Log In', 'sub3', <a href='http://localhost:8080/auth/google/callback'/>),
