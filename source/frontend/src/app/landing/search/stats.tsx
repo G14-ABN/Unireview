@@ -61,7 +61,7 @@ function stats(reviews: Review[]){
     <Progress percent={getPercent(stars[4])} style={{ width: "50%" }}size="small" format={(e)=>"5 stella: "+stars[4]}/>
   </Flex>
   <Flex vertical gap="small" style={{ width: "33%" }}>
-  <Statistic title="Voto medio"value={voti==0?"Non disponibile":(votomedio/voti).toPrecision(2)}/>
+  <Statistic title="Voto medio conseguito"value={voti==0?"Non disponibile":(votomedio/voti).toPrecision(2)}/>
     <Progress percent={getPercent(marks[0])} style={{ width: "50%" }}size="small" format={(e)=>"Senza voto: "+marks[0]}/>
     <Progress percent={getPercent(marks[1])} style={{ width: "50%" }}size="small" format={(e)=>"18-20: "+marks[1]}/>
     <Progress percent={getPercent(marks[2])} style={{ width: "50%" }}size="small" format={(e)=>"21-23: "+marks[2]}/>

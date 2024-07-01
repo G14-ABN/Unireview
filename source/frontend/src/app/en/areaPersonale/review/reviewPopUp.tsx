@@ -88,12 +88,12 @@ function PopUp(){
   };
 
     const showModal = () => {
-      if (UtenteAutenticato.bannedUntil.setHours(0,0,0,0)<new Date().setHours(0,0,0,0)){
+      // if (UtenteAutenticato.bannedUntil.setHours(0,0,0,0)<new Date().setHours(0,0,0,0)){
       onResetCourse()
       setIsModalOpen(true);
-      } else {
-        window.alert('Impossibile to create a new review')
-      }
+      // } else {
+      //   window.alert('Impossibile to create a new review')
+      // }
     };
     const handleOk = () => {
       reviews.data= new Date().toDateString()
