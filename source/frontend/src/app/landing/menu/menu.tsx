@@ -9,7 +9,7 @@ import { PopUp } from '../../areaPersonale/review/reviewPopUp';
 import { Mod } from '../../areaPersonale/moderatori';
 export {MenuPages};
 
-const BASE_URI = process.env.BASE_URI;
+const BACKEND_URI = process.env.BACKEND_URI;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -47,7 +47,7 @@ function MenuPages(name : string, ref : string, auth : string|null){
         items = [getItem('Area personale', 'sub1', <HomeOutlined />, [
             getItem('Switch to english', 'sub6',
                 <a href='./en'/>),
-                getItem('Log In', 'sub3', <a href={`${BASE_URI}/auth/google`}/>),
+                getItem('Log In', 'sub3', <a href={`${BACKEND_URI}/auth/google`}/>),
                 ]),
             ]
         }

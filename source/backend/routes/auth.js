@@ -4,6 +4,8 @@ import passport from "../services/googleAuthService.js";
 import accessProtectionMiddleware from "../services/accessProtectionMiddleware.js";
 import User from "../models/User.js";
 
+const FRONTEND_URI = process.env.FRONTEND_URI;
+
 const router = Router();
 const secretKey = process.env.JWT_SECRET;
 
@@ -58,7 +60,7 @@ router.get(
       );
 
       // Redirect the user to the homepage with the token as a query parameter
-      res.redirect(`http://localhost:3000/?token=${token}`);
+      res.redirect(`${FRONTEND_URI}/?token=${token}`);
       /*res.json({
         message: `Token: ${token}`,
       });*/

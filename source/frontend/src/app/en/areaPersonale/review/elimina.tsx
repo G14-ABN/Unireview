@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 
-const BASE_URI = process.env.BASE_URI;
+const BACKEND_URI = process.env.BACKEND_URI;
 
 class Elimina{
   /*private static open = false
@@ -22,7 +22,7 @@ class Elimina{
   static handle(id:string){
     const XMLHttpRequest = require('xhr2');
     const xhr = new XMLHttpRequest();
-    xhr.open("DELETE", `${BASE_URI}/api/review/`+id, true);
+    xhr.open("DELETE", `${BACKEND_URI}/api/review/`+id, true);
     xhr.setRequestHeader('Authorization', UtenteAutenticato.token);
     xhr.setRequestHeader("Content-Type", 'application/json')
     /*xhr.onreadystatechange = () => {

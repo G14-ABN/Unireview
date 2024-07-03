@@ -9,7 +9,7 @@ import { getcorsi, getprofessori, isExam, isProfessor } from '../../connect/lezi
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
-const BASE_URI = process.env.BASE_URI;
+const BACKEND_URI = process.env.BACKEND_URI;
 
 function PopUp(){
   const [teachersState, ProfessorChange] = useState<{value:string}[]>([])
@@ -63,7 +63,7 @@ function PopUp(){
     const XMLHttpRequest = require('xhr2');
     const xhr = new XMLHttpRequest();
     
-    xhr.open("POST", `${BASE_URI}/api/review`, true);
+    xhr.open("POST", `${BACKEND_URI}/api/review`, true);
     xhr.setRequestHeader('Authorization', new URLSearchParams(window.location.search).get('token'));
     /*xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {

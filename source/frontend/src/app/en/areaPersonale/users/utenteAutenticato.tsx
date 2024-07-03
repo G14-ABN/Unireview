@@ -3,7 +3,7 @@ import { UtenteAnonimo } from "./utenteAnonimo"
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
-const BASE_URI = process.env.BASE_URI;
+const BACKEND_URI = process.env.BACKEND_URI;
 
 function Start(){
     const dec : {email:string, nomeUtente : string}|null = UtenteAutenticato.token?jwtDecode(UtenteAutenticato.token):null
@@ -42,7 +42,7 @@ class UtenteAutenticato extends UtenteAnonimo{
         if(UtenteAutenticato.token){
             const XMLHttpRequest = require('xhr2');
             const xhr = new XMLHttpRequest();
-            xhr.open("PUT", `${BASE_URI}/api/user/theme`, true);
+            xhr.open("PUT", `${BACKEND_URI}/api/user/theme`, true);
             xhr.setRequestHeader('Authorization', UtenteAutenticato.token);
             xhr.setRequestHeader("Content-Type", 'application/json')
             xhr.send(JSON.stringify({temaUi:this.temaUI}))
@@ -65,7 +65,7 @@ class UtenteAutenticato extends UtenteAnonimo{
             return new Promise((resolve, rejects)=>{
                 const XMLHttpRequest = require('xhr2');
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', `${BASE_URI}/api/user/`+(dec?dec.email:""), true);
+                xhr.open('GET', `${BACKEND_URI}/api/user/`+(dec?dec.email:""), true);
                 xhr.setRequestHeader('Authorization', token);
                 xhr.onreadystatechange = ()=>{  
                     if (xhr.readyState === XMLHttpRequest.DONE) {
