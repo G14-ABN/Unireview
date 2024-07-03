@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Modal,Form,Input} from 'antd';
-import { UtenteAutenticato } from './users/utenteAutenticato';
+import { UtenteAutenticato, GetToken } from './users/utenteAutenticato';
 import { jwtDecode } from 'jwt-decode';
 export {Mod};
 const { TextArea } = Input;
@@ -24,7 +24,7 @@ function Mod(){
     const XMLHttpRequest = require('xhr2');
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `${BACKEND_URI}/api/send-email`, true);
-    xhr.setRequestHeader('Authorization', new URLSearchParams(window.location.search).get('token'));
+    xhr.setRequestHeader('Authorization', GetToken());
     xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       window.alert('Messaggio inviato correttamente')
