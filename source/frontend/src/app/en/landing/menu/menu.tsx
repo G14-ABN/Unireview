@@ -46,10 +46,9 @@ function MenuPages(name : string, ref : string, auth : string|null){
         }else{
         items = [getItem('Personal Area', 'sub1', <HomeOutlined />, [
             getItem('Switch to italian', 'sub6',
-                <a href='../'/>),
-                getItem('Log In', 'sub3', <a href='BASE_URI/auth/google/callback'/>),
-                ]),
-            ]
+            <a href="../"/>),
+            getItem('Log In', 'sub3', <a href={`${BASE_URI}/auth/google`}/>),
+        ])];
         }
 
         return (

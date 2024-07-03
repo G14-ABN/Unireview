@@ -88,7 +88,7 @@ function initField(){
             return new Promise((resolve, rejects)=>{
                 const XMLHttpRequest = require('xhr2');
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', 'BASE_URI/api/exam', true);
+                xhr.open('GET', `${BASE_URI}/api/exam`, true);
                 xhr.onreadystatechange = ()=>{  
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {        
