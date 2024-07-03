@@ -6,7 +6,7 @@
     "heroku-postbuild": "cd source/backend && npm install && npm run build"
   },
   "engines": {
-    "node": "14.x"
+    "node": "22"
   },
   "dependencies": {
     "heroku-postbuild": "^0.0.1"
