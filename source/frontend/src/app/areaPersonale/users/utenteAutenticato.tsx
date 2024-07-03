@@ -3,6 +3,8 @@ import { UtenteAnonimo } from "./utenteAnonimo"
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
+const BASE_URI = process.env.BASE_URI;
+
 function Start(){
     const dec : {email:string, nomeUtente : string}|null = UtenteAutenticato.token?jwtDecode(UtenteAutenticato.token):null
         UtenteAutenticato.email=dec?dec.email:""

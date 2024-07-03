@@ -1,5 +1,7 @@
 import { UtenteAutenticato } from "./utenteAutenticato";
 
+const BASE_URI = process.env.BASE_URI;
+
 class UtenteModeratore{
     static promote(email:string){
     const XMLHttpRequest = require('xhr2');

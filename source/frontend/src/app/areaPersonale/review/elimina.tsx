@@ -5,6 +5,8 @@ import {
 } from 'antd';
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 
+const BASE_URI = process.env.BASE_URI;
+
 class Elimina{
   /*private static open = false
   static modal = <Modal

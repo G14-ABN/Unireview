@@ -9,6 +9,8 @@ import { PopUp } from '../../areaPersonale/review/reviewPopUp';
 import { Mod } from '../../areaPersonale/moderatori';
 export {MenuPages};
 
+const BASE_URI = process.env.BASE_URI;
+
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(

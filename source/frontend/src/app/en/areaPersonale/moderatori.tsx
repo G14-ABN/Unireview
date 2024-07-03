@@ -5,6 +5,8 @@ import { jwtDecode } from 'jwt-decode';
 export {Mod};
 const { TextArea } = Input;
 
+const BASE_URI = process.env.BASE_URI;
+
 function Mod(){
 
   function onFinish (values: any) {

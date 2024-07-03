@@ -2,6 +2,8 @@ import { Review } from "../landing/models/review"
 import { Order } from "../landing/search/ordina"
 export {getReviews}
 
+const BASE_URI = process.env.BASE_URI;
+
 function noDup(from : {anonima: boolean
     autore: string
     data: string

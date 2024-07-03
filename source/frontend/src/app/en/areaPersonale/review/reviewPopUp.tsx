@@ -9,6 +9,8 @@ import { getcorsi, getprofessori, isExam, isProfessor } from '../../connect/lezi
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
+const BASE_URI = process.env.BASE_URI;
+
 function PopUp(){
   const [teachersState, ProfessorChange] = useState<{value:string}[]>([])
 

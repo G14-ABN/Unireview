@@ -8,6 +8,8 @@ import { getcorsi, getprofessori } from '../../connect/lezioni'
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
+const BASE_URI = process.env.BASE_URI;
+
 class Patch{
   static id = ""
   static review = {

@@ -1,5 +1,7 @@
 export {init, getcorsi, getprofessori, isExam, isProfessor}
 
+const BASE_URI = process.env.BASE_URI;
+
 class lezione{
     esame: string
     professore: string
