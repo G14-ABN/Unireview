@@ -1,0 +1,14 @@
+{
+  "name": "unireview",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "cd source/backend && npm start",
+    "heroku-postbuild": "cd source/backend && npm install && npm run build"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "dependencies": {
+    "heroku-postbuild": "^0.0.1"
+  }
+}
