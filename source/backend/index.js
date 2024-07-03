@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import "./loadEnvironment.js";
 import app from "./server.js";
 
-const PORT = 8080;
+const PORT = process.env.PORT;
 
 const connectionString = process.env.ATLAS_URI;
 const databaseName = process.env.DB_NAME;
@@ -16,7 +16,7 @@ try {
   console.log("Connessione al database per i test riuscita!");
 
   server = app.listen(PORT, () => {
-    console.log("Test server is running on port 8080");
+    console.log("Test server is running on port " + PORT);
   });
 } catch (error) {
   console.error(
