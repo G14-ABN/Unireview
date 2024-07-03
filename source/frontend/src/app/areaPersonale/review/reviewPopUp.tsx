@@ -61,7 +61,7 @@ function PopUp(){
     const XMLHttpRequest = require('xhr2');
     const xhr = new XMLHttpRequest();
     
-    xhr.open("POST", "http://localhost:8080/api/review", true);
+    xhr.open("POST", "BASE_URI/api/review", true);
     xhr.setRequestHeader('Authorization', new URLSearchParams(window.location.search).get('token'));
     /*xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {

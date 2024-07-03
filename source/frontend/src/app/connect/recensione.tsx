@@ -113,7 +113,7 @@ async function getReviews(professore : string, corso : string, autore=""){
             return new Promise((resolve, rejects)=>{
                 const XMLHttpRequest = require('xhr2');
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', 'http://localhost:8080/api/review/'+autore, true);
+                xhr.open('GET', 'BASE_URI/api/review/'+autore, true);
                 xhr.onreadystatechange = ()=>{  
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {        
@@ -148,7 +148,7 @@ async function getReviews(professore : string, corso : string, autore=""){
         return new Promise((resolve, rejects)=>{
                 const XMLHttpRequest = require('xhr2');
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', 'http://localhost:8080/api/review', true);
+                xhr.open('GET', 'BASE_URI/api/review', true);
                 xhr.onreadystatechange = ()=>{  
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {        
@@ -183,7 +183,7 @@ async function getReviews(professore : string, corso : string, autore=""){
                 return new Promise((resolve, rejects)=>{
                     const XMLHttpRequest = require('xhr2');
                     const xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'http://localhost:8080/api/review/professore/'+professore, true);
+                    xhr.open('GET', 'BASE_URI/api/review/professore/'+professore, true);
                     xhr.onreadystatechange = ()=>{  
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {        
@@ -218,7 +218,7 @@ async function getReviews(professore : string, corso : string, autore=""){
                 return new Promise((resolve, rejects)=>{
                     const XMLHttpRequest = require('xhr2');
                     const xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'http://localhost:8080/api/review/esame/'+corso, true);
+                    xhr.open('GET', 'BASE_URI/api/review/esame/'+corso, true);
                     xhr.onreadystatechange = ()=>{  
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {        
@@ -253,7 +253,7 @@ async function getReviews(professore : string, corso : string, autore=""){
                 return new Promise((resolve, rejects)=>{
                     const XMLHttpRequest = require('xhr2');
                     const xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'http://localhost:8080/api/review/professore?professore='+professore, true);
+                    xhr.open('GET', 'BASE_URI/api/review/professore?professore='+professore, true);
                     xhr.onreadystatechange = ()=>{  
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {        

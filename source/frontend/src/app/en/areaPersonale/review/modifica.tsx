@@ -27,7 +27,7 @@ class Patch{
   static handle(){
     const XMLHttpRequest = require('xhr2');
     const xhr = new XMLHttpRequest();
-    xhr.open("PATCH", "http://localhost:8080/api/review/"+Patch.id, true);
+    xhr.open("PATCH", "BASE_URI/api/review/"+Patch.id, true);
     xhr.setRequestHeader('Authorization', UtenteAutenticato.token);
     xhr.setRequestHeader("Content-Type", 'application/json')
     /*xhr.onreadystatechange = () => {

@@ -45,7 +45,7 @@ function MenuPages(name : string, ref : string, auth : string|null){
         items = [getItem('Area personale', 'sub1', <HomeOutlined />, [
             getItem('Switch to english', 'sub6',
                 <a href='./en'/>),
-                getItem('Log In', 'sub3', <a href='http://localhost:8080/auth/google/callback'/>),
+                getItem('Log In', 'sub3', <a href='BASE_URI/auth/google/callback'/>),
                 ]),
             ]
         }
