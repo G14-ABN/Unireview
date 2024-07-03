@@ -2,7 +2,7 @@ import { Review } from "../landing/models/review"
 import { Order } from "../landing/search/ordina"
 export {getReviews}
 
-const BACKEND_URI = process.env.BACKEND_URI;
+const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 function noDup(from : {anonima: boolean
     autore: string

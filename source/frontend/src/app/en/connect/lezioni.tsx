@@ -1,6 +1,6 @@
 export {init, getcorsi, getprofessori, isExam, isProfessor}
 
-const BACKEND_URI = process.env.BACKEND_URI;
+const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 class lezione{
     esame: string

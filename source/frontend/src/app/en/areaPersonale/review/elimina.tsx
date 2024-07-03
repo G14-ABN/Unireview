@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 
-const BACKEND_URI = process.env.BACKEND_URI;
+const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 class Elimina{
   /*private static open = false

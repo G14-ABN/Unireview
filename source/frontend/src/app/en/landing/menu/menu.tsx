@@ -9,7 +9,7 @@ import { PopUp } from '../../areaPersonale/review/reviewPopUp';
 import { Mod } from '../../areaPersonale/moderatori';
 export {MenuPages};
 
-const BACKEND_URI = process.env.BACKEND_URI;
+const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 type MenuItem = Required<MenuProps>['items'][number];
 

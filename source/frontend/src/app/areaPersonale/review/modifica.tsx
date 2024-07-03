@@ -8,7 +8,7 @@ import { getcorsi, getprofessori } from '../../connect/lezioni'
 import { UtenteAutenticato } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
-const BACKEND_URI = process.env.BACKEND_URI;
+const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 class Patch{
   static id = ""

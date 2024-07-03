@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 export {Mod};
 const { TextArea } = Input;
 
-const BACKEND_URI = process.env.BACKEND_URI;
+const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 function Mod(){
 
