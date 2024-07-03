@@ -6,7 +6,7 @@ import {
 export {PopUp};
 import { init } from '../../connect/lezioni';
 import { getcorsi, getprofessori, isExam, isProfessor } from '../../connect/lezioni';
-import { UtenteAutenticato } from '../users/utenteAutenticato';
+import { UtenteAutenticato, GetToken } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
 const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
@@ -64,7 +64,7 @@ function PopUp(){
     const xhr = new XMLHttpRequest();
     
     xhr.open("POST", `${BACKEND_URI}/api/review`, true);
-    xhr.setRequestHeader('Authorization', new URLSearchParams(window.location.search).get('token'));
+    xhr.setRequestHeader('Authorization', GetToken());
     /*xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       window.alert('Recensione caricata correttamente')
