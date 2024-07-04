@@ -136,6 +136,7 @@ router.delete("/:reviewId", accessProtectionMiddleware, async (req, res) => {
 
     if (requester.moderatore || requester.email === review.autore.toString()) {
       await Review.findByIdAndDelete(reviewId);
+      console.log(review + "\n Recensione eliminata con successo");
       res.status(200).json({ message: "Recensione eliminata con successo" });
     } else {
       res.status(403).json({
