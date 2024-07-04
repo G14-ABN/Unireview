@@ -1,8 +1,10 @@
-export {Start}
+export {Start, GetToken}
 import { UtenteAnonimo } from "./utenteAnonimo"
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-
+function GetToken(){
+    return new URLSearchParams(window.location.search).get('token');
+}
 const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 function Start(){
