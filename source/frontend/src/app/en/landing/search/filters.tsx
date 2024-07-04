@@ -81,7 +81,7 @@ class Filters{
   return (
     <>
       <Button onClick={showModal}>
-        Filtra per
+        Filter by
       </Button>
       <Modal title="Filter by" 
       open={isModalOpen} 
