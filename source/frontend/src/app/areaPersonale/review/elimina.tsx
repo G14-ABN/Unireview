@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
     Modal,Button
 } from 'antd';
-import { UtenteAutenticato } from '../users/utenteAutenticato';
+import { UtenteAutenticato, GetToken } from '../users/utenteAutenticato';
 
 const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
@@ -23,7 +23,7 @@ class Elimina{
     const XMLHttpRequest = require('xhr2');
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", `${BACKEND_URI}/api/review/`+id, true);
-    xhr.setRequestHeader('Authorization', UtenteAutenticato.token);
+    xhr.setRequestHeader('Authorization', GetToken());
     xhr.setRequestHeader("Content-Type", 'application/json')
     /*xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
