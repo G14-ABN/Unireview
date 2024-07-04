@@ -38,6 +38,7 @@ router.post("/", accessProtectionMiddleware, async (req, res) => {
 
     const recensioneSalvata = await nuovaRecensione.save();
 
+    console.log(recensioneSalvata);
     res.status(201).json(recensioneSalvata);
   } catch (error) {
     /* istanbul ignore else */
