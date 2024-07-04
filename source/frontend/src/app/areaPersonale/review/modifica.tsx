@@ -5,7 +5,7 @@ import {
     Form,Input,InputNumber,Radio, AutoComplete
 } from 'antd';
 import { getcorsi, getprofessori } from '../../connect/lezioni'
-import { UtenteAutenticato } from '../users/utenteAutenticato';
+import { UtenteAutenticato, GetToken } from '../users/utenteAutenticato';
 const { TextArea } = Input;
 
 const BACKEND_URI = process.env.NEXT_PUBLIC_BACKEND_URI;
@@ -30,7 +30,7 @@ class Patch{
     const XMLHttpRequest = require('xhr2');
     const xhr = new XMLHttpRequest();
     xhr.open("PATCH", `${BACKEND_URI}/api/review/`+Patch.id, true);
-    xhr.setRequestHeader('Authorization', UtenteAutenticato.token);
+    xhr.setRequestHeader('Authorization', GetToken());
     xhr.setRequestHeader("Content-Type", 'application/json')
     /*xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
