@@ -102,7 +102,7 @@ function PopUp(){
       setFormData(reviews)
       handleSubmit()
       //window.alert('Errore di autenticazione, effettuare di nuovo il login')
-      location.reload()
+      // location.reload()
       //setIsModalOpen(false);
       //handleCancel();
     };
