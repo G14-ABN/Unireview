@@ -267,7 +267,7 @@ setVoto :React.Dispatch<React.SetStateAction<boolean>>){
         </Radio.Group>
       </Form.Item>
       <Checkbox name="anonima"
-      checked={reviews.anonima}
+      defaultChecked={reviews.anonima}
       onChange={(e)=>{
         reviews.anonima=e.target.checked
       }} 
