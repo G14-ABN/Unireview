@@ -64,7 +64,7 @@ function Ordina(){
     var modal = 
     <>
       <Button onClick={showModal} >
-        Ordina per
+        Order by
       </Button>
       <Modal title="Order by"
        open={isModalOpen} 
