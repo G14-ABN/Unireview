@@ -65,17 +65,17 @@ function PopUp(){
     
     xhr.open("POST", `${BACKEND_URI}/api/review`, true);
     xhr.setRequestHeader('Authorization', GetToken());
-    /*xhr.onreadystatechange = () => {
+    xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      window.alert('Recensione caricata correttamente')
+      window.alert('Review loaded successfully')
       console.log("recensione caricata correttamente")// Request finished. Do processing here.
       location.reload()
     } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 403) {
-      window.alert('Errore di autenticazione, effetturare di nuovo il login')
+      window.alert('Autentication error, login again')
       console.log("Errore di autenticazione, effetturare di nuovo il login")// Request finished. Do processing here.
       location.reload()
     }
-    };*/
+    };
     xhr.setRequestHeader("Content-Type", 'application/json')
     xhr.send(JSON.stringify(reviews))
   } 
@@ -102,7 +102,6 @@ function PopUp(){
       setFormData(reviews)
       handleSubmit()
       //window.alert('Errore di autenticazione, effettuare di nuovo il login')
-      location.reload()
       //setIsModalOpen(false);
       //handleCancel();
     };
