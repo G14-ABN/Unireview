@@ -85,7 +85,7 @@ function Search () {
     console.log(values);
   };
 
-  const ordina = Ordina()
+  const ordina = Ordina(fun)
 
   const onReset = () => {
     Filters.handleCancel()
@@ -96,17 +96,7 @@ function Search () {
     setProfessor("")
     form.resetFields();
   };
-
-
-  return(
-    <div>
-      {modal.mod}
-    <Form
-      {...layout}
-      form={form}
-      name="control-hooks"
-      onFinish={onFinish}
-      onSubmitCapture={async ()=>{
+  async function fun(){
         const res=await getReviews(professor, course)
         const dest:Review[]=[]
         res.forEach(e=>{
@@ -124,7 +114,17 @@ function Search () {
           setStats(undefined)
           setReviews([<div key = "null"/>])
         }
-        }}
+        }
+
+  return(
+    <div>
+      {modal.mod}
+    <Form
+      {...layout}
+      form={form}
+      name="control-hooks"
+      onFinish={onFinish}
+      onSubmitCapture={fun}
       style={{ maxWidth: 600 }}
     >
       <Form.Item id = "professori" name="professors" label="Professori" rules={[{ required: false }]}>
@@ -170,7 +170,7 @@ function Search () {
                     }>
             Reset
           </Button>
-          {FiltersModal()}
+          {FiltersModal(fun)}
           {ordina.mod}
         </Space>
       </Form.Item>
