@@ -37,7 +37,7 @@ class Order{
     }
   }
 }
-function Ordina(){
+function Ordina(fun : ()=>void){
 
 
   function onFinish (values: any) {
@@ -54,6 +54,7 @@ function Ordina(){
       setIsModalOpen(true);
     };
     const handleOk = () => {
+        fun()
       setIsModalOpen(false);
     };
     const handleCancel = () => {
