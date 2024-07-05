@@ -75,6 +75,7 @@ function PopUp(){
       console.log("Errore di autenticazione, effetturare di nuovo il login")// Request finished. Do processing here.
       location.reload()
     }
+        location.reload()
     };
     xhr.setRequestHeader("Content-Type", 'application/json')
     xhr.send(JSON.stringify(reviews))
