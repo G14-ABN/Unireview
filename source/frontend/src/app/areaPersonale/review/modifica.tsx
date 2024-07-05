@@ -34,8 +34,8 @@ class Patch{
     xhr.setRequestHeader("Content-Type", 'application/json')
     xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      window.alert('Recensione caricata correttamente')
-      console.log("recensione caricata correttamente")// Request finished. Do processing here.
+      window.alert('Recensione modificata correttamente')
+      console.log("recensione modificata correttamente")// Request finished. Do processing here.
       location.reload()
     } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 403) {
       window.alert('Errore di autenticazione, effetturare di nuovo il login')
