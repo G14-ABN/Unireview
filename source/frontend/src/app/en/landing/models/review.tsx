@@ -106,7 +106,7 @@ function returnCollapse(review: Review, setReview :React.Dispatch<React.SetState
     return (
         <div key = {review.rID}>
         <Collapse 
-        items={[{label: review.corso+" ("+review.professore+") "+'         ' + review.average() + '   Stelle' , children: 
+        items={[{label: review.corso+" ("+review.professore+") "+'         ' + review.average() + '   Stars' , children: 
         <>
             <p>{autore}</p>
             <p>Easiness</p> 
@@ -116,7 +116,7 @@ function returnCollapse(review: Review, setReview :React.Dispatch<React.SetState
             <p>Material</p> 
             <Rate disabled defaultValue={review.valutazione_materiale.valueOf()} />
             {review.getVoto()}
-            <p>{"Frequenza: "+ review.frequenza}</p>
+            <p>{"Attendency: "+ review.frequenza}</p>
             <p>{review.testo}</p>
             <Button onClick={()=>Elimina.handle(review.rID)}>Delete</Button>
             <Button onClick={()=>{
@@ -140,7 +140,7 @@ function returnCollapse(review: Review, setReview :React.Dispatch<React.SetState
         return (
             <div key = {review.rID}>
             <Collapse 
-            items={[{label: review.corso+" ("+review.professore+") "+'         ' + review.average() + '   Stelle' , children: 
+            items={[{label: review.corso+" ("+review.professore+") "+'         ' + review.average() + '   Stars' , children: 
             <>
                 <p>{autore}</p>
                 <br/>
@@ -154,7 +154,7 @@ function returnCollapse(review: Review, setReview :React.Dispatch<React.SetState
                 <Rate disabled defaultValue={review.valutazione_materiale.valueOf()} />
                 <br/>
                 {review.getVoto()}
-                <p>{"Frequenza: "+ review.frequenza}</p>
+                <p>{"Attendency: "+ review.frequenza}</p>
                 <br/>
                 <p>{review.testo}</p>
             </>}]
