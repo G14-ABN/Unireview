@@ -25,20 +25,18 @@ class Elimina{
     xhr.open("DELETE", `${BACKEND_URI}/api/review/`+id, true);
     xhr.setRequestHeader('Authorization', GetToken());
     xhr.setRequestHeader("Content-Type", 'application/json')
-    /*xhr.onreadystatechange = () => {
+    xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      window.alert('Recensione eliminata correttamente')
+      window.alert('Review deleted successfully')
+      console.log("recensione caricata correttamente")// Request finished. Do processing here.
       location.reload()
-      console.log("recensione eliminata correttamente")// Request finished. Do processing here.
-    } else {
-      if (allert ==0){
-        window.alert('Errore di autenticazione, effettuare di nuovo il login')
-        allert++;
-      }
+    } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 403) {
+      window.alert('Authentication error, login again')
+      console.log("Errore di autenticazione, effetturare di nuovo il login")// Request finished. Do processing here.
+      location.reload()
     }
-    };*/
+    };
     xhr.send()
-    location.reload()
     //xhr.send(JSON.stringify({reviewId:Elimina.id, user:UtenteAutenticato.email}))
 }
   /*static remove(id:string){
