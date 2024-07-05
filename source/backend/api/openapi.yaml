@@ -326,7 +326,9 @@ paths:
         "201":
           description: Recensione creata con successo
         "400":
-          description: Errore nell'inserimento dei dati"
+          description: Errore nell'inserimento dei dati
+        "401":
+          description: Token mancante, autorizzazione negata
         "500":
           description: Errore del server
   
