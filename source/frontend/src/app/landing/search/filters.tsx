@@ -62,7 +62,7 @@ class Filters{
   static handleCancel=()=>{}
 }
   
-  function FiltersModal(){
+  function FiltersModal(fun : ()=>void){
     const formatter: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value) => (value==17?"Senza voto":value);
     const [form]=Form.useForm()
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,6 +70,7 @@ class Filters{
       setIsModalOpen(true);
     }; 
     const handleOk = () => {
+        fun()
       setIsModalOpen(false);
     };
     Filters.handleCancel = () => {
