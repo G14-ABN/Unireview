@@ -65,7 +65,7 @@ function PopUp(){
     
     xhr.open("POST", `${BACKEND_URI}/api/review`, true);
     xhr.setRequestHeader('Authorization', GetToken());
-    /*xhr.onreadystatechange = () => {
+    xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       window.alert('Recensione caricata correttamente')
       console.log("recensione caricata correttamente")// Request finished. Do processing here.
@@ -75,7 +75,7 @@ function PopUp(){
       console.log("Errore di autenticazione, effetturare di nuovo il login")// Request finished. Do processing here.
       location.reload()
     }
-    };*/
+    };
     xhr.setRequestHeader("Content-Type", 'application/json')
     xhr.send(JSON.stringify(reviews))
   } 
