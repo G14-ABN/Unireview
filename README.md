@@ -9,10 +9,7 @@ Nella cartella docs è possibile trovare la documentazione del progetto, mentre 
 ```
 source/
 ├── frontend/
-│   ├── app/
-│   │   ├── page.tsx
-│   │   ├── layout.tsx
-│   │   └── global.css
+│   ├──src/
 │   ├── public/
 │   ├── node_modules/
 │   └── package.json
@@ -53,7 +50,7 @@ DB_NAME="unireview"
 
 Dependencies:
 
-`npm i antd xhr2`
+`npm i antd xhr2 jwt-decode`
 
 How to install:
 
