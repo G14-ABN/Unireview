@@ -60,6 +60,9 @@ router.post("/", accessProtectionMiddleware, async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const reviews = await Review.find();
+    if (!reviews || reviews.length === 0) {
+      return res.status(404).json({ error: "Nessuna recensione trovata" });
+    }
     res.status(200).json(reviews);
   } catch (error) {
     /* istanbul ignore next */

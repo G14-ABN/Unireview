@@ -15,6 +15,9 @@ router.get("/", accessProtectionMiddleware, async (req, res) => {
       res.status(200).json(users);
     } else {
       // Se non è moderatore, restituisci solo il profilo dell'utente autenticato
+      if (!user) {
+        return res.status(404).json({ error: "Nessun utente non trovato" });
+      }
       res.status(200).json(user);
     }
   } catch (error) {

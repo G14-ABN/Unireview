@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
     const exams = await Exam.find();
     if (exams.length === 0) {
       /* istanbul ignore next */
-      return res.status(404).json({ error: "Nessun esame trovaro" });
+      return res.status(404).json({ error: "Nessun esame trovato" });
     }
     res.status(200).json(exams);
   } catch (error) {

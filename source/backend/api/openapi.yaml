@@ -74,6 +74,10 @@ paths:
       responses:
         "200":
           description: Successo
+        "401":
+          description: Token mancante, autorizzazione negata
+        "404":
+            description: Nessun utente trovato
         "500":
           description: Errore del server
 
@@ -93,6 +97,8 @@ paths:
       responses:
         "200":
           description: Successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -120,6 +126,8 @@ paths:
       responses:
         "200":
           description: Utente aggiornato con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -142,6 +150,8 @@ paths:
       responses:
         "200":
           description: Utente eliminato con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -168,6 +178,8 @@ paths:
       responses:
         "200":
           description: Tema UI modificato con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "500":
           description: Errore del server
 
@@ -190,10 +202,12 @@ paths:
       responses:
         "200":
           description: Lingua UI modificata con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "500":
           description: Errore del server
 
-  /user/{email}/revoke-moderator:
+  /user/revoke-moderator/{email}:
     patch:
       summary: Torna utente standard da moderatore (solo moderatore)
       tags:
@@ -210,6 +224,8 @@ paths:
       responses:
         "200":
           description: Utente modificato con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -217,7 +233,7 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{email}/promote-moderator:
+  /user/promote-moderator/{email}:
     patch:
       summary: Promuovi utente standard a moderatore (solo moderatore)
       tags:
@@ -234,6 +250,8 @@ paths:
       responses:
         "200":
           description: Utente modificato con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -241,7 +259,7 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{email}/ban:
+  /user/ban/{email}:
     patch:
       summary: Banna un utente per un numero specifico di giorni (solo moderatore)
       tags:
@@ -270,6 +288,8 @@ paths:
           description: Utente modificato con successo
         "400":
           description: Input non valido
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -277,7 +297,7 @@ paths:
         "500":
           description: Errore del server
 
-  /user/{email}/unban:
+  /user/unban/{email}:
     patch:
       summary: Rimuove il ban di un utente (solo moderatore)
       tags:
@@ -294,6 +314,8 @@ paths:
       responses:
         "200":
           description: Utente modificato con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -308,6 +330,8 @@ paths:
       responses:
         "200":
           description: Successo
+        "404":
+            description: Nessuna recensione trovata
         "500":
           description: Errore del server
   
@@ -353,6 +377,8 @@ paths:
       responses:
         "200":
           description: Recensione modificata con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -375,6 +401,8 @@ paths:
       responses:
         "204":
           description: Recensione rimossa con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -422,8 +450,10 @@ paths:
       responses:
         "200":
           description: Successo
+        "404":
+            description: Nessun esame trovato
         "500":
-          description: Errore del server"
+          description: Errore del server
     
     post:
       summary: Crea un nuovo esame (solo moderatore)
@@ -438,14 +468,17 @@ paths:
               $ref: "#/components/schemas/Exam"
       responses:
         "201":
-          description: Utente modificato con successo
+          description: Esame creato con successo
         "400":
           description: Errore nell'inserimento dei dati
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "500":
           description: Errore del server
 
+  /exam/{esame}:
     delete:
       summary: Cancella un esame (solo moderatore)
       tags:
@@ -461,6 +494,8 @@ paths:
       responses:
         "200":
           description: Esame cancellato con successo
+        "401":
+          description: Token mancante, autorizzazione negata
         "403":
           description: Accesso non autorizzato
         "404":
@@ -483,7 +518,7 @@ paths:
           "404":
             description: Nessun esame trovato
           "500":  
-            description: Errore del server"
+            description: Errore del server
 
   /exam/professore/{professore}:
       get:
@@ -500,7 +535,7 @@ paths:
           "404":
             description: Nessun esame trovato
           "500":  
-            description: Errore del server"
+            description: Errore del server
 
   /send-email:
     post:
@@ -523,19 +558,11 @@ paths:
                 required:
                   - text
       responses:
-        '200':
+        "200":
           description: Email inviata con successo
-        '400':
+        "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Il testo dell'email è obbligatorio"
-        '401':
-          description: Non autorizzato
-        '500':
+        "401":
+          description: Token mancante, autorizzazione negata
+        "500":
           description: Errore del server
