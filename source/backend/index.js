@@ -19,10 +19,12 @@ try {
     console.log("Test server is running on port " + PORT);
   });
 } catch (error) {
+  /* istanbul ignore next */
   console.error(
     "Errore nella connessione al database per i test:",
     error.message
   );
+  /* istanbul ignore next */
   process.exit(1);
 }
 
