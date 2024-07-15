@@ -1,61 +1,15 @@
 # Unireview
 
-In questa repository è possibile trovare tutto il materiale relativo al progetto Unireview, sviluppato per il corso di Ingegneria del Software dell'Università degli Studi di Trento.
+In questa repository è possibile trovare il codice sorgente dell'applicazione Unireview, sviluppata per il corso di Ingegneria del Software dell'Università degli Studi di Trento.
 
-Nella cartella docs è possibile trovare la documentazione del progetto, mentre nella cartella source è possibile trovare il codice sorgente.
+---
 
-## Struttura del progetto
+La Homepage dell’applicazione è raggiungibile da internet seguendo questo link:
+https://unireview-five.vercel.app
 
-```
-source/
-├── frontend/
-│   ├──src/
-│   ├── public/
-│   ├── node_modules/
-│   └── package.json
-└── backend/
-    ├── models/
-    ├── routes/
-    ├── services/
-    ├── node_modules/
-    ├── index.js
-    ├── conn.js
-    ├── .env (required, not included)
-    └── package.json
-```
+Anche la documentazione relativa alle API è raggiungibile da internet accedendo al seguente indirizzo:
+https://unireview.up.railway.app/api-docs
 
-# Installazione e avvio
+### Prima di iniziare!
 
-## Backend
-
-Dependencies:
-
-`npm i express mongoose dotenv cors express-async-errors swagger-ui-express yamljs passport passport-google-oauth20 jsonwebtoken nodemailer`
-
-How to run:
-
-`npm start`
-
-### `.env` configuration:
-
-Please, create a `.env` file in the `backend` folder with the following content:
-
-```
-ATLAS_URI="mongodb+srv://<USER>:<PASSWORD>@unireview.wzmoezy.mongodb.net/?retryWrites=true&w=majority"
-PORT=8080
-DB_NAME="unireview"
-```
-
-## Frontend
-
-Dependencies:
-
-`npm i antd xhr2 jwt-decode`
-
-How to install:
-
-`npx create-next-app frontend`
-
-How to run:
-
-`next start`
+Prima di avviare l'applicazione in locale è necessario installare le dipendenze con il comando `npm i` e i file `.env` in backend/ e `.env.local` in frontend/ con le variabili d'ambiente descritte nel D4.
